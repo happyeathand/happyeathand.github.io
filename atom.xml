@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://happyeathand.github.io</id>
+    <id>https://chishoushou.top</id>
     <title>Night Voyager</title>
-    <updated>2021-11-11T10:39:30.463Z</updated>
+    <updated>2021-11-11T10:50:08.164Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://happyeathand.github.io"/>
-    <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
+    <link rel="alternate" href="https://chishoushou.top"/>
+    <link rel="self" href="https://chishoushou.top/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>https://happyeathand.github.io/images/avatar.png</logo>
-    <icon>https://happyeathand.github.io/favicon.ico</icon>
+    <logo>https://chishoushou.top/images/avatar.png</logo>
+    <icon>https://chishoushou.top/favicon.ico</icon>
     <rights>All rights reserved 2021, Night Voyager</rights>
     <entry>
         <title type="html"><![CDATA[我iuo]]></title>
-        <id>https://happyeathand.github.io/post/wo-iuo/</id>
-        <link href="https://happyeathand.github.io/post/wo-iuo/">
+        <id>https://chishoushou.top/post/wo-iuo/</id>
+        <link href="https://chishoushou.top/post/wo-iuo/">
         </link>
         <updated>2021-11-10T06:08:50.000Z</updated>
         <content type="html"><![CDATA[<p>去问突然儿童他</p>
@@ -21,8 +21,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://happyeathand.github.io/post/hello-gridea/</id>
-        <link href="https://happyeathand.github.io/post/hello-gridea/">
+        <id>https://chishoushou.top/post/hello-gridea/</id>
+        <link href="https://chishoushou.top/post/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
