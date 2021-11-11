@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chishoushou.top</id>
     <title>Night Voyager</title>
-    <updated>2021-11-11T11:02:45.356Z</updated>
+    <updated>2021-11-11T11:05:18.766Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chishoushou.top"/>
     <link rel="self" href="https://chishoushou.top/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>切忌好高骛远</subtitle>
     <logo>https://chishoushou.top/images/avatar.png</logo>
     <icon>https://chishoushou.top/favicon.ico</icon>
     <rights>All rights reserved 2021, Night Voyager</rights>
