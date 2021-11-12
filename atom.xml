@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://chishoushou.top</id>
+    <id>https://happyeathand.github.io</id>
     <title>Night Voyager</title>
-    <updated>2021-11-12T14:44:03.441Z</updated>
+    <updated>2021-11-12T14:56:49.560Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://chishoushou.top"/>
-    <link rel="self" href="https://chishoushou.top/atom.xml"/>
+    <link rel="alternate" href="https://happyeathand.github.io"/>
+    <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
     <subtitle> 切忌好高骛远</subtitle>
-    <logo>https://chishoushou.top/images/avatar.png</logo>
-    <icon>https://chishoushou.top/favicon.ico</icon>
+    <logo>https://happyeathand.github.io/images/avatar.png</logo>
+    <icon>https://happyeathand.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Night Voyager</rights>
     <entry>
         <title type="html"><![CDATA[建站历史及更新😃]]></title>
-        <id>https://chishoushou.top/post/jian-zhan-li-shi-ji-geng-xin/</id>
-        <link href="https://chishoushou.top/post/jian-zhan-li-shi-ji-geng-xin/">
+        <id>https://happyeathand.github.io/post/jian-zhan-li-shi-ji-geng-xin/</id>
+        <link href="https://happyeathand.github.io/post/jian-zhan-li-shi-ji-geng-xin/">
         </link>
         <updated>2021-11-11T10:56:11.000Z</updated>
         <content type="html"><![CDATA[<p>2021.11.7  第一次成功远程连接，域名为happyeathand.github.io<br>
 2021.11.11  更换访问域名为 chishoushou.top<br>
-2021.11.12  看板娘入驻🎉🎉🎉😋</p>
+2021.11.12  欢迎看板娘入驻！！！🎉🎉🎉😋</p>
 ]]></content>
     </entry>
 </feed>
