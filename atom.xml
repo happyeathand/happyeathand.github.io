@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://happyeathand.github.io</id>
+    <id>https://happyeathand.github.io/</id>
     <title>Night Voyager</title>
-    <updated>2021-11-12T15:46:54.488Z</updated>
+    <updated>2021-11-13T03:06:20.457Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://happyeathand.github.io"/>
+    <link rel="alternate" href="https://happyeathand.github.io/"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
     <subtitle> 切忌好高骛远</subtitle>
     <logo>https://happyeathand.github.io/images/avatar.png</logo>
