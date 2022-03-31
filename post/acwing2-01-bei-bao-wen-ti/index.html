@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>洛谷 P1028 [NOIP2001 普及组] 数的计算 | 闲鱼小站</title>
+<title>ACwing2. 01背包问题 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,102 +81,94 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>洛谷 P1028 [NOIP2001 普及组] 数的计算</h1>
+            <h1>ACwing2. 01背包问题</h1>
             <p class="article-meta">
-              2022-01-16
-              
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
-                  算法题
-                </a>
+              2022-03-31
               
             </p>
             
             <div class="post-content">
-              <p>##题目描述<br>
-我们要求找出具有下列性质数的个数(包含输入的正整数 nn)。</p>
-<p>先输入一个正整数 nn(n \le 1000n≤1000),然后对此正整数按照如下方法进行处理：</p>
-<p>1.不作任何处理；</p>
-<p>2.在它的左边加上一个正整数,但该正整数不能超过原数的一半；</p>
-<p>3.加上数后,继续按此规则进行处理,直到不能再加正整数为止。</p>
-<p><strong>输入格式</strong><br>
-11 个正整数 nn(n \le 1000n≤1000)</p>
-<p><strong>输出格式</strong><br>
-11 个整数，表示具有该性质数的个数。<br>
-输入输出样例<br>
-输入 #1复制</p>
-<p>6<br>
-输出 #1复制</p>
-<p>6<br>
-说明/提示<br>
-满足条件的数为</p>
-<p>6，16，26，126，36，136</p>
-<p>【题目来源】</p>
-<h2 id="noip-2001-普及组第一题">NOIP 2001 普及组第一题</h2>
-<p>##递归<br>
-第一反应还是用递归的，但是这个题单貌似用递归的都会超时，限时1s，但是还是要用递归做一下</p>
-<p>ps:一开始的递归思路乱了，其实很简单，代码如下</p>
+              <p>有 NN 件物品和一个容量是 VV 的背包。每件物品只能使用一次。</p>
+<p>第 ii 件物品的体积是 vivi，价值是 wiwi。</p>
+<p>求解将哪些物品装入背包，可使这些物品的总体积不超过背包容量，且总价值最大。<br>
+输出最大价值。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>第一行两个整数，N，VN，V，用空格隔开，分别表示物品数量和背包容积。</p>
+<p>接下来有 NN 行，每行两个整数 vi,wivi,wi，用空格隔开，分别表示第 ii 件物品的体积和价值。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出一个整数，表示最大价值。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>0&lt;N,V≤10000&lt;N,V≤1000<br>
+0&lt;vi,wi≤10000&lt;vi,wi≤1000</p>
+<h3 id="输入样例"><strong>输入样例</strong></h3>
+<pre><code>4 5
+1 2
+2 4
+3 4
+4 5
+</code></pre>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<p><code>8</code></p>
+<hr>
+<p>​<br>
+这应该是继小A点菜后的又一道dp，但是那道题当时犯懒没有写题解，但是大概还记得点思路。</p>
+<h3 id="题解"><strong>题解</strong></h3>
 <pre><code>#include&lt;stdio.h&gt;
-int pd(int n);//函数的作用为判断整型变量n的解的个数
-int pd(int n)
-{
-	if(n==1)//递归的尽头，1的解只有它本身就是1
-	return 1;
-	int i,count=0;
-	for(i=1;i&lt;=n/2;i++)//这里挨个递归，只要i&lt;=n/2那么就去计算i的解的个数
-	{
-		count=count+pd(i);
-/*一开始写的是count=count+pd(i)+1，因为想把它本身也算进去，但这就犯了递归最常见的错误，参与了递归自己的中间运算，没有从大局的角度出发，避免去想递归的细节，过于拘泥于递归的过程反而会导致结果错误，所以只要想着最后结果+1就好了*/
-	}
-	return count+1;//就是这里，递归出来的值+1就好了
-}
+
+int w[1005],v[1005];//w[i]代表i的价值，v[i]代表i的体积
+int f[1005][1005]; //f[i][j]表示前i个物品在体积为j下的最优解
+
 int main()
 {
-	int x;
-	scanf(&quot;%d&quot;,&amp;x);
-	x=pd(x);
-	printf(&quot;%d&quot;,x);
-    return 0;
-}
-</code></pre>
-<p>但是肯定不会这么简单就给过的，时间复杂度太高，一定会超时的，具体不知道但肯定大于1s。</p>
-<hr>
-<p>递推<br>
-看完题解，原来还有递推这么个东西，感觉相反与递归，递推要求把每一个细节都照顾到，总之用递推时间复杂度低了，但是要保证面面俱到，要细心。</p>
-<p>而且要先把规律找到，才是最重要的</p>
-<p>首先是这个东西</p>
-<pre><code>f[1]=1
-f[2]=2=f[1]+1
-f[3]=2=f[1]+1
-f[4]=4=f[1]+f[2]+1
-f[5]=4=f[1]+f[2]+1
-</code></pre>
-<p>算哪个值我只要把它前面的都加起来就好了</p>
-<hr>
-<p>要注意的是比如说<br>
-<code>f[2]=2=f[1]+1</code><br>
-很明显这个f[2]已经加上本身了，因为每个数本身也算是一个解，比如说求f[6]，用下面的递推式的话就不用再单独加16，26，36 这三种情况了，因为在他们自己的函数中已经算上它们自己本身了。</p>
-<hr>
-<p>代码如下</p>
-<pre><code>#include&lt;stdio.h&gt;
-int main()
-{
-	int n,i,j;
-	scanf(&quot;%d&quot;,&amp;n);
-	int a[1001]={0};
-	for(i=1;i&lt;=n;i++/*要算f[n]的话，要把n/2以前的f也统统加上，所以要先判断n以前符合条件的f们*/
+	int i,j,n,m;//n物品数量，m背包体积 
+	scanf(&quot;%d %d&quot;,&amp;n,&amp;m);
+	for(i=1;i&lt;=n;i++) scanf(&quot;%d %d&quot;,&amp;v[i],&amp;w[i]);
+	for(i=1;i&lt;=n;i++)//从1开始判断到最后一个物品
 	{
-		for(j=1;j&lt;=i/2;j++)/*这里就是具体的判断过程了，将n以前的数挨个判断*/
+		for(j=1;j&lt;=m;j++)//从背包体积为1开始判断到装满背包
 		{
-			a[i]=a[i]+a[j];
+			if(j&lt;v[i])//如果装不下第i个物品了
+			f[i][j]=f[i-1][j];//那么久延续上一次的装法
+			else//如果装的下i就装上
+			f[i][j]=f[i-1][j]&gt;f[i-1][j-v[i]]+w[i]?f[i-1][j]:f[i-1][j-v[i]]+w[i];
+            //再比较一下装上i和不装i哪个才是最优解，注意这里比较时不一定每次都是后者大的
 		}
-		a[i]++;//最后不要忘了加上自己
 	}
-	printf(&quot;%d&quot;,a[n]);
-    return 0;
+	printf(&quot;%d&quot;,f[n][m]);
 }
 </code></pre>
 <hr>
-<p>今天是2022/3/31，看到以前这道题才知道是dp。。。。🤔真是个奇妙的算法</p>
+<h3 id="递归解法">**递归解法 **</h3>
+<pre><code>#include&lt;stdio.h&gt;
+
+int n,v,max=0;
+int a[1000],b[1000];
+
+void dfs(int u,int p,int q)//u装了几个物品，p当前体积，q当前价值
+{
+    if(q&gt;max&amp;&amp;p&lt;=v)
+		max=q;
+	if(u&gt;=n||p&gt;v)//注意return条件不一定只有背包溢出的情况，也可能是物品没得放了
+	{
+		return;
+	}
+	dfs(u+1,p,q);//不装第u个物品
+	dfs(u+1,p+a[u],q+b[u]);//装第u个物品
+}
+
+int main()
+{
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;v);
+	for(int i=0;i&lt;n;i++)
+	{
+		scanf(&quot;%d%d&quot;,&amp;a[i],&amp;b[i]);
+	}
+	dfs(0,0,0);
+	printf(&quot;%d&quot;,max);
+}
+</code></pre>
+<p>递归也很暴力，思路也简单，超时也是肯定的，应该有优化的方法，埋个坑回头再写吧😉</p>
+<p>​</p>
 
             </div>
           </article>
@@ -187,9 +179,9 @@ int main()
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/jian-zhan-li-shi-ji-geng-xin/">
+              <a href="https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/">
                 <h3 class="post-title">
-                  建站历史及更新😃
+                  骗分导论（转载）
                 </h3>
               </a>
             </div>
@@ -302,11 +294,11 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
           算法题
         </a>
       
