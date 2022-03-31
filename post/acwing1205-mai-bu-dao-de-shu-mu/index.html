@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Gridea | 闲鱼小站</title>
+<title>ACwing1205. 买不到的数目 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -23,6 +23,7 @@
 
   </head>
   <body>
+  
     <nav class="navbar border fixed split-nav">
   <div class="nav-brand">
     <h3><a href="https://happyeathand.github.io">闲鱼小站</a></h3>
@@ -79,42 +80,102 @@
     <div id="top" class="row site">
       <div class="sm-12 md-8 col">
         <div class="paper">
-          <h2 class="current-tag">标签: Gridea</h2>
-          
-  <article class="article">
-    <h2 class="article-title">
-      <a href="https://happyeathand.github.io/post/hello-gridea/">Hello Gridea</a>
-    </h2>
-    <p class="article-meta">
-      2018-12-12
-      
-        <a href="https://happyeathand.github.io/tag/myJcB9vHC/" class="badge success">
-          Gridea
-        </a>
-      
-    </p>
-    <p class="text-lead">
-      <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+          <article class="article">
+            <h1>ACwing1205. 买不到的数目</h1>
+            <p class="article-meta">
+              2022-03-12
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+                  算法题
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>小明开了一家糖果店。</p>
+<p>他别出心裁：把水果糖包成4颗一包和7颗一包的两种。</p>
+<p>糖果不能拆包卖。</p>
+<p>小朋友来买糖的时候，他就用这两种包装来组合。</p>
+<p>当然有些糖果数目是无法组合出来的，比如要买 10 颗糖。</p>
+<p>你可以用计算机测试一下，在这种包装情况下，最大不能买到的数量是17。</p>
+<p>大于17的任何数字都可以用4和7组合出来。</p>
+<p>本题的要求就是在已知两个包装的数量时，求最大不能组合出的数字。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>两个正整数 n,mn,m，表示每种包装中糖的颗数。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>一个正整数，表示最大不能买到的糖数。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>2≤n,m≤10002≤n,m≤1000，<br>
+保证数据一定有解。</p>
+<h3 id="输入样例"><strong>输入样例：</strong></h3>
+<p><code>4 7</code></p>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<p><code>17</code></p>
+<hr>
+<p>记录一下暴力的方法</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdbool.h&gt;//用bool类型变量不加头文件acwing编译错误，但devc可以，谨慎起见还是要加上为好
 
-    </p>
-    <div class="row">
-      <a href="https://happyeathand.github.io/post/hello-gridea/" class="readmore-link">
-        <button>
-          Read More
-        </button>
-      </a>
-    </div>
-  </article>
+bool dfs(int u,int p,int q)//该函数判断u是能被p和q整除
+{
+	if(u==0)
+	return true;
 
+	if(u&gt;=p&amp;&amp;dfs(u-p,p,q)) return true;//这两行相当于是在全排列用p和q解决u的全部方法，第一时间还是没有想到，琢磨了半天
+	if(u&gt;=q&amp;&amp;dfs(u-q,p,q)) return true;
 
+	return false;
+}
+
+int main()
+{
+	int n,m,x;
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+	for(int i=1;i&lt;=1000;i++)//默认一个最大值为1000
+	{
+		if(dfs(i,n,m)==false) x=i;
+	}
+	printf(&quot;%d&quot;,x);
+ } 
+</code></pre>
+<p>做完这道题感觉暴力还真是混分神技，只不过现在递归用的还是不熟练。</p>
+<p>这道题是一道找规律的题，打完表之后数据如下</p>
+<pre><code>输入  输出
+4 3  5
+4 5  11
+4 7  17
+4 9  23
+4 11 29
+
+5 2 3
+5 3 7
+5 4 11
+5 6 19
+5 7 23
+</code></pre>
+<p>总之就是这么个样子，规律就是i=（n-1)*(m-1)-1</p>
+<p>一道数论题。。。。最烦的一种题之一。。。。因为数学不好脑子也不灵光总想不到😟</p>
+
+            </div>
+          </article>
         </div>
-        <div class="row flex-edges">
-  
-  
-</div>
-
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/acwing1209-dai-fen-shu/">
+                <h3 class="post-title">
+                  ACwing1209. 带分数
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
       </div>
+
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
     <img src="https://happyeathand.github.io/images/avatar.png?v=1648695502154" class="no-responsive avatar">
@@ -217,11 +278,11 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
           算法题
         </a>
       
@@ -231,6 +292,7 @@
     Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
+
 
     </div>
 
