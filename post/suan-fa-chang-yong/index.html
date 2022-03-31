@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>建站历史及更新😃 | 闲鱼小站</title>
+<title>算法常用 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,16 +81,38 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>建站历史及更新😃</h1>
+            <h1>算法常用</h1>
             <p class="article-meta">
-              2021-11-11
+              2022-03-30
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+                  算法题
+                </a>
               
             </p>
             
             <div class="post-content">
-              <p>2021.11.7  第一次成功远程连接，域名为happyeathand.github.io<br>
-2021.11.11  更换访问域名为 chishoushou.top<br>
-2021.11.12  欢迎看板娘入驻！！！🎉🎉🎉😋</p>
+              <p>常用问题</p>
+<ol>
+<li>时间的计算，可以转换成int类型，无论是小时分秒还是年月日，同理</li>
+<li>闰年的计算，闰年即可以被4整除的同时不可以被100整除，或者可以被400整除</li>
+</ol>
+<p>库函数的问题</p>
+<ol>
+<li>bool类型变量要定义头文件&lt;stdbool.h&gt;,如果自己的话不如定义int型的函数。如果是题目要求就没办法了</li>
+<li>代码结尾一定要记得加return 0。</li>
+<li>Int型最大能存21亿多点，准确来说是-2147483647~+2147483647<br>
+而long long int可以存-9223372036854775808～+9223372036854775807，而且长长整型的输入和输出前面都要加一个ll，譬如scanf(“%lld”,&amp;a),printf(“%lld”,a)。<br>
+4． 输出的补齐，补足两位用0补齐这么写：printf(“%02d”,a)<br>
+数论</li>
+<li>计算最大公约数的函数<br>
+int gcd(int x,int b)//计算的是两个参数的最大公约数<br>
+{<br>
+if(b==0)return x;<br>
+else return gcd(b,x%b);<br>
+}<br>
+最后的返回值就是最大公约数了，叫做欧几里得算法（辗转相除法）</li>
+</ol>
 
             </div>
           </article>
@@ -101,9 +123,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/">
+              <a href="https://happyeathand.github.io/post/guo-qu-de-shi-guang-guo-qu-de-ren/">
                 <h3 class="post-title">
-                  表达式转换
+                  过去的时光过去的人
                 </h3>
               </a>
             </div>
@@ -210,11 +232,11 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
           算法题
         </a>
       

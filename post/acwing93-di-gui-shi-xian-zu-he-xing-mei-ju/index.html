@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>建站历史及更新😃 | 闲鱼小站</title>
+<title>ACwing93. 递归实现组合型枚举 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,16 +81,74 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>建站历史及更新😃</h1>
+            <h1>ACwing93. 递归实现组合型枚举</h1>
             <p class="article-meta">
-              2021-11-11
+              2022-03-05
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
+                  算法题
+                </a>
               
             </p>
             
             <div class="post-content">
-              <p>2021.11.7  第一次成功远程连接，域名为happyeathand.github.io<br>
-2021.11.11  更换访问域名为 chishoushou.top<br>
-2021.11.12  欢迎看板娘入驻！！！🎉🎉🎉😋</p>
+              <p>从 1∼n1∼n 这 nn 个整数中随机选出 mm 个，输出所有可能的选择方案。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>两个整数 n,mn,m ,在同一行用空格隔开。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>按照从小到大的顺序输出所有方案，每行 11 个。</p>
+<p>首先，同一行内的数升序排列，相邻两个数用一个空格隔开。</p>
+<p>其次，对于两个不同的行，对应下标的数一一比较，字典序较小的排在前面（例如 1 3 5 7 排在 1 3 6 8 前面）。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>n&gt;0n&gt;0 ,<br>
+0≤m≤n0≤m≤n ,<br>
+n+(n−m)≤25n+(n−m)≤25</p>
+<h3 id="输入样例"><strong>输入样例：</strong></h3>
+<p><code>5 3</code></p>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<pre><code>1 2 3 
+1 2 4 
+1 2 5 
+1 3 4 
+1 3 5 
+1 4 5 
+2 3 4 
+2 3 5 
+2 4 5 
+3 4 5 
+</code></pre>
+<hr>
+<h3 id="题解"><strong>题解</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+int m,n,a[100];
+void dfs(int x,int y)//x代表该填第x位，y表示从y开始判断
+{
+	if(x&gt;m)
+	{
+		for(int i=1;i&lt;=m;i++)
+		{
+			printf(&quot;%d &quot;,a[i]);
+		}
+		printf(&quot;\n&quot;);
+		return ;//记得return
+	}
+	
+	for(int i=y;i&lt;=n;i++)
+	{
+		a[x]=i;
+		dfs(x+1,i+1);//注意第二空不是y+1，是i+1
+		a[x]=0;//恢复现场，回溯
+	}
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+	dfs(1,1);
+	return 0;
+}
+</code></pre>
+<p>在构造函数时，首先是参数的选择出现了问题，dfs（）里的x和y想的没有问题，错在了数组的定义上，应该是受92题的影响，想按照92题的方式求解，在函数里加一些判断和限制条件就可以了，所以数组一开始定义的还是每个数的选取状态，在看了视频后才复刻了一遍算法。</p>
+<p>这个算法好在不需要作比较判断大小，按照顺序把数字往数组里放的话顺序肯定是对的，最好直接输出就行了。有一个易错点在于dfs里的第二个for循环dfs（x+1，i+1），第一次写成了y+1。</p>
 
             </div>
           </article>
@@ -101,9 +159,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/">
+              <a href="https://happyeathand.github.io/post/acwing92-di-gui-shi-xian-zhi-shu-xing-mei-ju/">
                 <h3 class="post-title">
-                  表达式转换
+                  ACwing92. 递归实现指数型枚举
                 </h3>
               </a>
             </div>
@@ -210,7 +268,7 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
           转载
         </a>
       

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>建站历史及更新😃 | 闲鱼小站</title>
+<title>ACwing717. 简单斐波那契 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,16 +81,87 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>建站历史及更新😃</h1>
+            <h1>ACwing717. 简单斐波那契</h1>
             <p class="article-meta">
-              2021-11-11
+              2022-03-06
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+                  算法题
+                </a>
               
             </p>
             
             <div class="post-content">
-              <p>2021.11.7  第一次成功远程连接，域名为happyeathand.github.io<br>
-2021.11.11  更换访问域名为 chishoushou.top<br>
-2021.11.12  欢迎看板娘入驻！！！🎉🎉🎉😋</p>
+              <p>以下数列 0 1 1 2 3 5 8 13 21 ... 被称为斐波纳契数列。</p>
+<p>这个数列从第 33 项开始，每一项都等于前两项之和。</p>
+<p>输入一个整数 NN，请你输出这个序列的前 NN 项。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>一个整数 NN。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>在一行中输出斐波那契数列的前 NN 项，数字之间用空格隔开。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>0&lt;N&lt;460&lt;N&lt;46</p>
+<h3 id="输入样例"><strong>输入样例：</strong></h3>
+<p><code>5</code></p>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<p><code>0 1 1 2 3</code></p>
+<hr>
+<h3 id="递归"><strong>递归</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+int n,a[100];
+int dfs(int x)
+{
+	if(x==1)
+	{
+		return 0;
+	}
+	if(x==2||x==3)
+	{
+		return 1;
+	}
+	if(a[x]!=0)
+	{
+		return a[x];
+	}
+	return dfs(x-1)+dfs(x-2);
+}
+int main()
+{
+	int i;
+	scanf(&quot;%d&quot;,&amp;n);
+	for(i=1;i&lt;=n;i++)
+	{
+		a[i]=dfs(i);
+		printf(&quot;%d &quot;,a[i]);
+	}
+	return 0;
+}
+</code></pre>
+<p>这道题记录一下主要是这个记忆化的方法，之前用普通的递归可以通过，但是这次测试数据卡在了45，程序在运算的时候有明显的卡顿，显然超时了，解决方法之一就是利用记忆化的方法，每一次计算后把算出来的数存一下就ok了。看起来很简单却没有想到。</p>
+<hr>
+<h3 id="递推"><strong>递推</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+int a[100];
+int main()
+{
+	int n,i;
+	scanf(&quot;%d&quot;,&amp;n);
+	a[1]=0;
+	a[2]=a[3]=1;
+	for(i=1;i&lt;=n;i++)
+	{
+		if(i&lt;4)
+		{
+			printf(&quot;%d &quot;,a[i]);
+		}
+		else
+		{
+			a[i]=a[i-1]+a[i-2];
+			printf(&quot;%d &quot;,a[i]);
+		}
+	}
+}
+</code></pre>
 
             </div>
           </article>
@@ -101,9 +172,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/">
+              <a href="https://happyeathand.github.io/post/acwing93-di-gui-shi-xian-zu-he-xing-mei-ju/">
                 <h3 class="post-title">
-                  表达式转换
+                  ACwing93. 递归实现组合型枚举
                 </h3>
               </a>
             </div>
@@ -210,7 +281,7 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       

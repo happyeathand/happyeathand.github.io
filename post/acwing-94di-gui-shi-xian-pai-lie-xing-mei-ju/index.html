@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>建站历史及更新😃 | 闲鱼小站</title>
+<title>ACwing 94.递归实现排列型枚举 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,16 +81,79 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>建站历史及更新😃</h1>
+            <h1>ACwing 94.递归实现排列型枚举</h1>
             <p class="article-meta">
-              2021-11-11
+              2022-03-05
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+                  算法题
+                </a>
               
             </p>
             
             <div class="post-content">
-              <p>2021.11.7  第一次成功远程连接，域名为happyeathand.github.io<br>
-2021.11.11  更换访问域名为 chishoushou.top<br>
-2021.11.12  欢迎看板娘入驻！！！🎉🎉🎉😋</p>
+              <p>把 1∼n1∼n 这 nn 个整数排成一行后随机打乱顺序，输出所有可能的次序。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>一个整数 nn。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>按照从小到大的顺序输出所有方案，每行 11 个。</p>
+<p>首先，同一行相邻两个数用一个空格隔开。</p>
+<p>其次，对于两个不同的行，对应下标的数一一比较，字典序较小的排在前面。</p>
+<p>数据范围</p>
+<p>1≤n≤91≤n≤9</p>
+<p>输入样例：<br>
+<code>3</code><br>
+输出样例：</p>
+<pre><code>1 2 3
+1 3 2
+2 1 3
+2 3 1
+3 1 2
+3 2 1
+</code></pre>
+<hr>
+<h3 id="题解"><strong>题解</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+
+int state[100],a[100];//定义两个数组，state[z]代表z的状态，0为未使用过，1为已经使用过
+                      //a[i]代表的是正在排列的数组，i表示的是第i位
+int n;
+void dfs(int x)//该函数没有返回值，只有输出
+{
+	if(x&gt;n)//如果正在排列的数组已经满了，开始按顺序输出
+	{
+		int i;
+		for(i=1;i&lt;=n;i++)
+		{
+			printf(&quot;%d &quot;,a[i]);
+		}
+		printf(&quot;\n&quot;);
+	}
+ 
+//下面是还没有排好a[]的运算
+	int i;
+	for(i=1;i&lt;=n;i++)
+	{
+		if(state[i]!=1)
+		{
+			a[x]=i;
+			state[i]=1;
+			dfs(x+1);
+			
+			state[i]=0;//回溯，保证i的状态恢复为未使用过的状态
+		}
+		
+	}
+}
+
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;n);
+	dfs(1);//从第一位开始判断填哪个数
+}
+</code></pre>
+<p>题解的思路是按排列的数组的位数，依次放数字，放满之后再依次回溯，选择其他的数字再放置，大体思路比较清晰，唯一难理解的的地方是回溯。</p>
+<p>思考后发现是回溯的出口出了问题，最开始想的是回溯后函数会重复，即便回溯了下一次判断还是会填这个数，但是回溯在函数出口的下面一行，而且在for循环里，已经判断过是不会再判断了，这样state[i]可以恢复为0，本身正在处理的dfs还能另填别的数字。   而最后的出口则是一直退退退最后到dfs（1）到n后没的填了，dfs（1）的for循环也执行完了，自己就结束运行了。</p>
 
             </div>
           </article>
@@ -101,9 +164,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/">
+              <a href="https://happyeathand.github.io/post/luo-gu-p1028-noip2001-pu-ji-zu-shu-de-ji-suan/">
                 <h3 class="post-title">
-                  表达式转换
+                  洛谷 P1028 [NOIP2001 普及组] 数的计算
                 </h3>
               </a>
             </div>
@@ -210,11 +273,11 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
           算法题
         </a>
       

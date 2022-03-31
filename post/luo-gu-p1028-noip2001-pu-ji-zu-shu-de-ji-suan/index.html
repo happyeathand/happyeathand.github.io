@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" >
 
-<title>洛谷 P1028 [NOIP2001 普及组] 数的计算 | Night Voyager</title>
+<title>洛谷 P1028 [NOIP2001 普及组] 数的计算 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1642331482799">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1648694832051">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
@@ -26,7 +26,7 @@
   
     <nav class="navbar border fixed split-nav">
   <div class="nav-brand">
-    <h3><a href="https://happyeathand.github.io">Night Voyager</a></h3>
+    <h3><a href="https://happyeathand.github.io">闲鱼小站</a></h3>
   </div>
   <div class="collapsible">
     <input id="collapsible1" type="checkbox" name="collapsible1">
@@ -85,6 +85,10 @@
             <p class="article-meta">
               2022-01-16
               
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+                  算法题
+                </a>
+              
             </p>
             
             <div class="post-content">
@@ -134,8 +138,9 @@ int main()
     return 0;
 }
 </code></pre>
-<h2 id="但是肯定不会这么简单就给过的时间复杂度太高一定会超时的具体不知道但肯定大于1s">但是肯定不会这么简单就给过的，时间复杂度太高，一定会超时的，具体不知道但肯定大于1s。</h2>
-<p>##递推<br>
+<p>但是肯定不会这么简单就给过的，时间复杂度太高，一定会超时的，具体不知道但肯定大于1s。</p>
+<hr>
+<p>递推<br>
 看完题解，原来还有递推这么个东西，感觉相反与递归，递推要求把每一个细节都照顾到，总之用递推时间复杂度低了，但是要保证面面俱到，要细心。</p>
 <p>而且要先把规律找到，才是最重要的</p>
 <p>首先是这个东西</p>
@@ -145,10 +150,12 @@ f[3]=2=f[1]+1
 f[4]=4=f[1]+f[2]+1
 f[5]=4=f[1]+f[2]+1
 </code></pre>
-<h2 id="算哪个值我只要把它前面的都加起来就好了">算哪个值我只要把它前面的都加起来就好了</h2>
-<h2 id="要注意的是比如说f22f11很明显这个f2已经加上本身了因为每个数本身也算是一个解比如说求f6用下面的递推式的话就不用再单独加162636-这三种情况了因为在他们自己的函数中已经算上它们自己本身了">要注意的是比如说<br>
+<p>算哪个值我只要把它前面的都加起来就好了</p>
+<hr>
+<p>要注意的是比如说<br>
 <code>f[2]=2=f[1]+1</code><br>
-很明显这个f[2]已经加上本身了，因为每个数本身也算是一个解，比如说求f[6]，用下面的递推式的话就不用再单独加16，26，36 这三种情况了，因为在他们自己的函数中已经算上它们自己本身了。</h2>
+很明显这个f[2]已经加上本身了，因为每个数本身也算是一个解，比如说求f[6]，用下面的递推式的话就不用再单独加16，26，36 这三种情况了，因为在他们自己的函数中已经算上它们自己本身了。</p>
+<hr>
 <p>代码如下</p>
 <pre><code>#include&lt;stdio.h&gt;
 int main()
@@ -168,6 +175,8 @@ int main()
     return 0;
 }
 </code></pre>
+<hr>
+<p>今天是2022/3/31，看到以前这道题才知道是dp。。。。🤔真是个奇妙的算法</p>
 
             </div>
           </article>
@@ -191,7 +200,7 @@ int main()
 
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
-    <img src="https://happyeathand.github.io/images/avatar.png?v=1642331482799" class="no-responsive avatar">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1648694832051" class="no-responsive avatar">
     <div class="text-muted"> 切忌好高骛远</div>
     <div class="social-container">
       
@@ -216,6 +225,48 @@ int main()
         
           
             <li>
+              <a href="https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/">骗分导论（转载）</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/suan-fa-chang-yong/">算法常用</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/guo-qu-de-shi-guang-guo-qu-de-ren/">过去的时光过去的人</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing717-jian-dan-fei-bo-na-qi/">ACwing717. 简单斐波那契</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing93-di-gui-shi-xian-zu-he-xing-mei-ju/">ACwing93. 递归实现组合型枚举</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing92-di-gui-shi-xian-zhi-shu-xing-mei-ju/">ACwing92. 递归实现指数型枚举</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing-94di-gui-shi-xian-pai-lie-xing-mei-ju/">ACwing 94.递归实现排列型枚举</a>
+            </li>
+          
+        
+          
+            <li>
               <a href="https://happyeathand.github.io/post/luo-gu-p1028-noip2001-pu-ji-zu-shu-de-ji-suan/">洛谷 P1028 [NOIP2001 普及组] 数的计算</a>
             </li>
           
@@ -228,14 +279,12 @@ int main()
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/about/">关于</a>
+              <a href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/">表达式转换</a>
             </li>
           
         
           
-            <li>
-              <a href="https://happyeathand.github.io/post/hello-gridea/">Hello Gridea</a>
-            </li>
+        
           
         
       </ul>
@@ -246,6 +295,14 @@ int main()
       标签列表
     </div>
     <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
       
     </div>
   </div>
