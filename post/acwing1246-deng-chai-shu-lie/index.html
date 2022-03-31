@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>过去的时光过去的人 | 闲鱼小站</title>
+<title>ACwing1246. 等差数列 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,17 +81,95 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>过去的时光过去的人</h1>
+            <h1>ACwing1246. 等差数列</h1>
             <p class="article-meta">
-              2022-03-22
+              2022-03-27
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+                  算法题
+                </a>
               
             </p>
             
             <div class="post-content">
-              <p>最近几天不知为何，感触颇多，莫不是我也伤春悲秋了，大概还是太闲了。<br>
-偶然翻到钟老师过去的文章，不禁开始回忆以前的事，以前的人，小时候写作文总爱把时间啊，人生啊比作火车，讲着珍惜什么窗外的风景，再者无法回头种种，可待这火车真的开出去了，就像再隆隆声中打了个盹，猛地一震，反应过来时已是二十余载......<br>
-喘息间已是满眼遗憾，其中甚者更是在十三五岁时，若能再多一些勇气，别再和人交谈相处时畏手畏脚，若能再少一些叛逆，别再对老师和父母恶语相向，若再多一些成熟，多想想未来，哪怕课本枯燥，哪怕学习路上那么多坎坷，若是，若是.......<br>
-可时光好似真的不能重来，眼下又活出了个一片狼藉，自己的生活和未来都是空白一片。可是，可是，二十岁的今天又何尝不是二十五岁，三十岁，四十岁的昨天呢，那样不是重获新生了吗，人生又能有几个二十年，奥里给，拒绝emo，奋斗在当下嘛</p>
+              <p>数学老师给小明出了一道等差数列求和的题目。</p>
+<p>但是粗心的小明忘记了一部分的数列，只记得其中 NN 个整数。</p>
+<p>现在给出这 NN 个整数，小明想知道包含这 NN 个整数的最短的等差数列有几项？</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>输入的第一行包含一个整数 NN。</p>
+<p>第二行包含 NN 个整数 A1,A2,⋅⋅⋅,ANA1,A2,···,AN。(注意 A1∼ANA1∼AN 并不一定是按等差数<br>
+列中的顺序给出)</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出一个整数表示答案。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>2≤N≤1000002≤N≤100000,<br>
+0≤Ai≤1090≤Ai≤109</p>
+<h3 id="输入样例"><strong>输入样例：</strong></h3>
+<pre><code>5
+2 6 4 10 20
+</code></pre>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<p><code>10</code></p>
+<h3 id="样例解释"><strong>样例解释</strong></h3>
+<p>包含 2、6、4、10、202、6、4、10、20 的最短的等差数列是 2、4、6、8、10、12、14、16、18、202、4、6、8、10、12、14、16、18、20。</p>
+<hr>
+<h3 id="超时题解原因未知"><strong>超时题解（原因未知)</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+int n;
+int a[100010];
+
+int gcd(int a,int b)
+{
+    if(b==0)return a;
+    else return gcd(b,a%b);
+}
+
+int main()
+{
+	int j,i;
+	scanf(&quot;%d&quot;,&amp;n);
+	for(i=0;i&lt;n;i++)
+	{
+		scanf(&quot;%d&quot;,&amp;a[i]);
+	}
+	
+	int index;
+	for(i=0;i&lt;n;i++)
+	{
+		for(j=i;j&lt;n;j++)
+		{
+			if(a[j]&lt;a[i])
+			{
+				index=a[j];
+				a[j]=a[i];
+				a[i]=index;
+			}
+		}
+	}
+	
+	index=0;
+	for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
+    //for(i=0;i&lt;n;i++) index=gcd(index,a[i]-a[0]); 
+	
+	if(index==0) printf(&quot;%d&quot;,n);
+	else printf(&quot;%d&quot;,(a[n-1]-a[0])/index+1);
+	return 0;
+}
+</code></pre>
+<p>这题第一次题意理解错了，还是要认真读题。</p>
+<p>其难点在于找数列最大的公差，即所有两个连续数之间的差的最大公倍数，看完题解之后才知道大概是要先写一个辗转相除法的函数，如果自己想的话是绝对想不到的。即那个gcd函数，每次的返回值为两个参数的最大公倍数。</p>
+<p>还有一个点不理解，y总在用gcd函数时，是这么写的</p>
+<pre><code>index=0;
+
+for(i=0;i&lt;n;i++) index=gcd(index,a[i]-a[0]); 
+</code></pre>
+<p>这里有一点不理解，应该是对数学不敏感的锅，还是下面那么写简单易懂一些</p>
+<pre><code>index=0;
+
+for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
+</code></pre>
+<p>总之二者结果是一样的，就求每个公差的最大公倍数就好了</p>
+<p>说实话这个gcd函数巧妙又简洁，我干脆直接背过好了。。。。记在<a href="https://happyeathand.github.io/post/suan-fa-chang-yong/">算法常用</a>里了</p>
 
             </div>
           </article>
@@ -102,9 +180,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing1205-mai-bu-dao-de-shu-mu/">
+              <a href="https://happyeathand.github.io/post/guo-qu-de-shi-guang-guo-qu-de-ren/">
                 <h3 class="post-title">
-                  ACwing1205. 买不到的数目
+                  过去的时光过去的人
                 </h3>
               </a>
             </div>
@@ -221,11 +299,11 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
           算法题
         </a>
       

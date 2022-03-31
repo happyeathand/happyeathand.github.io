@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲鱼小站</title>
-    <updated>2022-03-31T03:05:28.537Z</updated>
+    <updated>2022-03-31T03:14:31.958Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
@@ -585,6 +585,92 @@ else return gcd(b,x%b);<br>
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[ACwing1246. 等差数列]]></title>
+        <id>https://happyeathand.github.io/post/acwing1246-deng-chai-shu-lie/</id>
+        <link href="https://happyeathand.github.io/post/acwing1246-deng-chai-shu-lie/">
+        </link>
+        <updated>2022-03-27T06:53:10.000Z</updated>
+        <content type="html"><![CDATA[<p>数学老师给小明出了一道等差数列求和的题目。</p>
+<p>但是粗心的小明忘记了一部分的数列，只记得其中 NN 个整数。</p>
+<p>现在给出这 NN 个整数，小明想知道包含这 NN 个整数的最短的等差数列有几项？</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>输入的第一行包含一个整数 NN。</p>
+<p>第二行包含 NN 个整数 A1,A2,⋅⋅⋅,ANA1,A2,···,AN。(注意 A1∼ANA1∼AN 并不一定是按等差数<br>
+列中的顺序给出)</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出一个整数表示答案。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>2≤N≤1000002≤N≤100000,<br>
+0≤Ai≤1090≤Ai≤109</p>
+<h3 id="输入样例"><strong>输入样例：</strong></h3>
+<pre><code>5
+2 6 4 10 20
+</code></pre>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<p><code>10</code></p>
+<h3 id="样例解释"><strong>样例解释</strong></h3>
+<p>包含 2、6、4、10、202、6、4、10、20 的最短的等差数列是 2、4、6、8、10、12、14、16、18、202、4、6、8、10、12、14、16、18、20。</p>
+<hr>
+<h3 id="超时题解原因未知"><strong>超时题解（原因未知)</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+int n;
+int a[100010];
+
+int gcd(int a,int b)
+{
+    if(b==0)return a;
+    else return gcd(b,a%b);
+}
+
+int main()
+{
+	int j,i;
+	scanf(&quot;%d&quot;,&amp;n);
+	for(i=0;i&lt;n;i++)
+	{
+		scanf(&quot;%d&quot;,&amp;a[i]);
+	}
+	
+	int index;
+	for(i=0;i&lt;n;i++)
+	{
+		for(j=i;j&lt;n;j++)
+		{
+			if(a[j]&lt;a[i])
+			{
+				index=a[j];
+				a[j]=a[i];
+				a[i]=index;
+			}
+		}
+	}
+	
+	index=0;
+	for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
+    //for(i=0;i&lt;n;i++) index=gcd(index,a[i]-a[0]); 
+	
+	if(index==0) printf(&quot;%d&quot;,n);
+	else printf(&quot;%d&quot;,(a[n-1]-a[0])/index+1);
+	return 0;
+}
+</code></pre>
+<p>这题第一次题意理解错了，还是要认真读题。</p>
+<p>其难点在于找数列最大的公差，即所有两个连续数之间的差的最大公倍数，看完题解之后才知道大概是要先写一个辗转相除法的函数，如果自己想的话是绝对想不到的。即那个gcd函数，每次的返回值为两个参数的最大公倍数。</p>
+<p>还有一个点不理解，y总在用gcd函数时，是这么写的</p>
+<pre><code>index=0;
+
+for(i=0;i&lt;n;i++) index=gcd(index,a[i]-a[0]); 
+</code></pre>
+<p>这里有一点不理解，应该是对数学不敏感的锅，还是下面那么写简单易懂一些</p>
+<pre><code>index=0;
+
+for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
+</code></pre>
+<p>总之二者结果是一样的，就求每个公差的最大公倍数就好了</p>
+<p>说实话这个gcd函数巧妙又简洁，我干脆直接背过好了。。。。记在<a href="https://happyeathand.github.io/post/suan-fa-chang-yong/">算法常用</a>里了</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[过去的时光过去的人]]></title>
         <id>https://happyeathand.github.io/post/guo-qu-de-shi-guang-guo-qu-de-ren/</id>
         <link href="https://happyeathand.github.io/post/guo-qu-de-shi-guang-guo-qu-de-ren/">
@@ -901,71 +987,6 @@ int main()
 </code></pre>
 <p>在构造函数时，首先是参数的选择出现了问题，dfs（）里的x和y想的没有问题，错在了数组的定义上，应该是受92题的影响，想按照92题的方式求解，在函数里加一些判断和限制条件就可以了，所以数组一开始定义的还是每个数的选取状态，在看了视频后才复刻了一遍算法。</p>
 <p>这个算法好在不需要作比较判断大小，按照顺序把数字往数组里放的话顺序肯定是对的，最好直接输出就行了。有一个易错点在于dfs里的第二个for循环dfs（x+1，i+1），第一次写成了y+1。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ACwing92. 递归实现指数型枚举]]></title>
-        <id>https://happyeathand.github.io/post/acwing92-di-gui-shi-xian-zhi-shu-xing-mei-ju/</id>
-        <link href="https://happyeathand.github.io/post/acwing92-di-gui-shi-xian-zhi-shu-xing-mei-ju/">
-        </link>
-        <updated>2022-03-05T04:53:52.000Z</updated>
-        <content type="html"><![CDATA[<p>从 1∼n1∼n 这 nn 个整数中随机选取任意多个，输出所有可能的选择方案。</p>
-<p>输入格式</p>
-<p>输入一个整数 nn。</p>
-<h3 id="输出格式"><strong>输出格式</strong></h3>
-<p>每行输出一种方案。</p>
-<p>同一行内的数必须升序排列，相邻两个数用恰好 11 个空格隔开。</p>
-<p>对于没有选任何数的方案，输出空行。</p>
-<p>本题有自定义校验器（SPJ），各行（不同方案）之间的顺序任意。</p>
-<h3 id="数据范围"><strong>数据范围</strong></h3>
-<p>1≤n≤151≤n≤15</p>
-<h3 id="输入样例"><strong>输入样例：</strong></h3>
-<p><code>3</code></p>
-<h3 id="输出样例"><strong>输出样例：</strong></h3>
-<pre><code>3
-2
-2 3
-1
-1 3
-1 2
-1 2 3
-</code></pre>
-<hr>
-<h3 id="题解"><strong>题解</strong></h3>
-<pre><code>#include&lt;stdio.h&gt;
-int n,x;
-int state[100];
-void dfs(int x)
-{
-	int i;
-	if(x&gt;n)
-	{
-		for(i=1;i&lt;=n;i++)
-		{
-			if(state[i]==1)
-			printf(&quot;%d &quot;,i);
-		}
-		printf(&quot;\n&quot;);
-		return;
-	}
-	
-	state[x]=1;
-	dfs(x+1);
-	state[x]=0;
-	
-	state[x]=0;
-	dfs(x+1);
-	state[x]=0;
-}
-int main()
-{
-	scanf(&quot;%d&quot;,&amp;n);
-	dfs(1);
-}
-</code></pre>
-<h3 id="思路"><strong>思路：</strong></h3>
-<p>对于1~n，按顺序挨个做判断，可以选择选或不选，每做出一次选择后，dfs（x+1），进行下一个位置的选择，直到x&gt;n即判断完毕，得到了一个答案，然后再退出本次递归，上层递归函数继续顺序往下执行，直到最后最外层代码执行完毕，退出。</p>
-<p>与94题不同的是，这道题的dfs在输出完毕后需要加一个return，这是因为94题刚好i&gt;n会退出函数，所以一般来讲的话还是要加个return比较好。</p>
 ]]></content>
     </entry>
 </feed>
