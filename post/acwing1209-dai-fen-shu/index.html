@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>过去的时光过去的人 | 闲鱼小站</title>
+<title>ACwing1209. 带分数 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,17 +81,102 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>过去的时光过去的人</h1>
+            <h1>ACwing1209. 带分数</h1>
             <p class="article-meta">
-              2022-03-22
+              2022-03-09
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+                  算法题
+                </a>
               
             </p>
             
             <div class="post-content">
-              <p>最近几天不知为何，感触颇多，莫不是我也伤春悲秋了，大概还是太闲了。<br>
-偶然翻到钟老师过去的文章，不禁开始回忆以前的事，以前的人，小时候写作文总爱把时间啊，人生啊比作火车，讲着珍惜什么窗外的风景，再者无法回头种种，可待这火车真的开出去了，就像再隆隆声中打了个盹，猛地一震，反应过来时已是二十余载......<br>
-喘息间已是满眼遗憾，其中甚者更是在十三五岁时，若能再多一些勇气，别再和人交谈相处时畏手畏脚，若能再少一些叛逆，别再对老师和父母恶语相向，若再多一些成熟，多想想未来，哪怕课本枯燥，哪怕学习路上那么多坎坷，若是，若是.......<br>
-可时光好似真的不能重来，眼下又活出了个一片狼藉，自己的生活和未来都是空白一片。可是，可是，二十岁的今天又何尝不是二十五岁，三十岁，四十岁的昨天呢，那样不是重获新生了吗，人生又能有几个二十年，奥里给，拒绝emo，奋斗在当下嘛</p>
+              <p>100100 可以表示为带分数的形式：100=3+69258714100=3+69258714</p>
+<p>还可以表示为：100=82+3546197100=82+3546197</p>
+<p>注意特征：带分数中，数字 1∼91∼9 分别出现且只出现一次（不包含 00）。</p>
+<p>类似这样的带分数，100100 有 1111 种表示法。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>一个正整数。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出输入数字用数码 1∼91∼9 不重复不遗漏地组成带分数表示的全部种数。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>1≤N&lt;1061≤N&lt;106</p>
+<h3 id="输入样例1"><strong>输入样例1：</strong></h3>
+<p><code>100</code></p>
+<h3 id="输出样例1"><strong>输出样例1：</strong></h3>
+<p><code>11</code></p>
+<h3 id="输入样例2"><strong>输入样例2：</strong></h3>
+<p><code>105</code></p>
+<h3 id="输出样例2"><strong>输出样例2：</strong></h3>
+<p><code>6</code></p>
+<hr>
+<h3 id="先贴题解"><strong>先贴题解</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+int n,ans,o,p,q;
+int a[9],state[10];//数组a表示9个数的全排列，state[i]表示数字i是否在a内
+
+int ca(int x,int y)/*这是一个用于计算的函数，把a[x]到a[y]的数字用整型表示出来，最终返回值是计算结果*/
+{
+	int num=0;
+	for(int i=x;i&lt;=y;i++)
+	{
+		num=num*10+a[i];
+	}
+	return num;
+}
+
+int check(int x,int y,int z)//用于判断是否符合题意的函数
+{
+	if(y%z==0&amp;&amp;x+y/z==n)
+	return 1;
+	else
+	return 0;
+}
+
+void dfs(int x)//x代表已经放了几个数字进去
+{
+	if(x==9)
+	{
+		for(int i=0;i&lt;7;i++)//第一段数字
+		{
+			for(int j=i+1;j&lt;8;j++)//第二段数字
+			{
+				o=ca(0,i);//第一段数字的值
+				p=ca(i+1,j);//第二段数字的值
+				q=ca(j+1,8);//第三段数字的值
+				if(check(o,p,q)) ans++;//符合题意，结果＋1
+			}
+			
+		}
+		return;//这个还是得写一下
+	}
+	
+	for(int i=1;i&lt;=9;i++)//1~9的9个数字
+	{
+		if(state[i]==0)
+		{
+			state[i]=1;
+			a[x]=i;
+			dfs(x+1);
+			state[i]=0;
+			a[x]=0;
+		}
+	}
+	
+}
+
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;n);
+	dfs(0);
+	printf(&quot;%d&quot;,ans);
+	return 0;
+} 
+</code></pre>
+<p>这种题一般第一眼都毫无思路，看题解都要看好几遍，不过多看几遍之后就大概了解什么意思了。</p>
+<p>这道题的大概解法是枚举1~9的所有排列，然后分成三段，分别作为整数分母和分子然后挨个验证一下，符合的话结果就+1。</p>
+<p>前边一开始是理解的，只不过递归的全排列又懵了一下，还是for循环里加递归函数的情况，函数出口下面恢复现场就可以了，这点又忘记了</p>
 
             </div>
           </article>
@@ -102,9 +187,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing1209-dai-fen-shu/">
+              <a href="https://happyeathand.github.io/post/acwing717-jian-dan-fei-bo-na-qi/">
                 <h3 class="post-title">
-                  ACwing1209. 带分数
+                  ACwing717. 简单斐波那契
                 </h3>
               </a>
             </div>
@@ -213,11 +298,11 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
           算法题
         </a>
       

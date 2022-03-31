@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲鱼小站</title>
-    <updated>2022-03-31T02:49:47.817Z</updated>
+    <updated>2022-03-31T02:53:21.811Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
@@ -418,6 +418,99 @@ else return gcd(b,x%b);<br>
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[ACwing1209. 带分数]]></title>
+        <id>https://happyeathand.github.io/post/acwing1209-dai-fen-shu/</id>
+        <link href="https://happyeathand.github.io/post/acwing1209-dai-fen-shu/">
+        </link>
+        <updated>2022-03-09T05:04:34.000Z</updated>
+        <content type="html"><![CDATA[<p>100100 可以表示为带分数的形式：100=3+69258714100=3+69258714</p>
+<p>还可以表示为：100=82+3546197100=82+3546197</p>
+<p>注意特征：带分数中，数字 1∼91∼9 分别出现且只出现一次（不包含 00）。</p>
+<p>类似这样的带分数，100100 有 1111 种表示法。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>一个正整数。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出输入数字用数码 1∼91∼9 不重复不遗漏地组成带分数表示的全部种数。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>1≤N&lt;1061≤N&lt;106</p>
+<h3 id="输入样例1"><strong>输入样例1：</strong></h3>
+<p><code>100</code></p>
+<h3 id="输出样例1"><strong>输出样例1：</strong></h3>
+<p><code>11</code></p>
+<h3 id="输入样例2"><strong>输入样例2：</strong></h3>
+<p><code>105</code></p>
+<h3 id="输出样例2"><strong>输出样例2：</strong></h3>
+<p><code>6</code></p>
+<hr>
+<h3 id="先贴题解"><strong>先贴题解</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+int n,ans,o,p,q;
+int a[9],state[10];//数组a表示9个数的全排列，state[i]表示数字i是否在a内
+
+int ca(int x,int y)/*这是一个用于计算的函数，把a[x]到a[y]的数字用整型表示出来，最终返回值是计算结果*/
+{
+	int num=0;
+	for(int i=x;i&lt;=y;i++)
+	{
+		num=num*10+a[i];
+	}
+	return num;
+}
+
+int check(int x,int y,int z)//用于判断是否符合题意的函数
+{
+	if(y%z==0&amp;&amp;x+y/z==n)
+	return 1;
+	else
+	return 0;
+}
+
+void dfs(int x)//x代表已经放了几个数字进去
+{
+	if(x==9)
+	{
+		for(int i=0;i&lt;7;i++)//第一段数字
+		{
+			for(int j=i+1;j&lt;8;j++)//第二段数字
+			{
+				o=ca(0,i);//第一段数字的值
+				p=ca(i+1,j);//第二段数字的值
+				q=ca(j+1,8);//第三段数字的值
+				if(check(o,p,q)) ans++;//符合题意，结果＋1
+			}
+			
+		}
+		return;//这个还是得写一下
+	}
+	
+	for(int i=1;i&lt;=9;i++)//1~9的9个数字
+	{
+		if(state[i]==0)
+		{
+			state[i]=1;
+			a[x]=i;
+			dfs(x+1);
+			state[i]=0;
+			a[x]=0;
+		}
+	}
+	
+}
+
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;n);
+	dfs(0);
+	printf(&quot;%d&quot;,ans);
+	return 0;
+} 
+</code></pre>
+<p>这种题一般第一眼都毫无思路，看题解都要看好几遍，不过多看几遍之后就大概了解什么意思了。</p>
+<p>这道题的大概解法是枚举1~9的所有排列，然后分成三段，分别作为整数分母和分子然后挨个验证一下，符合的话结果就+1。</p>
+<p>前边一开始是理解的，只不过递归的全排列又懵了一下，还是for循环里加递归函数的情况，函数出口下面恢复现场就可以了，这点又忘记了</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[ACwing717. 简单斐波那契]]></title>
         <id>https://happyeathand.github.io/post/acwing717-jian-dan-fei-bo-na-qi/</id>
         <link href="https://happyeathand.github.io/post/acwing717-jian-dan-fei-bo-na-qi/">
@@ -797,151 +890,6 @@ int main()
         <content type="html"><![CDATA[<p>2021.11.7  第一次成功远程连接，域名为happyeathand.github.io<br>
 2021.11.11  更换访问域名为 chishoushou.top<br>
 2021.11.12  欢迎看板娘入驻！！！🎉🎉🎉😋</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[表达式转换]]></title>
-        <id>https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/</id>
-        <link href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/">
-        </link>
-        <updated>2021-10-31T01:58:49.000Z</updated>
-        <content type="html"><![CDATA[<p>​<br>
-算术表达式有前缀表示法、中缀表示法和后缀表示法等形式。日常使用的算术表达式是采用中缀表示法，即二元运算符位于两个运算数中间。请设计程序将中缀表达式转换为后缀表达式。</p>
-<p>输入格式:<br>
-输入在一行中给出不含空格的中缀表达式，可包含+、-、*、\以及左右括号()，表达式不超过20个字符。</p>
-<p>输出格式:<br>
-在一行中输出转换后的后缀表达式，要求不同对象（运算数、运算符号）之间以空格分隔，但结尾不得有多余空格。</p>
-<p>输入样例:<br>
-<code>2+3*(7-4)+8/4</code></p>
-<p>结尾无空行</p>
-<p>输出样例:<br>
-<code>2 3 7 4 - * + 8 4 / +</code></p>
-<p>结尾无空行</p>
-<hr>
-<h3 id="题解">题解</h3>
-<pre><code>//若操作符的优先级大于堆栈出口的操作符，
-//就直接将操作符存储到堆栈中
-
-//否则将栈顶的操作符挨个弹出，
-//直到操作符优先级大于栈顶操作符
-//或者栈空 
-
-//当遇到左括号时直接入栈
-//当遇到右括号时出栈直到遇到左括号
-#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-struct stack
-{
-	char op[20];
-	int top;
-	int quality[20];
-};
-int main()
-{
-	stack p;
-	p.top=-1;
-	char str[20];
-	gets(str);
-	int i=0;
-	int x;
-	while(str[i])
-	{
-		if(str[i]&gt;='0'&amp;&amp;str[i]&lt;='9')
-		{
-			printf(&quot;%c &quot;,str[i]);
-			i++;
-			continue;
-		}
-		if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
-		{
-						//记住运算符优先级
-						//和栈的元素一一对应 
-			if(str[i]=='+'||str[i]=='-')//+ -都是一级 
-				{
-					x=1;
-				}
-			if(str[i]=='*'||str[i]=='/')//* /二级 
-				{
-					x=2;
-				}
-			if(p.top==-1)//栈为空直接入栈 
-			{
-				p.top++;
-				p.op[p.top]=str[i];
-/*修改1*/		p.quality[p.top]=x;
-				i++;
-				continue;
-			}
-			if(p.top&gt;-1) //栈不为空开始判断 
-			{
-				if(x&gt;p.quality[p.top])//操作符大于栈顶运算符 
-				{
-					p.top++;//栈顶数字下标右移 
-					p.op[p.top]=str[i];//操作符入栈 
-					p.quality[p.top]=x;//栈顶运算符级别改变 
-					i++;
-					continue;
-				}
-				else
-				{
-					while(x&lt;=p.quality[p.top]||p.top!=-1)
-					//退出循环条件（操作符运算优先级&gt;栈顶运算符优先级）
-					//栈清空 
-					{
-						printf(&quot;%c &quot;,p.op[p.top]);//栈顶运算符输出 
-						p.top--;//栈顶数组下标左移 
-					}
-					if(p.top=-1)
-					{
-						p.top++;
-						p.op[p.top]=str[i];
-					} 
-				}
-			}
-		}
-				//以上是没有遇到小括号的情况 
-		if(str[i]=='(')
-		{
-			p.top++;
-			p.op[p.top]=str[i];
-			p.quality[p.top]=0;//括号算是0级，正好当左括号
-							   //为栈顶时可以直接入栈 
-		}
-		if(str[i]==')')
-		{
-			while(p.op[p.top]!='(')
-			{
-				printf(&quot;%c &quot;,p.op[p.top]);
-				p.top--;
-			}
-			p.top--;
-		}
-	i++;
-	}
-	while(p.top!=-1)
-	{
-		printf(&quot;%c &quot;,p.op[p.top]);
-		p.top--;
-	}
-	return 0;
-}
-//2+3*7-4+8/4
-</code></pre>
-<hr>
-<p>具体转法没有一点头绪，从网上看完思路后敲了一个转换程序出来</p>
-<p>首先大致思路就是输入完中缀式后从第一个字符开始遍历字符串，挨个处理，碰到数字直接输出就好，碰到运算符开始进行处理。</p>
-<p>首先把不同运算符分为不同等级，+-1级，*/2级，（）0级</p>
-<p>若栈空，直接将操作符入栈</p>
-<p>若操作符优先级大于栈顶运算符直接入栈</p>
-<p>若操作符优先级小于等于栈顶运算符则将栈顶运算符挨个出栈，直到该操作符优先级大于栈顶运算符优先级，或者栈为空时。</p>
-<p>对于括号有特殊操作，读到“（”时将“（”直接入栈，读到“）”时将“）”以前的运算符挨个出栈，直到读到一个“（”时才停止。</p>
-<p>PS：“（”等级设定为0级刚好可以让独到的操作符直接入栈。</p>
-<h3 id="遇到的问题"><strong>遇到的问题：</strong></h3>
-<p>1.在一开始的结构构思时，对于每一个入栈的操作符没有好的思路去给定他们的等级，后来发现只要跟着栈顶走就好了，没必要记住每一个入栈元素的优先级，只要用的时候能把他拿出来就好了，保证入栈操作符的字符串序列和运算符等级的那个数列能对应上就好了，关键还是栈顶的处理。<br>
-2.一个很低级的错误，对于if语句的处理不好，在前面的if中已经改变了某些变量的值，下面的if语句中用新的变量值作了比较，导致if的判别出现混乱，采用了比较无脑的解决方法，直接给结束if判别的语句框里都加上continue，很好用。<br>
-3.还完有一个需要注意的点是循环语句结束时要改变变量的值。</p>
-<p>这道题网上还有树和加减括号的做法，有时间了再补上。<br>
-​</p>
 ]]></content>
     </entry>
 </feed>
