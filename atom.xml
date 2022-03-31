@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲鱼小站</title>
-    <updated>2022-03-31T03:14:31.958Z</updated>
+    <updated>2022-03-31T03:16:27.944Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
@@ -10,185 +10,6 @@
     <logo>https://happyeathand.github.io/images/avatar.png</logo>
     <icon>https://happyeathand.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, 闲鱼小站</rights>
-    <entry>
-        <title type="html"><![CDATA[ACwing1212. 地宫取宝]]></title>
-        <id>https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/</id>
-        <link href="https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/">
-        </link>
-        <updated>2022-03-31T03:02:10.000Z</updated>
-        <content type="html"><![CDATA[<p>X 国王有一个地宫宝库，是 n×mn×m 个格子的矩阵，每个格子放一件宝贝，每个宝贝贴着价值标签。</p>
-<p>地宫的入口在左上角，出口在右下角。</p>
-<p>小明被带到地宫的入口，国王要求他只能向右或向下行走。</p>
-<p>走过某个格子时，如果那个格子中的宝贝价值比小明手中任意宝贝价值都大，小明就可以拿起它（当然，也可以不拿）。</p>
-<p>当小明走到出口时，如果他手中的宝贝恰好是 kk 件，则这些宝贝就可以送给小明。</p>
-<p>请你帮小明算一算，在给定的局面下，他有多少种不同的行动方案能获得这 kk 件宝贝。</p>
-<p>输入格式</p>
-<p>第一行 33 个整数，n,m,kn,m,k，含义见题目描述。</p>
-<p>接下来 nn 行，每行有 mm 个整数 CiCi 用来描述宝库矩阵每个格子的宝贝价值。</p>
-<h3 id="输出格式"><strong>输出格式</strong></h3>
-<p>输出一个整数，表示正好取 kk 个宝贝的行动方案数。</p>
-<p>该数字可能很大，输出它对 10000000071000000007 取模的结果。</p>
-<h3 id="数据范围"><strong>数据范围</strong></h3>
-<p>1≤n,m≤501≤n,m≤50,<br>
-1≤k≤121≤k≤12,<br>
-0≤Ci≤120≤Ci≤12</p>
-<h3 id="输入样例1"><strong>输入样例1：</strong></h3>
-<pre><code>2 2 2
-1 2
-2 1
-</code></pre>
-<h3 id="输出样例1"><strong>输出样例1：</strong></h3>
-<p><code>2</code></p>
-<h3 id="输入样例2"><strong>输入样例2：</strong></h3>
-<pre><code>2 3 2
-1 2 3
-2 1 5
-</code></pre>
-<h3 id="输出样例2"><strong>输出样例2：</strong></h3>
-<p><code>14</code></p>
-<hr>
-<pre><code>#include&lt;stdio.h&gt;
-
-int n,m,k,num,max=0,mod=1000000007;
-int a[1000][1000];
-void dfs(int u,int x,int y,int min)
-{
-    
-    if((x &gt;n || y &gt; m) || u &gt; k||(min==max&amp;&amp;u&lt;k))
-	return;
-	
-	if((x == n &amp;&amp; y == m) &amp;&amp;(u == k || (u == k-1 &amp;&amp;min &lt; a[n-1][m-1])))//这里是个问题，用这种
-	{
-		num++;
-		num=num%mod;
-		return;
-	}
-	
-		dfs(u,x,y+1,min);
-		dfs(u,x+1,y,min);
-		if(a[x][y]&gt;min)
-	{
-		dfs(u+1,x+1,y,a[x][y]);
-		dfs(u+1,x,y+1,a[x][y]);
-	}
-}
-
-int main()
-{
-	int j,i;
-	scanf(&quot;%d%d%d&quot;,&amp;n,&amp;m,&amp;k);
-	for(i=1;i&lt;=n;i++)
-	{
-		for(j=1;j&lt;=m;j++)
-		{
-			scanf(&quot;%d&quot;,&amp;a[i][j]);
-			if(a[i][j]&gt;max)
-			max=a[i][j];
-		}
-	}
-	dfs(0,1,1,-1);
-	printf(&quot;%d&quot;,num);
-	return 0;
-}
-</code></pre>
-<p>同样先来个暴力写法，但是这次却出了问题。这次的dfs不知道到该怎么描述，譬如dfs(0,0,0,-1)，</p>
-<pre><code>1.当前在执行第0步，当前在坐标1，1，当前最大价值是-1
-
-2.当前在执行第0步，下一个目标是坐标1，1，当前价值是-1
-</code></pre>
-<p>不知道哪个是对的</p>
-<p>其实回头看代码的话还是1是对的，只不过这道题给终点坐标加了一个特判，其实仔细想想的话这个dfs就是在进行下一步操作的参数里保留着上一次dfs的结果嘛，那么特判一下还是有必要的吧（大概），哎真懵😥</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ACwing2. 01背包问题]]></title>
-        <id>https://happyeathand.github.io/post/acwing2-01-bei-bao-wen-ti/</id>
-        <link href="https://happyeathand.github.io/post/acwing2-01-bei-bao-wen-ti/">
-        </link>
-        <updated>2022-03-31T02:58:52.000Z</updated>
-        <content type="html"><![CDATA[<p>有 NN 件物品和一个容量是 VV 的背包。每件物品只能使用一次。</p>
-<p>第 ii 件物品的体积是 vivi，价值是 wiwi。</p>
-<p>求解将哪些物品装入背包，可使这些物品的总体积不超过背包容量，且总价值最大。<br>
-输出最大价值。</p>
-<h3 id="输入格式"><strong>输入格式</strong></h3>
-<p>第一行两个整数，N，VN，V，用空格隔开，分别表示物品数量和背包容积。</p>
-<p>接下来有 NN 行，每行两个整数 vi,wivi,wi，用空格隔开，分别表示第 ii 件物品的体积和价值。</p>
-<h3 id="输出格式"><strong>输出格式</strong></h3>
-<p>输出一个整数，表示最大价值。</p>
-<h3 id="数据范围"><strong>数据范围</strong></h3>
-<p>0&lt;N,V≤10000&lt;N,V≤1000<br>
-0&lt;vi,wi≤10000&lt;vi,wi≤1000</p>
-<h3 id="输入样例"><strong>输入样例</strong></h3>
-<pre><code>4 5
-1 2
-2 4
-3 4
-4 5
-</code></pre>
-<h3 id="输出样例"><strong>输出样例：</strong></h3>
-<p><code>8</code></p>
-<hr>
-<p>​<br>
-这应该是继小A点菜后的又一道dp，但是那道题当时犯懒没有写题解，但是大概还记得点思路。</p>
-<h3 id="题解"><strong>题解</strong></h3>
-<pre><code>#include&lt;stdio.h&gt;
-
-int w[1005],v[1005];//w[i]代表i的价值，v[i]代表i的体积
-int f[1005][1005]; //f[i][j]表示前i个物品在体积为j下的最优解
-
-int main()
-{
-	int i,j,n,m;//n物品数量，m背包体积 
-	scanf(&quot;%d %d&quot;,&amp;n,&amp;m);
-	for(i=1;i&lt;=n;i++) scanf(&quot;%d %d&quot;,&amp;v[i],&amp;w[i]);
-	for(i=1;i&lt;=n;i++)//从1开始判断到最后一个物品
-	{
-		for(j=1;j&lt;=m;j++)//从背包体积为1开始判断到装满背包
-		{
-			if(j&lt;v[i])//如果装不下第i个物品了
-			f[i][j]=f[i-1][j];//那么久延续上一次的装法
-			else//如果装的下i就装上
-			f[i][j]=f[i-1][j]&gt;f[i-1][j-v[i]]+w[i]?f[i-1][j]:f[i-1][j-v[i]]+w[i];
-            //再比较一下装上i和不装i哪个才是最优解，注意这里比较时不一定每次都是后者大的
-		}
-	}
-	printf(&quot;%d&quot;,f[n][m]);
-}
-</code></pre>
-<hr>
-<h3 id="递归解法">**递归解法 **</h3>
-<pre><code>#include&lt;stdio.h&gt;
-
-int n,v,max=0;
-int a[1000],b[1000];
-
-void dfs(int u,int p,int q)//u装了几个物品，p当前体积，q当前价值
-{
-    if(q&gt;max&amp;&amp;p&lt;=v)
-		max=q;
-	if(u&gt;=n||p&gt;v)//注意return条件不一定只有背包溢出的情况，也可能是物品没得放了
-	{
-		return;
-	}
-	dfs(u+1,p,q);//不装第u个物品
-	dfs(u+1,p+a[u],q+b[u]);//装第u个物品
-}
-
-int main()
-{
-	scanf(&quot;%d%d&quot;,&amp;n,&amp;v);
-	for(int i=0;i&lt;n;i++)
-	{
-		scanf(&quot;%d%d&quot;,&amp;a[i],&amp;b[i]);
-	}
-	dfs(0,0,0);
-	printf(&quot;%d&quot;,max);
-}
-</code></pre>
-<p>递归也很暴力，思路也简单，超时也是肯定的，应该有优化的方法，埋个坑回头再写吧😉</p>
-<p>​</p>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[骗分导论（转载）]]></title>
         <id>https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/</id>
@@ -680,6 +501,185 @@ for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
 偶然翻到钟老师过去的文章，不禁开始回忆以前的事，以前的人，小时候写作文总爱把时间啊，人生啊比作火车，讲着珍惜什么窗外的风景，再者无法回头种种，可待这火车真的开出去了，就像再隆隆声中打了个盹，猛地一震，反应过来时已是二十余载......<br>
 喘息间已是满眼遗憾，其中甚者更是在十三五岁时，若能再多一些勇气，别再和人交谈相处时畏手畏脚，若能再少一些叛逆，别再对老师和父母恶语相向，若再多一些成熟，多想想未来，哪怕课本枯燥，哪怕学习路上那么多坎坷，若是，若是.......<br>
 可时光好似真的不能重来，眼下又活出了个一片狼藉，自己的生活和未来都是空白一片。可是，可是，二十岁的今天又何尝不是二十五岁，三十岁，四十岁的昨天呢，那样不是重获新生了吗，人生又能有几个二十年，奥里给，拒绝emo，奋斗在当下嘛</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ACwing1212. 地宫取宝]]></title>
+        <id>https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/</id>
+        <link href="https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/">
+        </link>
+        <updated>2022-03-18T05:45:56.000Z</updated>
+        <content type="html"><![CDATA[<p>X 国王有一个地宫宝库，是 n×mn×m 个格子的矩阵，每个格子放一件宝贝，每个宝贝贴着价值标签。</p>
+<p>地宫的入口在左上角，出口在右下角。</p>
+<p>小明被带到地宫的入口，国王要求他只能向右或向下行走。</p>
+<p>走过某个格子时，如果那个格子中的宝贝价值比小明手中任意宝贝价值都大，小明就可以拿起它（当然，也可以不拿）。</p>
+<p>当小明走到出口时，如果他手中的宝贝恰好是 kk 件，则这些宝贝就可以送给小明。</p>
+<p>请你帮小明算一算，在给定的局面下，他有多少种不同的行动方案能获得这 kk 件宝贝。</p>
+<p>输入格式</p>
+<p>第一行 33 个整数，n,m,kn,m,k，含义见题目描述。</p>
+<p>接下来 nn 行，每行有 mm 个整数 CiCi 用来描述宝库矩阵每个格子的宝贝价值。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出一个整数，表示正好取 kk 个宝贝的行动方案数。</p>
+<p>该数字可能很大，输出它对 10000000071000000007 取模的结果。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>1≤n,m≤501≤n,m≤50,<br>
+1≤k≤121≤k≤12,<br>
+0≤Ci≤120≤Ci≤12</p>
+<h3 id="输入样例1"><strong>输入样例1：</strong></h3>
+<pre><code>2 2 2
+1 2
+2 1
+</code></pre>
+<h3 id="输出样例1"><strong>输出样例1：</strong></h3>
+<p><code>2</code></p>
+<h3 id="输入样例2"><strong>输入样例2：</strong></h3>
+<pre><code>2 3 2
+1 2 3
+2 1 5
+</code></pre>
+<h3 id="输出样例2"><strong>输出样例2：</strong></h3>
+<p><code>14</code></p>
+<hr>
+<pre><code>#include&lt;stdio.h&gt;
+
+int n,m,k,num,max=0,mod=1000000007;
+int a[1000][1000];
+void dfs(int u,int x,int y,int min)
+{
+    
+    if((x &gt;n || y &gt; m) || u &gt; k||(min==max&amp;&amp;u&lt;k))
+	return;
+	
+	if((x == n &amp;&amp; y == m) &amp;&amp;(u == k || (u == k-1 &amp;&amp;min &lt; a[n-1][m-1])))//这里是个问题，用这种
+	{
+		num++;
+		num=num%mod;
+		return;
+	}
+	
+		dfs(u,x,y+1,min);
+		dfs(u,x+1,y,min);
+		if(a[x][y]&gt;min)
+	{
+		dfs(u+1,x+1,y,a[x][y]);
+		dfs(u+1,x,y+1,a[x][y]);
+	}
+}
+
+int main()
+{
+	int j,i;
+	scanf(&quot;%d%d%d&quot;,&amp;n,&amp;m,&amp;k);
+	for(i=1;i&lt;=n;i++)
+	{
+		for(j=1;j&lt;=m;j++)
+		{
+			scanf(&quot;%d&quot;,&amp;a[i][j]);
+			if(a[i][j]&gt;max)
+			max=a[i][j];
+		}
+	}
+	dfs(0,1,1,-1);
+	printf(&quot;%d&quot;,num);
+	return 0;
+}
+</code></pre>
+<p>同样先来个暴力写法，但是这次却出了问题。这次的dfs不知道到该怎么描述，譬如dfs(0,0,0,-1)，</p>
+<pre><code>1.当前在执行第0步，当前在坐标1，1，当前最大价值是-1
+
+2.当前在执行第0步，下一个目标是坐标1，1，当前价值是-1
+</code></pre>
+<p>不知道哪个是对的</p>
+<p>其实回头看代码的话还是1是对的，只不过这道题给终点坐标加了一个特判，其实仔细想想的话这个dfs就是在进行下一步操作的参数里保留着上一次dfs的结果嘛，那么特判一下还是有必要的吧（大概），哎真懵😥</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ACwing2. 01背包问题]]></title>
+        <id>https://happyeathand.github.io/post/acwing2-01-bei-bao-wen-ti/</id>
+        <link href="https://happyeathand.github.io/post/acwing2-01-bei-bao-wen-ti/">
+        </link>
+        <updated>2022-03-16T03:05:21.000Z</updated>
+        <content type="html"><![CDATA[<p>有 NN 件物品和一个容量是 VV 的背包。每件物品只能使用一次。</p>
+<p>第 ii 件物品的体积是 vivi，价值是 wiwi。</p>
+<p>求解将哪些物品装入背包，可使这些物品的总体积不超过背包容量，且总价值最大。<br>
+输出最大价值。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>第一行两个整数，N，VN，V，用空格隔开，分别表示物品数量和背包容积。</p>
+<p>接下来有 NN 行，每行两个整数 vi,wivi,wi，用空格隔开，分别表示第 ii 件物品的体积和价值。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出一个整数，表示最大价值。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>0&lt;N,V≤10000&lt;N,V≤1000<br>
+0&lt;vi,wi≤10000&lt;vi,wi≤1000</p>
+<h3 id="输入样例"><strong>输入样例</strong></h3>
+<pre><code>4 5
+1 2
+2 4
+3 4
+4 5
+</code></pre>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<p><code>8</code></p>
+<hr>
+<p>​<br>
+这应该是继小A点菜后的又一道dp，但是那道题当时犯懒没有写题解，但是大概还记得点思路。</p>
+<h3 id="题解"><strong>题解</strong></h3>
+<pre><code>#include&lt;stdio.h&gt;
+
+int w[1005],v[1005];//w[i]代表i的价值，v[i]代表i的体积
+int f[1005][1005]; //f[i][j]表示前i个物品在体积为j下的最优解
+
+int main()
+{
+	int i,j,n,m;//n物品数量，m背包体积 
+	scanf(&quot;%d %d&quot;,&amp;n,&amp;m);
+	for(i=1;i&lt;=n;i++) scanf(&quot;%d %d&quot;,&amp;v[i],&amp;w[i]);
+	for(i=1;i&lt;=n;i++)//从1开始判断到最后一个物品
+	{
+		for(j=1;j&lt;=m;j++)//从背包体积为1开始判断到装满背包
+		{
+			if(j&lt;v[i])//如果装不下第i个物品了
+			f[i][j]=f[i-1][j];//那么久延续上一次的装法
+			else//如果装的下i就装上
+			f[i][j]=f[i-1][j]&gt;f[i-1][j-v[i]]+w[i]?f[i-1][j]:f[i-1][j-v[i]]+w[i];
+            //再比较一下装上i和不装i哪个才是最优解，注意这里比较时不一定每次都是后者大的
+		}
+	}
+	printf(&quot;%d&quot;,f[n][m]);
+}
+</code></pre>
+<hr>
+<h3 id="递归解法">**递归解法 **</h3>
+<pre><code>#include&lt;stdio.h&gt;
+
+int n,v,max=0;
+int a[1000],b[1000];
+
+void dfs(int u,int p,int q)//u装了几个物品，p当前体积，q当前价值
+{
+    if(q&gt;max&amp;&amp;p&lt;=v)
+		max=q;
+	if(u&gt;=n||p&gt;v)//注意return条件不一定只有背包溢出的情况，也可能是物品没得放了
+	{
+		return;
+	}
+	dfs(u+1,p,q);//不装第u个物品
+	dfs(u+1,p+a[u],q+b[u]);//装第u个物品
+}
+
+int main()
+{
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;v);
+	for(int i=0;i&lt;n;i++)
+	{
+		scanf(&quot;%d%d&quot;,&amp;a[i],&amp;b[i]);
+	}
+	dfs(0,0,0);
+	printf(&quot;%d&quot;,max);
+}
+</code></pre>
+<p>递归也很暴力，思路也简单，超时也是肯定的，应该有优化的方法，埋个坑回头再写吧😉</p>
+<p>​</p>
 ]]></content>
     </entry>
     <entry>
