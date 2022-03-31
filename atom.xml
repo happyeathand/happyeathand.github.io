@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲鱼小站</title>
-    <updated>2022-03-31T03:01:46.827Z</updated>
+    <updated>2022-03-31T03:05:28.537Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
@@ -10,6 +10,96 @@
     <logo>https://happyeathand.github.io/images/avatar.png</logo>
     <icon>https://happyeathand.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, 闲鱼小站</rights>
+    <entry>
+        <title type="html"><![CDATA[ACwing1212. 地宫取宝]]></title>
+        <id>https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/</id>
+        <link href="https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/">
+        </link>
+        <updated>2022-03-31T03:02:10.000Z</updated>
+        <content type="html"><![CDATA[<p>X 国王有一个地宫宝库，是 n×mn×m 个格子的矩阵，每个格子放一件宝贝，每个宝贝贴着价值标签。</p>
+<p>地宫的入口在左上角，出口在右下角。</p>
+<p>小明被带到地宫的入口，国王要求他只能向右或向下行走。</p>
+<p>走过某个格子时，如果那个格子中的宝贝价值比小明手中任意宝贝价值都大，小明就可以拿起它（当然，也可以不拿）。</p>
+<p>当小明走到出口时，如果他手中的宝贝恰好是 kk 件，则这些宝贝就可以送给小明。</p>
+<p>请你帮小明算一算，在给定的局面下，他有多少种不同的行动方案能获得这 kk 件宝贝。</p>
+<p>输入格式</p>
+<p>第一行 33 个整数，n,m,kn,m,k，含义见题目描述。</p>
+<p>接下来 nn 行，每行有 mm 个整数 CiCi 用来描述宝库矩阵每个格子的宝贝价值。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出一个整数，表示正好取 kk 个宝贝的行动方案数。</p>
+<p>该数字可能很大，输出它对 10000000071000000007 取模的结果。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>1≤n,m≤501≤n,m≤50,<br>
+1≤k≤121≤k≤12,<br>
+0≤Ci≤120≤Ci≤12</p>
+<h3 id="输入样例1"><strong>输入样例1：</strong></h3>
+<pre><code>2 2 2
+1 2
+2 1
+</code></pre>
+<h3 id="输出样例1"><strong>输出样例1：</strong></h3>
+<p><code>2</code></p>
+<h3 id="输入样例2"><strong>输入样例2：</strong></h3>
+<pre><code>2 3 2
+1 2 3
+2 1 5
+</code></pre>
+<h3 id="输出样例2"><strong>输出样例2：</strong></h3>
+<p><code>14</code></p>
+<hr>
+<pre><code>#include&lt;stdio.h&gt;
+
+int n,m,k,num,max=0,mod=1000000007;
+int a[1000][1000];
+void dfs(int u,int x,int y,int min)
+{
+    
+    if((x &gt;n || y &gt; m) || u &gt; k||(min==max&amp;&amp;u&lt;k))
+	return;
+	
+	if((x == n &amp;&amp; y == m) &amp;&amp;(u == k || (u == k-1 &amp;&amp;min &lt; a[n-1][m-1])))//这里是个问题，用这种
+	{
+		num++;
+		num=num%mod;
+		return;
+	}
+	
+		dfs(u,x,y+1,min);
+		dfs(u,x+1,y,min);
+		if(a[x][y]&gt;min)
+	{
+		dfs(u+1,x+1,y,a[x][y]);
+		dfs(u+1,x,y+1,a[x][y]);
+	}
+}
+
+int main()
+{
+	int j,i;
+	scanf(&quot;%d%d%d&quot;,&amp;n,&amp;m,&amp;k);
+	for(i=1;i&lt;=n;i++)
+	{
+		for(j=1;j&lt;=m;j++)
+		{
+			scanf(&quot;%d&quot;,&amp;a[i][j]);
+			if(a[i][j]&gt;max)
+			max=a[i][j];
+		}
+	}
+	dfs(0,1,1,-1);
+	printf(&quot;%d&quot;,num);
+	return 0;
+}
+</code></pre>
+<p>同样先来个暴力写法，但是这次却出了问题。这次的dfs不知道到该怎么描述，譬如dfs(0,0,0,-1)，</p>
+<pre><code>1.当前在执行第0步，当前在坐标1，1，当前最大价值是-1
+
+2.当前在执行第0步，下一个目标是坐标1，1，当前价值是-1
+</code></pre>
+<p>不知道哪个是对的</p>
+<p>其实回头看代码的话还是1是对的，只不过这道题给终点坐标加了一个特判，其实仔细想想的话这个dfs就是在进行下一步操作的参数里保留着上一次dfs的结果嘛，那么特判一下还是有必要的吧（大概），哎真懵😥</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ACwing2. 01背包问题]]></title>
         <id>https://happyeathand.github.io/post/acwing2-01-bei-bao-wen-ti/</id>
@@ -876,76 +966,6 @@ int main()
 <h3 id="思路"><strong>思路：</strong></h3>
 <p>对于1~n，按顺序挨个做判断，可以选择选或不选，每做出一次选择后，dfs（x+1），进行下一个位置的选择，直到x&gt;n即判断完毕，得到了一个答案，然后再退出本次递归，上层递归函数继续顺序往下执行，直到最后最外层代码执行完毕，退出。</p>
 <p>与94题不同的是，这道题的dfs在输出完毕后需要加一个return，这是因为94题刚好i&gt;n会退出函数，所以一般来讲的话还是要加个return比较好。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ACwing 94.递归实现排列型枚举]]></title>
-        <id>https://happyeathand.github.io/post/acwing-94di-gui-shi-xian-pai-lie-xing-mei-ju/</id>
-        <link href="https://happyeathand.github.io/post/acwing-94di-gui-shi-xian-pai-lie-xing-mei-ju/">
-        </link>
-        <updated>2022-03-05T02:41:15.000Z</updated>
-        <content type="html"><![CDATA[<p>把 1∼n1∼n 这 nn 个整数排成一行后随机打乱顺序，输出所有可能的次序。</p>
-<h3 id="输入格式"><strong>输入格式</strong></h3>
-<p>一个整数 nn。</p>
-<h3 id="输出格式"><strong>输出格式</strong></h3>
-<p>按照从小到大的顺序输出所有方案，每行 11 个。</p>
-<p>首先，同一行相邻两个数用一个空格隔开。</p>
-<p>其次，对于两个不同的行，对应下标的数一一比较，字典序较小的排在前面。</p>
-<p>数据范围</p>
-<p>1≤n≤91≤n≤9</p>
-<p>输入样例：<br>
-<code>3</code><br>
-输出样例：</p>
-<pre><code>1 2 3
-1 3 2
-2 1 3
-2 3 1
-3 1 2
-3 2 1
-</code></pre>
-<hr>
-<h3 id="题解"><strong>题解</strong></h3>
-<pre><code>#include&lt;stdio.h&gt;
-
-int state[100],a[100];//定义两个数组，state[z]代表z的状态，0为未使用过，1为已经使用过
-                      //a[i]代表的是正在排列的数组，i表示的是第i位
-int n;
-void dfs(int x)//该函数没有返回值，只有输出
-{
-	if(x&gt;n)//如果正在排列的数组已经满了，开始按顺序输出
-	{
-		int i;
-		for(i=1;i&lt;=n;i++)
-		{
-			printf(&quot;%d &quot;,a[i]);
-		}
-		printf(&quot;\n&quot;);
-	}
- 
-//下面是还没有排好a[]的运算
-	int i;
-	for(i=1;i&lt;=n;i++)
-	{
-		if(state[i]!=1)
-		{
-			a[x]=i;
-			state[i]=1;
-			dfs(x+1);
-			
-			state[i]=0;//回溯，保证i的状态恢复为未使用过的状态
-		}
-		
-	}
-}
-
-int main()
-{
-	scanf(&quot;%d&quot;,&amp;n);
-	dfs(1);//从第一位开始判断填哪个数
-}
-</code></pre>
-<p>题解的思路是按排列的数组的位数，依次放数字，放满之后再依次回溯，选择其他的数字再放置，大体思路比较清晰，唯一难理解的的地方是回溯。</p>
-<p>思考后发现是回溯的出口出了问题，最开始想的是回溯后函数会重复，即便回溯了下一次判断还是会填这个数，但是回溯在函数出口的下面一行，而且在for循环里，已经判断过是不会再判断了，这样state[i]可以恢复为0，本身正在处理的dfs还能另填别的数字。   而最后的出口则是一直退退退最后到dfs（1）到n后没的填了，dfs（1）的for循环也执行完了，自己就结束运行了。</p>
 ]]></content>
     </entry>
 </feed>

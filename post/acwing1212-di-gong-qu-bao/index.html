@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>洛谷 P1028 [NOIP2001 普及组] 数的计算 | 闲鱼小站</title>
+<title>ACwing1212. 地宫取宝 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,102 +81,95 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>洛谷 P1028 [NOIP2001 普及组] 数的计算</h1>
+            <h1>ACwing1212. 地宫取宝</h1>
             <p class="article-meta">
-              2022-01-16
-              
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
-                  算法题
-                </a>
+              2022-03-31
               
             </p>
             
             <div class="post-content">
-              <p>##题目描述<br>
-我们要求找出具有下列性质数的个数(包含输入的正整数 nn)。</p>
-<p>先输入一个正整数 nn(n \le 1000n≤1000),然后对此正整数按照如下方法进行处理：</p>
-<p>1.不作任何处理；</p>
-<p>2.在它的左边加上一个正整数,但该正整数不能超过原数的一半；</p>
-<p>3.加上数后,继续按此规则进行处理,直到不能再加正整数为止。</p>
-<p><strong>输入格式</strong><br>
-11 个正整数 nn(n \le 1000n≤1000)</p>
-<p><strong>输出格式</strong><br>
-11 个整数，表示具有该性质数的个数。<br>
-输入输出样例<br>
-输入 #1复制</p>
-<p>6<br>
-输出 #1复制</p>
-<p>6<br>
-说明/提示<br>
-满足条件的数为</p>
-<p>6，16，26，126，36，136</p>
-<p>【题目来源】</p>
-<h2 id="noip-2001-普及组第一题">NOIP 2001 普及组第一题</h2>
-<p>##递归<br>
-第一反应还是用递归的，但是这个题单貌似用递归的都会超时，限时1s，但是还是要用递归做一下</p>
-<p>ps:一开始的递归思路乱了，其实很简单，代码如下</p>
+              <p>X 国王有一个地宫宝库，是 n×mn×m 个格子的矩阵，每个格子放一件宝贝，每个宝贝贴着价值标签。</p>
+<p>地宫的入口在左上角，出口在右下角。</p>
+<p>小明被带到地宫的入口，国王要求他只能向右或向下行走。</p>
+<p>走过某个格子时，如果那个格子中的宝贝价值比小明手中任意宝贝价值都大，小明就可以拿起它（当然，也可以不拿）。</p>
+<p>当小明走到出口时，如果他手中的宝贝恰好是 kk 件，则这些宝贝就可以送给小明。</p>
+<p>请你帮小明算一算，在给定的局面下，他有多少种不同的行动方案能获得这 kk 件宝贝。</p>
+<p>输入格式</p>
+<p>第一行 33 个整数，n,m,kn,m,k，含义见题目描述。</p>
+<p>接下来 nn 行，每行有 mm 个整数 CiCi 用来描述宝库矩阵每个格子的宝贝价值。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出一个整数，表示正好取 kk 个宝贝的行动方案数。</p>
+<p>该数字可能很大，输出它对 10000000071000000007 取模的结果。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>1≤n,m≤501≤n,m≤50,<br>
+1≤k≤121≤k≤12,<br>
+0≤Ci≤120≤Ci≤12</p>
+<h3 id="输入样例1"><strong>输入样例1：</strong></h3>
+<pre><code>2 2 2
+1 2
+2 1
+</code></pre>
+<h3 id="输出样例1"><strong>输出样例1：</strong></h3>
+<p><code>2</code></p>
+<h3 id="输入样例2"><strong>输入样例2：</strong></h3>
+<pre><code>2 3 2
+1 2 3
+2 1 5
+</code></pre>
+<h3 id="输出样例2"><strong>输出样例2：</strong></h3>
+<p><code>14</code></p>
+<hr>
 <pre><code>#include&lt;stdio.h&gt;
-int pd(int n);//函数的作用为判断整型变量n的解的个数
-int pd(int n)
+
+int n,m,k,num,max=0,mod=1000000007;
+int a[1000][1000];
+void dfs(int u,int x,int y,int min)
 {
-	if(n==1)//递归的尽头，1的解只有它本身就是1
-	return 1;
-	int i,count=0;
-	for(i=1;i&lt;=n/2;i++)//这里挨个递归，只要i&lt;=n/2那么就去计算i的解的个数
+    
+    if((x &gt;n || y &gt; m) || u &gt; k||(min==max&amp;&amp;u&lt;k))
+	return;
+	
+	if((x == n &amp;&amp; y == m) &amp;&amp;(u == k || (u == k-1 &amp;&amp;min &lt; a[n-1][m-1])))//这里是个问题，用这种
 	{
-		count=count+pd(i);
-/*一开始写的是count=count+pd(i)+1，因为想把它本身也算进去，但这就犯了递归最常见的错误，参与了递归自己的中间运算，没有从大局的角度出发，避免去想递归的细节，过于拘泥于递归的过程反而会导致结果错误，所以只要想着最后结果+1就好了*/
+		num++;
+		num=num%mod;
+		return;
 	}
-	return count+1;//就是这里，递归出来的值+1就好了
-}
-int main()
-{
-	int x;
-	scanf(&quot;%d&quot;,&amp;x);
-	x=pd(x);
-	printf(&quot;%d&quot;,x);
-    return 0;
-}
-</code></pre>
-<p>但是肯定不会这么简单就给过的，时间复杂度太高，一定会超时的，具体不知道但肯定大于1s。</p>
-<hr>
-<p>递推<br>
-看完题解，原来还有递推这么个东西，感觉相反与递归，递推要求把每一个细节都照顾到，总之用递推时间复杂度低了，但是要保证面面俱到，要细心。</p>
-<p>而且要先把规律找到，才是最重要的</p>
-<p>首先是这个东西</p>
-<pre><code>f[1]=1
-f[2]=2=f[1]+1
-f[3]=2=f[1]+1
-f[4]=4=f[1]+f[2]+1
-f[5]=4=f[1]+f[2]+1
-</code></pre>
-<p>算哪个值我只要把它前面的都加起来就好了</p>
-<hr>
-<p>要注意的是比如说<br>
-<code>f[2]=2=f[1]+1</code><br>
-很明显这个f[2]已经加上本身了，因为每个数本身也算是一个解，比如说求f[6]，用下面的递推式的话就不用再单独加16，26，36 这三种情况了，因为在他们自己的函数中已经算上它们自己本身了。</p>
-<hr>
-<p>代码如下</p>
-<pre><code>#include&lt;stdio.h&gt;
-int main()
-{
-	int n,i,j;
-	scanf(&quot;%d&quot;,&amp;n);
-	int a[1001]={0};
-	for(i=1;i&lt;=n;i++/*要算f[n]的话，要把n/2以前的f也统统加上，所以要先判断n以前符合条件的f们*/
+	
+		dfs(u,x,y+1,min);
+		dfs(u,x+1,y,min);
+		if(a[x][y]&gt;min)
 	{
-		for(j=1;j&lt;=i/2;j++)/*这里就是具体的判断过程了，将n以前的数挨个判断*/
+		dfs(u+1,x+1,y,a[x][y]);
+		dfs(u+1,x,y+1,a[x][y]);
+	}
+}
+
+int main()
+{
+	int j,i;
+	scanf(&quot;%d%d%d&quot;,&amp;n,&amp;m,&amp;k);
+	for(i=1;i&lt;=n;i++)
+	{
+		for(j=1;j&lt;=m;j++)
 		{
-			a[i]=a[i]+a[j];
+			scanf(&quot;%d&quot;,&amp;a[i][j]);
+			if(a[i][j]&gt;max)
+			max=a[i][j];
 		}
-		a[i]++;//最后不要忘了加上自己
 	}
-	printf(&quot;%d&quot;,a[n]);
-    return 0;
+	dfs(0,1,1,-1);
+	printf(&quot;%d&quot;,num);
+	return 0;
 }
 </code></pre>
-<hr>
-<p>今天是2022/3/31，看到以前这道题才知道是dp。。。。🤔真是个奇妙的算法</p>
+<p>同样先来个暴力写法，但是这次却出了问题。这次的dfs不知道到该怎么描述，譬如dfs(0,0,0,-1)，</p>
+<pre><code>1.当前在执行第0步，当前在坐标1，1，当前最大价值是-1
+
+2.当前在执行第0步，下一个目标是坐标1，1，当前价值是-1
+</code></pre>
+<p>不知道哪个是对的</p>
+<p>其实回头看代码的话还是1是对的，只不过这道题给终点坐标加了一个特判，其实仔细想想的话这个dfs就是在进行下一步操作的参数里保留着上一次dfs的结果嘛，那么特判一下还是有必要的吧（大概），哎真懵😥</p>
 
             </div>
           </article>
@@ -187,9 +180,9 @@ int main()
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/jian-zhan-li-shi-ji-geng-xin/">
+              <a href="https://happyeathand.github.io/post/acwing2-01-bei-bao-wen-ti/">
                 <h3 class="post-title">
-                  建站历史及更新😃
+                  ACwing2. 01背包问题
                 </h3>
               </a>
             </div>
@@ -304,11 +297,11 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
           算法题
         </a>
       
