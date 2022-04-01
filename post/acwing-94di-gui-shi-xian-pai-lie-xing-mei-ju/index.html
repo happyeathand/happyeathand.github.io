@@ -7,7 +7,7 @@
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1648781998361">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1648784152181">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
@@ -16,9 +16,9 @@
 
 
   
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
 
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
   
 
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -180,18 +180,18 @@ int main()
         </div>
         
           
-            <div class="paper" data-aos="fade-in">
-              <div id="gitalk-container"></div>
-            </div>
-          
 
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
           
         
       </div>
 
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
-    <img src="https://happyeathand.github.io/images/avatar.png?v=1648781998361" class="no-responsive avatar">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1648784152181" class="no-responsive avatar">
     <div class="text-muted"> 切忌好高骛远</div>
     <div class="social-container">
       
@@ -295,11 +295,11 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
           算法题
         </a>
       
@@ -326,24 +326,21 @@ hljs.initHighlightingOnLoad()
 
 
   
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
     <script>
 
-      var gitalk = new Gitalk({
-        clientID: 'd05eaabadf2b575cbb56',
-        clientSecret: '22e36748ec4179b300280e935c5b053a7baf858c',
-        repo: 'happyeathand.github.io',
-        owner: 'happyeathand',
-        admin: ['happyeathand'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
+    var options = {
+      shortname: '',
+      apikey: 'Ym6ZHst2sZvYeNMNUDcfKThPVomDqP2wMvN8lricOvfE2LwFuFeRRcr28LXp5Dnd',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
 
     </script>
-  
-
   
 
 
