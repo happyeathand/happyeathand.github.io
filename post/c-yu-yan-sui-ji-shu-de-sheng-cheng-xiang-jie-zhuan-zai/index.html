@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>ACwing1246. 等差数列 | 闲鱼小站</title>
+<title>C语言随机数的生成【详解（转载）】 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,95 +87,171 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>ACwing1246. 等差数列</h1>
+            <h1>C语言随机数的生成【详解（转载）】</h1>
             <p class="article-meta">
-              2022-03-27
+              2022-04-07
               
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
-                  算法题
+                <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+                  转载
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p>数学老师给小明出了一道等差数列求和的题目。</p>
-<p>但是粗心的小明忘记了一部分的数列，只记得其中 NN 个整数。</p>
-<p>现在给出这 NN 个整数，小明想知道包含这 NN 个整数的最短的等差数列有几项？</p>
-<h3 id="输入格式"><strong>输入格式</strong></h3>
-<p>输入的第一行包含一个整数 NN。</p>
-<p>第二行包含 NN 个整数 A1,A2,⋅⋅⋅,ANA1,A2,···,AN。(注意 A1∼ANA1∼AN 并不一定是按等差数<br>
-列中的顺序给出)</p>
-<h3 id="输出格式"><strong>输出格式</strong></h3>
-<p>输出一个整数表示答案。</p>
-<h3 id="数据范围"><strong>数据范围</strong></h3>
-<p>2≤N≤1000002≤N≤100000,<br>
-0≤Ai≤1090≤Ai≤109</p>
-<h3 id="输入样例"><strong>输入样例：</strong></h3>
-<pre><code>5
-2 6 4 10 20
-</code></pre>
-<h3 id="输出样例"><strong>输出样例：</strong></h3>
-<p><code>10</code></p>
-<h3 id="样例解释"><strong>样例解释</strong></h3>
-<p>包含 2、6、4、10、202、6、4、10、20 的最短的等差数列是 2、4、6、8、10、12、14、16、18、202、4、6、8、10、12、14、16、18、20。</p>
-<hr>
-<h3 id="超时题解原因未知"><strong>超时题解（原因未知)</strong></h3>
-<pre><code>#include&lt;stdio.h&gt;
-int n;
-int a[100010];
-
-int gcd(int a,int b)
-{
-    if(b==0)return a;
-    else return gcd(b,a%b);
-}
-
+              <p>一、rand 函数 和 srand 函数<br>
+在C语言中比较常用的随机函数是 rand 函数，它可以随机的产生 0 ~ rand_max 的随机数,定义类型不同最大值也不同，rand 函数包含在头文件stdlib.h中。</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
 int main()
 {
-	int j,i;
-	scanf(&quot;%d&quot;,&amp;n);
-	for(i=0;i&lt;n;i++)
-	{
-		scanf(&quot;%d&quot;,&amp;a[i]);
-	}
-	
-	int index;
-	for(i=0;i&lt;n;i++)
-	{
-		for(j=i;j&lt;n;j++)
-		{
-			if(a[j]&lt;a[i])
-			{
-				index=a[j];
-				a[j]=a[i];
-				a[i]=index;
-			}
-		}
-	}
-	
-	index=0;
-	for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
-    //for(i=0;i&lt;n;i++) index=gcd(index,a[i]-a[0]); 
-	
-	if(index==0) printf(&quot;%d&quot;,n);
-	else printf(&quot;%d&quot;,(a[n-1]-a[0])/index+1);
-	return 0;
+    int a=rand();
+    printf(&quot;%d&quot;,a);
+    return 0;
 }
 </code></pre>
-<p>这题第一次题意理解错了，还是要认真读题。</p>
-<p>其难点在于找数列最大的公差，即所有两个连续数之间的差的最大公倍数，看完题解之后才知道大概是要先写一个辗转相除法的函数，如果自己想的话是绝对想不到的。即那个gcd函数，每次的返回值为两个参数的最大公倍数。</p>
-<p>还有一个点不理解，y总在用gcd函数时，是这么写的</p>
-<pre><code>index=0;
-
-for(i=0;i&lt;n;i++) index=gcd(index,a[i]-a[0]); 
+<p>运行结果<br>
+<img src="https://happyeathand.github.io/post-images/1649344145945.png" alt="" loading="lazy"></p>
+<p>你会发现每次产生的随机数都是相同的，因为rand 函数产生的随机数是伪随机数，是根据一个数按照某个公式推算出来的，这个数我们称之为“种子”，但是这个种子在系统启动之后就是一个定值。</p>
+<p>要想每次产生的随机数不一样，那么，我们就要用到 srand 函数。</p>
+<p>srand() 函数原型是：</p>
+<pre><code>void srand (usigned int seed);
 </code></pre>
-<p>这里有一点不理解，应该是对数学不敏感的锅，还是下面那么写简单易懂一些</p>
-<pre><code>index=0;
-
-for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
+<p><code>rand() 产生随机数时，如果用srand(seed) 播下种子之后，一旦种子相同，产生的随机数将是相同的。当然很多时候刻意让rand() 产生的随机数随机化，用时间作种子 srand(time(NULL)) ，这样每次运行程序的时间肯定是不相同的，产生的随机数肯定就不一样了。</code></p>
+<p>通常可以利用 time(0) 或 getpid(0) 作为seed的返回值，下面我们只介绍用time(0)实现随机数。</p>
+<pre><code>srand((unsigned)time(NULL));   //用时间作种子
 </code></pre>
-<p>总之二者结果是一样的，就求每个公差的最大公倍数就好了</p>
-<p>说实话这个gcd函数巧妙又简洁，我干脆直接背过好了。。。。记在<a href="https://happyeathand.github.io/post/suan-fa-chang-yong/">算法常用</a>里了</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;time.h&gt;
+int main()
+{
+    srand((unsigned)time(NULL));
+    int n=rand();
+    printf(&quot;%d\n&quot;,n);
+    return 0;
+}
+</code></pre>
+<p><code>2224</code>     <code>2400</code></p>
+<p>二、生成范围随机数公式<br>
+但，作题时我们往往不会用到上面这种方式去产生一个随机数，而是希望产生一定范围内的数据。</p>
+<p>1 产生随机数范围：[0,9]</p>
+<pre><code>int a=rand()%10;  //注意10会被整除，所以不包括10
+</code></pre>
+<p>2产生随机数范围：[0,99]</p>
+<pre><code>int a=rand()%100;
+</code></pre>
+<p>3产生随机数范围：[66,88]</p>
+<pre><code>int a=66+rand()%23;
+</code></pre>
+<p>结论产生随机数范围：[m,n]</p>
+<pre><code>int a=m+rand()%(n-m+1);
+</code></pre>
+<p>接下来举几个例子：</p>
+<p>注意：下面的程序会将 srand((unsigned)time(NULL)) 换成 srand(time(0))，用srand(time(0))方便，且一样可以满足以上产生范围随机数的各种情况。</p>
+<p>三、随机数实例：选择排序等<br>
+① 随机产生10个[150,270)范围内随机数</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;time.h&gt;
+int main()
+{
+    int a[11];
+    int i;
+    printf(&quot;随机产生10个[150,270)范围内随机数:\n\n&quot;);
+    srand(time(0));   //srand(time(NULL));
+    for(i=1;i&lt;=10;i++)
+        //一般键盘随机输入10个数方式：scanf(&quot;%d&quot;,&amp;a[i]);
+        a[i]=150+rand()%120;
+    for(i=1;i&lt;=10;i++)
+        printf(&quot;%d &quot;,a[i]);
+    printf(&quot;\n&quot;);
+    return 0; 
+}
+</code></pre>
+<p>运行结果<br>
+<img src="https://happyeathand.github.io/post-images/1649344591267.png" alt="" loading="lazy"></p>
+<p>② 随机产生10个[0,99)范围内随机数（指针）</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;time.h&gt;
+int main()
+{
+    int a[10]; 
+    int *p; 
+    printf(&quot;随机产生10个[0,99)范围内随机数:\n\n&quot;);
+    srand(time(0));    //srand(time(NULL));    
+    for(p=a;p&lt;(a+10);p++)
+        *p=rand()%100; 
+    for(p=a;p&lt;(a+10);p++)
+        printf(&quot;%d &quot;,*p);   //使用指针指向当前的数组元素 
+    printf(&quot;\n&quot;); 
+    return 0; 
+}
+</code></pre>
+<p>运行结果<br>
+<img src="https://happyeathand.github.io/post-images/1649344635604.png" alt="" loading="lazy"></p>
+<p>③ 地址 — 随机数</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;time.h&gt;
+int main()
+{
+    int a[10];
+    int i;
+    printf(&quot;产生10个[0,99]随机数:\n\n&quot;);
+    srand(time(0));          //srand(time(NULL));   
+    for(i=0;i&lt;10;i++)
+    {
+        a[i]=rand()%100;      //随机函数产生 [0,100)
+        printf(&quot;%d  &quot;,a[i]); 
+    }
+    printf(&quot;\n\n&quot;);
+    printf(&quot;  地址   --- 随机数\n\n&quot;); 
+    for(i=0;i&lt;10;i++)
+        printf(&quot; %d --- %d\n&quot;,a+i,*(a+i));   //通过原数组名和元素序号计算地址 
+    printf(&quot;\n&quot;); 
+    return 0; 
+}
+</code></pre>
+<p>运行结果<br>
+<img src="https://happyeathand.github.io/post-images/1649344694035.png" alt="" loading="lazy"></p>
+<p>④ 实例：选择排序</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;time.h&gt;
+int main()
+{
+    int a[10];
+    int i,t,j,min;
+    srand(time(0));
+    printf(&quot;随机产生10个[0,99]随机数：\n&quot;);
+    for(i=0;i&lt;10;i++)
+        a[i]=rand()%100;      //产生10随机数
+    for(i=0;i&lt;10;i++)
+        printf(&quot;%d &quot;,a[i]);   //输出随机数
+    printf(&quot;\n\n&quot;);
+    for(i=0;i&lt;=9;i++)
+    {
+        min=i;
+        for(j=i+1;j&lt;10;j++)
+           if(a[min]&gt;a[j])
+               min=j;
+       if(i!=min)
+       {
+           t=a[i];
+           a[i]=a[min];
+           a[min]=t;
+       } 
+    } 
+    printf(&quot;由小到大排序：\n&quot;);
+    for(i=0;i&lt;10;i++)
+        printf(&quot;%d &quot;,a[i]);
+    return 0;
+}
+</code></pre>
+<p>运行结果<br>
+<img src="https://happyeathand.github.io/post-images/1649344734283.png" alt="" loading="lazy"></p>
+<p><a href="https://blog.csdn.net/weixin_46022083/article/details/106661495?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164934070116780261929218%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164934070116780261929218&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-106661495.142^v7^control,157^v4^control&utm_term=c%E8%AF%AD%E8%A8%80%E9%9A%8F%E6%9C%BA%E6%95%B0&spm=1018.2226.3001.4187"  target ="_blank">点我看原文 </a></p>
 
             </div>
           </article>
@@ -186,9 +262,9 @@ for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/">
+              <a href="https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/">
                 <h3 class="post-title">
-                  ACwing1212. 地宫取宝
+                  骗分导论（转载）
                 </h3>
               </a>
             </div>
@@ -317,7 +393,7 @@ for(i=0;i&lt;n-1;i++) index=gcd(index,a[i+1]-a[i]); 
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
           算法题
         </a>
       
