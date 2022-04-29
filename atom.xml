@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
-    <title>闲鱼小站</title>
-    <updated>2022-04-29T03:26:48.811Z</updated>
+    <title>闲🐟小站</title>
+    <updated>2022-04-29T03:27:13.434Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
     <subtitle> 切忌好高骛远</subtitle>
     <logo>https://happyeathand.github.io/images/avatar.png</logo>
     <icon>https://happyeathand.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2022, 闲鱼小站</rights>
+    <rights>All rights reserved 2022, 闲🐟小站</rights>
     <entry>
         <title type="html"><![CDATA[AcWing786. 第k个数]]></title>
         <id>https://happyeathand.github.io/post/acwing786-di-k-ge-shu/</id>
