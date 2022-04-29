@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲🐟小站</title>
-    <updated>2022-04-29T03:32:52.799Z</updated>
+    <updated>2022-04-29T03:33:56.146Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
@@ -25,7 +25,7 @@
         <updated>2022-04-28T07:59:07.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[第十三届蓝桥杯]]></title>
+        <title type="html"><![CDATA[第十三届蓝桥杯（不定期更新补题解）]]></title>
         <id>https://happyeathand.github.io/post/di-shi-san-jie-lan-qiao-bei/</id>
         <link href="https://happyeathand.github.io/post/di-shi-san-jie-lan-qiao-bei/">
         </link>
