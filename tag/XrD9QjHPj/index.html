@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>ACwing92. 递归实现指数型枚举 | 闲🐟小站</title>
+<title>算法基础课学习记录 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -15,12 +15,6 @@
 <link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
 
 
-  
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
-  
-
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
 
@@ -29,7 +23,6 @@
 
   </head>
   <body>
-  
     <nav class="navbar border fixed split-nav">
   <div class="nav-brand">
     <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
@@ -86,104 +79,64 @@
     <div id="top" class="row site">
       <div class="sm-12 md-8 col">
         <div class="paper">
-          <article class="article">
-            <h1>ACwing92. 递归实现指数型枚举</h1>
-            <p class="article-meta">
-              2022-03-05
-              
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
-                  算法题
-                </a>
-              
-            </p>
-            
-            <div class="post-content">
-              <p>从 1∼n1∼n 这 nn 个整数中随机选取任意多个，输出所有可能的选择方案。</p>
-<p>输入格式</p>
-<p>输入一个整数 nn。</p>
-<h3 id="输出格式"><strong>输出格式</strong></h3>
-<p>每行输出一种方案。</p>
-<p>同一行内的数必须升序排列，相邻两个数用恰好 11 个空格隔开。</p>
-<p>对于没有选任何数的方案，输出空行。</p>
-<p>本题有自定义校验器（SPJ），各行（不同方案）之间的顺序任意。</p>
-<h3 id="数据范围"><strong>数据范围</strong></h3>
-<p>1≤n≤151≤n≤15</p>
-<h3 id="输入样例"><strong>输入样例：</strong></h3>
-<p><code>3</code></p>
-<h3 id="输出样例"><strong>输出样例：</strong></h3>
-<pre><code>3
-2
-2 3
-1
-1 3
-1 2
-1 2 3
-</code></pre>
-<hr>
-<h3 id="题解"><strong>题解</strong></h3>
-<pre><code>#include&lt;stdio.h&gt;
-int n,x;
-int state[100];
-void dfs(int x)
-{
-	int i;
-	if(x&gt;n)
-	{
-		for(i=1;i&lt;=n;i++)
-		{
-			if(state[i]==1)
-			printf(&quot;%d &quot;,i);
-		}
-		printf(&quot;\n&quot;);
-		return;
-	}
-	
-	state[x]=1;
-	dfs(x+1);
-	state[x]=0;
-	
-	state[x]=0;
-	dfs(x+1);
-	state[x]=0;
-}
-int main()
-{
-	scanf(&quot;%d&quot;,&amp;n);
-	dfs(1);
-}
-</code></pre>
-<h3 id="思路"><strong>思路：</strong></h3>
-<p>对于1~n，按顺序挨个做判断，可以选择选或不选，每做出一次选择后，dfs（x+1），进行下一个位置的选择，直到x&gt;n即判断完毕，得到了一个答案，然后再退出本次递归，上层递归函数继续顺序往下执行，直到最后最外层代码执行完毕，退出。</p>
-<p>与94题不同的是，这道题的dfs在输出完毕后需要加一个return，这是因为94题刚好i&gt;n会退出函数，所以一般来讲的话还是要加个return比较好。</p>
+          <h2 class="current-tag">标签: 算法基础课学习记录</h2>
+          
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/acwing786-di-k-ge-shu/">AcWing786. 第k个数</a>
+    </h2>
+    <p class="article-meta">
+      2022-04-29
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+          算法基础课学习记录
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/acwing786-di-k-ge-shu/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
 
-            </div>
-          </article>
-        </div>
-        <div class="paper" data-aos="fade-in">
-          
-            <div class="next-post">
-              <div class="next">
-                下一篇
-              </div>
-              <a href="https://happyeathand.github.io/post/acwing-94di-gui-shi-xian-pai-lie-xing-mei-ju/">
-                <h3 class="post-title">
-                  ACwing 94.递归实现排列型枚举
-                </h3>
-              </a>
-            </div>
-          
-        </div>
-        
-          
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/acwing785-kuai-su-pai-xu/">AcWing785. 快速排序</a>
+    </h2>
+    <p class="article-meta">
+      2022-04-28
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+          算法基础课学习记录
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/acwing785-kuai-su-pai-xu/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
 
-          
-            <div class="paper" data-aos="fade-in">
-              <div id="disqus_thread"></div>
-            </div>
-          
-        
+
+        </div>
+        <div class="row flex-edges">
+  
+  
+</div>
+
       </div>
-
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
     <img src="https://happyeathand.github.io/images/avatar.png?v=1651203585834" class="no-responsive avatar">
@@ -298,15 +251,15 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
           算法题
         </a>
       
@@ -316,7 +269,6 @@ int main()
     Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
-
 
     </div>
 
@@ -329,26 +281,6 @@ AOS.init();
 hljs.initHighlightingOnLoad()
 
 </script>
-
-
-
-  
-
-  
-    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
-    <script>
-
-    var options = {
-      shortname: '',
-      apikey: '0NWl9LKrl0YpFYaROBH8Q1yhreCs6nghVjjZ4KTNhx3Mx0RuPEVB4ctVbtfXq95d',
-    }
-    if ('') {
-      options.api = ''
-    }
-    var dsqjs = new DisqusJS(options)
-
-    </script>
-  
 
 
 
