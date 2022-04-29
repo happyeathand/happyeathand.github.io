@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Coding笔记 | 闲鱼小站</title>
+<title>AcWing785. 快速排序 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,62 +87,96 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>Coding笔记</h1>
+            <h1>AcWing785. 快速排序</h1>
             <p class="article-meta">
-              2022-03-30
-              
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
-                  算法题
-                </a>
+              2022-04-28
               
             </p>
             
             <div class="post-content">
-              <p><strong>常用问题</strong></p>
-<ol>
-<li>时间的计算，可以转换成int类型，无论是小时分秒还是年月日，同理</li>
-<li>闰年的计算，闰年即可以被4整除的同时不可以被100整除，或者可以被400整除</li>
-<li>连续输入表示方法<code>while(scanf(&quot;%d&quot;,&amp;n)!=EOF)</code></li>
-</ol>
-<p><strong>库函数的问题</strong></p>
-<ol>
-<li>bool类型变量要定义头文件&lt;stdbool.h&gt;,如果自己的话不如定义int型的函数。如果是题目要求就没办法了</li>
-<li>代码结尾一定要记得加return 0。</li>
-<li>Int型最大能存21亿多点，准确来说是-2147483647~+2147483647<br>
-而long long int可以存-9223372036854775808～+9223372036854775807，而且长长整型的输入和输出前面都要加一个ll，譬如scanf(“%lld”,&amp;a),printf(“%lld”,a)。<br>
-4． 输出的补齐，补足两位用0补齐这么写：printf(“%02d”,a)</li>
-<li>double类型的输入scanf(“%lf”),输出可以是%f也可以是%lf，float应该就都是%f了。</li>
-<li>转换绝对值时浮点型和整型的函数不一样，整型是abs（），浮点型是fabs（）。</li>
-<li>在用“%c”格式输入字符时，空格字符和转义字符都作为有效字符输入。<code>scnaf(&quot;%c%c%c&quot;,&amp;c1,&amp;c2,&amp;c3);</code><p><code>若输入a b c，则c1=a,c2=空格，c3=b</code><br>
-<strong>数论</strong></li>
-<li>计算最大公约数的函数</li>
-</ol>
-<pre><code>int gcd(int a,int b)//计算的是两个参数的最大公约数
+              <p>给定你一个长度为 n 的整数数列。</p>
+<p>请你使用快速排序对这个数列按照从小到大进行排序。</p>
+<p>并将排好序的数列按顺序输出。</p>
+<h3 id="输入格式"><strong>输入格式</strong></h3>
+<p>输入共两行，第一行包含整数 n。</p>
+<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
+<h3 id="输出格式"><strong>输出格式</strong></h3>
+<p>输出共一行，包含 n 个整数，表示排好序的数列。</p>
+<h3 id="数据范围"><strong>数据范围</strong></h3>
+<p>1≤n≤100000</p>
+<h3 id="输入样例"><strong>输入样例：</strong></h3>
+<p><code>5</code><br>
+<code>3 1 2 4 5</code></p>
+<h3 id="输出样例"><strong>输出样例：</strong></h3>
+<p><code>1 2 3 4 5</code></p>
+<h2 id="解"><strong>解</strong></h2>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int a[100005];
+
+int main()
 {
-    if(b==0)return a;
-    else return gcd(b,a%b);
+	int n,i;
+	cin &gt;&gt; n;
+	for(i=0;i&lt;n;i++)
+	{
+		cin &gt;&gt; a[i];
+	}
+	sort(a,a+n);
+	for(i=0;i&lt;n;i++)
+	{
+		cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;
+	}
 }
 </code></pre>
-<p>最后的返回值就是最大公约数了，叫做欧几里得算法（辗转相除法）<br>
-2.	同余定理<br>
-如果<code>a-b==m则a%m==b%m</code><br>
-3.	素数筛<br>
-判断一个数n是不是素数时，一般是从2判断到n，可以直接从2判断到sqrt（n）,另外，1不是素数<br>
-判断时不能写成<code>i*i&lt;=n</code>,因为当n足够大时<code>i*i</code>可能会爆int<br>
-4.分解质因数<br>
-这个意思是<br>
-<code>根据算术基本定理又称唯一分解定理，对于任何一个合数， 我们都可以用几个质数的幂的乘积来表示。</code><br>
-例如<br>
-<code>12=2*2*3</code><br>
-<code>20=2*2*5</code><br>
-<code>30=2*3*5</code><br>
-接下来我们利用这个公式分解质因数。<br>
-设一个质数为p.如果<code>n%p == 0</code>，那么p就是n的一个质因数，接下来就是求p的指数，我们让<code>n = n/p</code>, 这样就从n中剔除了一个p,接着重复上述两步，直到<code>n%p ！= 0</code>(其实就是不断循环)<br>
-<strong>易错点</strong></p>
-<ol>
-<li>定义变量时的初值</li>
-<li>While里的递增变量记得赋值</li>
-</ol>
+<p>以后尝试用c++写题了，这题直接sort就可ac</p>
+<hr>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int N = 1e6+10;
+
+int a[N];
+
+void quick_sort(int a[],int l,int r)
+{
+    if(l&gt;=r)
+	return;
+	int i,j,x;
+	x=a[(l+r)/2];//取中点，取边界值会超时
+	i=l-1;
+	j=r+1;
+	while(i&lt;j)
+	{
+		do i++;while(a[i]&lt;x);
+		do j--;while(a[j]&gt;x);
+		if(i&lt;j) swap(a[i],a[j]);
+	}
+	
+	quick_sort(a,l,j);
+	quick_sort(a,j+1,r);
+}
+
+int main()
+{
+	int n,i;
+	cin &gt;&gt; n;
+	for(i=0;i&lt;n;i++)
+	{
+		cin &gt;&gt; a[i];
+	}
+	quick_sort(a,0,n-1);
+	for(i=0;i&lt;n;i++)
+	{
+		cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;
+	}
+}
+</code></pre>
+<p>看视频题解后的解法，采用分治的思想，把一个大问题分成一个个小问题，然后再用递归去解决每一个小问题，这道题是利用两个指针（i，j）分别从头和尾（l，r）向中间靠拢，每靠拢一次，就和值x进行一次比较（x的值在后面说明），若<code>a[i]&gt;x</code>则i停止扫描，若<code>a[j]&lt;x</code>则j停止扫描，ij都停止扫描后再交换值继续扫描，这样结束后大于x的值都在右边，小于x的值都在左边。随后递归改变边界值的位置继续扫描，直到两个指针位置重合，然后以同样的方式再扫另一半，程序结束。<br>
+x的值本来是取的左边界，但是超时了，后来看评论区有人说是如果输入已经是排好序的输入了，那么费的时间会很久，看来是这样的<br>
+<img src="https://happyeathand.github.io/post-images/1651196366464.png" alt="" loading="lazy"><br>
+其实大概就是如果是个递增的数列，那么以边界值做x的话，递归处理右半部分的次数会相当多，时间复杂度也就上去了，但若是取中值（相当于一个随机值，只要不是边界值就好hh）的话，是会比取边界值快不少（至少在有序数列里是这样）。</p>
 
             </div>
           </article>
@@ -153,9 +187,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing1246-deng-chai-shu-lie/">
+              <a href="https://happyeathand.github.io/post/di-shi-san-jie-lan-qiao-bei/">
                 <h3 class="post-title">
-                  ACwing1246. 等差数列
+                  第十三届蓝桥杯
                 </h3>
               </a>
             </div>
@@ -286,11 +320,11 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
           算法题
         </a>
       

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Coding笔记 | 闲鱼小站</title>
+<title>第十三届蓝桥杯 | 闲鱼小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,62 +87,137 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>Coding笔记</h1>
+            <h1>第十三届蓝桥杯</h1>
             <p class="article-meta">
-              2022-03-30
-              
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
-                  算法题
-                </a>
+              2022-04-26
               
             </p>
             
             <div class="post-content">
-              <p><strong>常用问题</strong></p>
-<ol>
-<li>时间的计算，可以转换成int类型，无论是小时分秒还是年月日，同理</li>
-<li>闰年的计算，闰年即可以被4整除的同时不可以被100整除，或者可以被400整除</li>
-<li>连续输入表示方法<code>while(scanf(&quot;%d&quot;,&amp;n)!=EOF)</code></li>
-</ol>
-<p><strong>库函数的问题</strong></p>
-<ol>
-<li>bool类型变量要定义头文件&lt;stdbool.h&gt;,如果自己的话不如定义int型的函数。如果是题目要求就没办法了</li>
-<li>代码结尾一定要记得加return 0。</li>
-<li>Int型最大能存21亿多点，准确来说是-2147483647~+2147483647<br>
-而long long int可以存-9223372036854775808～+9223372036854775807，而且长长整型的输入和输出前面都要加一个ll，譬如scanf(“%lld”,&amp;a),printf(“%lld”,a)。<br>
-4． 输出的补齐，补足两位用0补齐这么写：printf(“%02d”,a)</li>
-<li>double类型的输入scanf(“%lf”),输出可以是%f也可以是%lf，float应该就都是%f了。</li>
-<li>转换绝对值时浮点型和整型的函数不一样，整型是abs（），浮点型是fabs（）。</li>
-<li>在用“%c”格式输入字符时，空格字符和转义字符都作为有效字符输入。<code>scnaf(&quot;%c%c%c&quot;,&amp;c1,&amp;c2,&amp;c3);</code><p><code>若输入a b c，则c1=a,c2=空格，c3=b</code><br>
-<strong>数论</strong></li>
-<li>计算最大公约数的函数</li>
-</ol>
-<pre><code>int gcd(int a,int b)//计算的是两个参数的最大公约数
+              <h2 id="1刷题统计"><strong>1.刷题统计</strong></h2>
+<p>小明决定从下周一开始努力刷题准备蓝桥杯竞赛。</p>
+<p>他计划周一至周五每天做 a 道题目，周六和周日每天做 b 道题目。</p>
+<p>请你帮小明计算，按照计划他将在第几天实现做题数大于等于 n 题？</p>
+<h4 id="输入格式"><strong>输入格式</strong></h4>
+<p>输入一行包含三个整数 a,b 和 n。</p>
+<h4 id="输出格式"><strong>输出格式</strong></h4>
+<p>输出一个整数代表天数。</p>
+<h4 id="数据范围"><strong>数据范围</strong></h4>
+<p>对于 50% 的评测用例，1≤a,b,n≤10^6，<br>
+对于 100% 的评测用例， 1≤a,b,n≤10^18 。</p>
+<h4 id="输入样例"><strong>输入样例：</strong></h4>
+<p><code>10 20 99</code></p>
+<h4 id="输出样例"><strong>输出样例：</strong></h4>
+<p><code>8</code></p>
+<h2 id="题解">题解：</h2>
+<pre><code>#include&lt;stdio.h&gt;
+
+int main()
 {
-    if(b==0)return a;
-    else return gcd(b,a%b);
-}
+
+	long long int a,b,n;
+	scanf(&quot;%lld%lld%lld&quot;,&amp;a,&amp;b,&amp;n);
+	long long int day,week,d=1;
+	week=5*a+2*b;
+	day=(n/week)*7;
+	n=n%week;
+	while(n&gt;0)
+	{
+		if(d&lt;=5)
+		n-=a;
+		else
+		n-=b;
+		d++;
+		day++;
+	}
+	printf(&quot;%lld&quot;,day);
+} 
 </code></pre>
-<p>最后的返回值就是最大公约数了，叫做欧几里得算法（辗转相除法）<br>
-2.	同余定理<br>
-如果<code>a-b==m则a%m==b%m</code><br>
-3.	素数筛<br>
-判断一个数n是不是素数时，一般是从2判断到n，可以直接从2判断到sqrt（n）,另外，1不是素数<br>
-判断时不能写成<code>i*i&lt;=n</code>,因为当n足够大时<code>i*i</code>可能会爆int<br>
-4.分解质因数<br>
-这个意思是<br>
-<code>根据算术基本定理又称唯一分解定理，对于任何一个合数， 我们都可以用几个质数的幂的乘积来表示。</code><br>
-例如<br>
-<code>12=2*2*3</code><br>
-<code>20=2*2*5</code><br>
-<code>30=2*3*5</code><br>
-接下来我们利用这个公式分解质因数。<br>
-设一个质数为p.如果<code>n%p == 0</code>，那么p就是n的一个质因数，接下来就是求p的指数，我们让<code>n = n/p</code>, 这样就从n中剔除了一个p,接着重复上述两步，直到<code>n%p ！= 0</code>(其实就是不断循环)<br>
-<strong>易错点</strong></p>
-<ol>
-<li>定义变量时的初值</li>
-<li>While里的递增变量记得赋值</li>
-</ol>
+<p>先看a，b，n的数据范围，最大在10^18，long long int最大是9*10^19，以为问题在数据的大小，全定义成long long写了一个枚举，在acwing上是错的，原因在于若a和b都等于1，n等于10^18 的话，枚举会跑10^18 一定超时了，所以问题在于解决超时的情况。</p>
+<hr>
+<h2 id="2修剪灌木"><strong>2.修剪灌木</strong></h2>
+<p>爱丽丝要完成一项修剪灌木的工作。</p>
+<p>有 N 棵灌木整齐的从左到右排成一排。</p>
+<p>爱丽丝在每天傍晚会修剪一棵灌木，让灌木的高度变为 0 厘米。</p>
+<p>爱丽丝修剪灌木的顺序是从最左侧的灌木开始，每天向右修剪一棵灌木。</p>
+<p>当修剪了最右侧的灌木后，她会调转方向，下一天开始向左修剪灌木。</p>
+<p>直到修剪了最左的灌木后再次调转方向。</p>
+<p>然后如此循环往复。</p>
+<p>灌木每天从早上到傍晚会长高 1 厘米，而其余时间不会长高。</p>
+<p>在第一天的早晨，所有灌木的高度都是 0 厘米。爱丽丝想知道每棵灌木最高长到多高。</p>
+<p><strong>输入格式</strong><br>
+一个正整数 N，含义如题面所述。</p>
+<p><strong>输出格式</strong><br>
+输出 N 行，每行一个整数，第行表示从左到右第 i 棵树最高能长到多高。</p>
+<p><strong>数据范围</strong><br>
+对于 30% 的数据，N≤10，<br>
+对于 100% 的数据，1&lt;N≤10000。</p>
+<p><strong>输入样例：</strong><br>
+<code>3</code><br>
+<strong>输出样例：</strong><br>
+<code>4</code><br>
+<code>2</code><br>
+<code>4</code></p>
+<h2 id="题解-2">题解：</h2>
+<p>最开始没思考，上来就是模拟</p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int a[10005],b[10005];
+
+int main()
+{
+	int n,fx=1,j=1,z=1;
+	scanf(&quot;%d&quot;,&amp;n);
+	int i;
+	while(z&lt;=3*n)
+	{
+		for(i=1;i&lt;=n;i++)
+		{
+			a[i]++;
+			if(a[i]&gt;=b[i])
+			{
+				b[i]=a[i];
+			}
+		}
+		if(fx==1)
+		{
+			a[j]=0;
+			j++;
+			if(j&gt;n) j=n-1,fx=0;
+		}
+		else if(fx==0)
+		{
+			a[j]=0;
+			j--;
+			if(j&lt;1) j=2,fx=1;
+		}
+		z++;
+	}
+	
+	for(i=1;i&lt;=n;i++)
+	printf(&quot;%d\n&quot;,b[i]);
+	
+	return 0;
+} 
+</code></pre>
+<p>结果就是不知道怎么退出循环了，如果按照考试时那个思路直接写个while(循环次数&lt;10000)可以过8个测试点，但是其实稍微思考过后就知道每个位置的最大值在爱丽丝修建一个来回后就已经得出了，注意这个来回是相对于每个植株的一个来回，也就是说对于第n个植株，爱丽丝第二次修剪它时已经走了1.5个来回了，所以可以写成while(次数&lt;3*n)，但是要注意在acwing上这样有一定几率超时，不稳定，蓝桥的官网题没出，还没有试。</p>
+<h2 id="下面就是正常题解了">下面就是正常题解了</h2>
+<pre><code>#include&lt;stdio.h&gt;
+
+int main()
+{
+	int n,i,x;
+	scanf(&quot;%d&quot;,&amp;n);
+	for(i=1;i&lt;=n;i++)
+	{
+		x=n-i&gt;i-1?n-i:i-1;
+		x=2*x;
+		printf(&quot;%d\n&quot;,x);
+	}
+	return 0;
+} 
+</code></pre>
+<p>此题有规律可循，n个灌木中，第i个灌木的最大高度，要么是先正向修剪，max=2（n-i），要么是逆向修剪max=2（i-1），因此只需要正序判断一下就行了。。。果然编程的话也不能把任务全交给计算机，最笨的方法最好想到，但却占据更大的内存和更长的时间。</p>
 
             </div>
           </article>
@@ -153,9 +228,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing1246-deng-chai-shu-lie/">
+              <a href="https://happyeathand.github.io/post/c-yu-yan-sui-ji-shu-de-sheng-cheng-xiang-jie-zhuan-zai/">
                 <h3 class="post-title">
-                  ACwing1246. 等差数列
+                  C语言随机数的生成【详解（转载）】
                 </h3>
               </a>
             </div>
