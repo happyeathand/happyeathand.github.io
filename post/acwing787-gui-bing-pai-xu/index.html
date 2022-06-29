@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>C语言随机数的生成【详解（转载）】 | 闲🐟小站</title>
+<title>AcWing787. 归并排序 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,171 +87,101 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>C语言随机数的生成【详解（转载）】</h1>
+            <h1>AcWing787. 归并排序</h1>
             <p class="article-meta">
-              2022-04-07
+              2022-04-29
               
-                <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
-                  转载
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
+                  算法基础课学习记录
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p>一、rand 函数 和 srand 函数<br>
-在C语言中比较常用的随机函数是 rand 函数，它可以随机的产生 0 ~ rand_max 的随机数,定义类型不同最大值也不同，rand 函数包含在头文件stdlib.h中。</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+              <p>给定你一个长度为 n 的整数数列。</p>
+<p>请你使用归并排序对这个数列按照从小到大进行排序。</p>
+<p>并将排好序的数列按顺序输出。</p>
+<h1 id="输入格式"><strong>输入格式</strong></h1>
+<p>输入共两行，第一行包含整数 n。</p>
+<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
+<h1 id="输出格式"><strong>输出格式</strong></h1>
+<p>输出共一行，包含 n 个整数，表示排好序的数列。</p>
+<h1 id="数据范围"><strong>数据范围</strong></h1>
+<p><code>1≤n≤100000</code></p>
+<h1 id="输入样例"><strong>输入样例：</strong></h1>
+<p><code>5</code><br>
+<code>3 1 2 4 5</code></p>
+<h1 id="输出样例"><strong>输出样例：</strong></h1>
+<p><code>1 2 3 4 5</code></p>
+<h2 id="解"><strong>解</strong></h2>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int a[100005],temp[100005];
+
+void merge_sort(int l,int r)
+{
+	if(l&gt;=r)
+	return;
+	
+	merge_sort(l,(l+r)/2);//与快排不同的是，归并显然是先递归再进行的处理
+	merge_sort((l+r)/2+1,r);//这两步就是不断拆分，直到拆成只剩1个数，即l=r时
+	
+	int i,j,mid,k;
+	i=l; mid=(l+r)/2; j=mid+1; k=0;
+	while(i&lt;=mid&amp;&amp;j&lt;=r)/*这一步就是进行合并了，把左右2个组的值进行比较，然后暂存到temp数组里*/
+	{
+		if(a[i]&lt;=a[j])
+		{
+			temp[k]=a[i];
+			i++;
+			k++;
+		}
+		else
+		{
+			temp[k]=a[j];
+			j++;
+			k++;
+		}
+	}
+	while(i&lt;=mid)//避免有剩余的数
+	{
+		temp[k]=a[i];
+		k++;i++;
+	}
+	while(j&lt;=r))//避免有剩余的数
+	{
+		temp[k]=a[j];
+		k++;j++;
+	}
+	
+	for(i=l,j=0;i&lt;=r;i++,j++) a[i]=temp[j];/*下面详解说明一下这个问题，这里第一次循环次数写成从i=0到i&lt;=l了，而且temp的数组变量也写成了i，都是小细节\(￣︶￣*\))*/
+}
+
 int main()
 {
-    int a=rand();
-    printf(&quot;%d&quot;,a);
-    return 0;
+	int i,n;
+	cin&gt;&gt;n;
+	for(i=0;i&lt;n;i++) cin&gt;&gt;a[i];
+	
+	merge_sort(0,n-1);
+	
+	for(i=0;i&lt;n;i++) cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;
+	return 0;
 }
 </code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344145945.png" alt="" loading="lazy"></p>
-<p>你会发现每次产生的随机数都是相同的，因为rand 函数产生的随机数是伪随机数，是根据一个数按照某个公式推算出来的，这个数我们称之为“种子”，但是这个种子在系统启动之后就是一个定值。</p>
-<p>要想每次产生的随机数不一样，那么，我们就要用到 srand 函数。</p>
-<p>srand() 函数原型是：</p>
-<pre><code>void srand (usigned int seed);
-</code></pre>
-<p><code>rand() 产生随机数时，如果用srand(seed) 播下种子之后，一旦种子相同，产生的随机数将是相同的。当然很多时候刻意让rand() 产生的随机数随机化，用时间作种子 srand(time(NULL)) ，这样每次运行程序的时间肯定是不相同的，产生的随机数肯定就不一样了。</code></p>
-<p>通常可以利用 time(0) 或 getpid(0) 作为seed的返回值，下面我们只介绍用time(0)实现随机数。</p>
-<pre><code>srand((unsigned)time(NULL));   //用时间作种子
-</code></pre>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    srand((unsigned)time(NULL));
-    int n=rand();
-    printf(&quot;%d\n&quot;,n);
-    return 0;
-}
-</code></pre>
-<p><code>2224</code>     <code>2400</code></p>
-<p>二、生成范围随机数公式<br>
-但，作题时我们往往不会用到上面这种方式去产生一个随机数，而是希望产生一定范围内的数据。</p>
-<p>1 产生随机数范围：[0,9]</p>
-<pre><code>int a=rand()%10;  //注意10会被整除，所以不包括10
-</code></pre>
-<p>2产生随机数范围：[0,99]</p>
-<pre><code>int a=rand()%100;
-</code></pre>
-<p>3产生随机数范围：[66,88]</p>
-<pre><code>int a=66+rand()%23;
-</code></pre>
-<p>结论产生随机数范围：[m,n]</p>
-<pre><code>int a=m+rand()%(n-m+1);
-</code></pre>
-<p>接下来举几个例子：</p>
-<p>注意：下面的程序会将 srand((unsigned)time(NULL)) 换成 srand(time(0))，用srand(time(0))方便，且一样可以满足以上产生范围随机数的各种情况。</p>
-<p>三、随机数实例：选择排序等<br>
-① 随机产生10个[150,270)范围内随机数</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[11];
-    int i;
-    printf(&quot;随机产生10个[150,270)范围内随机数:\n\n&quot;);
-    srand(time(0));   //srand(time(NULL));
-    for(i=1;i&lt;=10;i++)
-        //一般键盘随机输入10个数方式：scanf(&quot;%d&quot;,&amp;a[i]);
-        a[i]=150+rand()%120;
-    for(i=1;i&lt;=10;i++)
-        printf(&quot;%d &quot;,a[i]);
-    printf(&quot;\n&quot;);
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344591267.png" alt="" loading="lazy"></p>
-<p>② 随机产生10个[0,99)范围内随机数（指针）</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10]; 
-    int *p; 
-    printf(&quot;随机产生10个[0,99)范围内随机数:\n\n&quot;);
-    srand(time(0));    //srand(time(NULL));    
-    for(p=a;p&lt;(a+10);p++)
-        *p=rand()%100; 
-    for(p=a;p&lt;(a+10);p++)
-        printf(&quot;%d &quot;,*p);   //使用指针指向当前的数组元素 
-    printf(&quot;\n&quot;); 
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344635604.png" alt="" loading="lazy"></p>
-<p>③ 地址 — 随机数</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10];
-    int i;
-    printf(&quot;产生10个[0,99]随机数:\n\n&quot;);
-    srand(time(0));          //srand(time(NULL));   
-    for(i=0;i&lt;10;i++)
-    {
-        a[i]=rand()%100;      //随机函数产生 [0,100)
-        printf(&quot;%d  &quot;,a[i]); 
-    }
-    printf(&quot;\n\n&quot;);
-    printf(&quot;  地址   --- 随机数\n\n&quot;); 
-    for(i=0;i&lt;10;i++)
-        printf(&quot; %d --- %d\n&quot;,a+i,*(a+i));   //通过原数组名和元素序号计算地址 
-    printf(&quot;\n&quot;); 
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344694035.png" alt="" loading="lazy"></p>
-<p>④ 实例：选择排序</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10];
-    int i,t,j,min;
-    srand(time(0));
-    printf(&quot;随机产生10个[0,99]随机数：\n&quot;);
-    for(i=0;i&lt;10;i++)
-        a[i]=rand()%100;      //产生10随机数
-    for(i=0;i&lt;10;i++)
-        printf(&quot;%d &quot;,a[i]);   //输出随机数
-    printf(&quot;\n\n&quot;);
-    for(i=0;i&lt;=9;i++)
-    {
-        min=i;
-        for(j=i+1;j&lt;10;j++)
-           if(a[min]&gt;a[j])
-               min=j;
-       if(i!=min)
-       {
-           t=a[i];
-           a[i]=a[min];
-           a[min]=t;
-       } 
-    } 
-    printf(&quot;由小到大排序：\n&quot;);
-    for(i=0;i&lt;10;i++)
-        printf(&quot;%d &quot;,a[i]);
-    return 0;
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344734283.png" alt="" loading="lazy"></p>
-<p><a href="https://blog.csdn.net/weixin_46022083/article/details/106661495?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164934070116780261929218%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164934070116780261929218&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-106661495.142^v7^control,157^v4^control&utm_term=c%E8%AF%AD%E8%A8%80%E9%9A%8F%E6%9C%BA%E6%95%B0&spm=1018.2226.3001.4187"  target ="_blank">点我看原文 </a></p>
+<p>归并排序，采用的思想仍然是分治，分而治之，解决每个子问题，像快排和归并思想都是一样的，只不过小问题的划分不一样了，整体思路如下<br>
+<strong>分而治之</strong><br>
+<img src="https://happyeathand.github.io/post-images/1651224368704.png" alt="" loading="lazy"></p>
+<p><img src="https://happyeathand.github.io/post-images/1651224394102.png" alt="" loading="lazy"><br>
+<img src="https://happyeathand.github.io/post-images/1651224398572.png" alt="" loading="lazy"><br>
+图片来自<a href="https://www.cnblogs.com/chengxiao/p/6194356.html" target="_blank">这里</a></p>
+<p>与快排的从数组元素的大小中间值分割不同，归并排序是从数组下标的中间值进行分割，不断地一分为二，直到所有元素都被单独的分到一组，随后再两两进行归并，一直到归并完整个数组。temp数组作为中间人临时存储改变后的数组。</p>
+<hr>
+<p>5月6日再看，感觉归并和快排还有点像，就是在细分成最小组之后进行处理那步，只不过后期的处理不同，快排是直接从最深处出去了，以为是处理一步递归一步，到最深处就处理完了，而归并递归到最深处时处理才开始。<br>
+关于temp数组的问题，比如说到了这一步<img src="https://happyeathand.github.io/post-images/1651829906768.png" alt="" loading="lazy"><br>
+那么temp数组的值就是<br>
+<code>4 8 5 7 1 3 2 6</code>,然后每次递归结束数组a都会被重新赋值，直到最后一次递归，也就是到原数组a被一分为二的那次递归的出口，就是数组a被排好序且被填满的时候</p>
 
             </div>
           </article>
@@ -262,9 +192,9 @@ int main()
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/">
+              <a href="https://happyeathand.github.io/post/acwing786-di-k-ge-shu/">
                 <h3 class="post-title">
-                  骗分导论（转载）
+                  AcWing786. 第k个数
                 </h3>
               </a>
             </div>
@@ -419,7 +349,7 @@ int main()
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
           转载
         </a>
       

@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" >
 
-<title>第十三届蓝桥杯（不定期更新补题解） | 闲🐟小站</title>
+<title>第十三届蓝桥杯C/C++大学B组省赛 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1651204482887">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1656492687949">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
@@ -87,7 +87,7 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>第十三届蓝桥杯（不定期更新补题解）</h1>
+            <h1>第十三届蓝桥杯C/C++大学B组省赛</h1>
             <p class="article-meta">
               2022-04-26
               
@@ -218,6 +218,300 @@ int main()
 } 
 </code></pre>
 <p>此题有规律可循，n个灌木中，第i个灌木的最大高度，要么是先正向修剪，max=2（n-i），要么是逆向修剪max=2（i-1），因此只需要正序判断一下就行了。。。果然编程的话也不能把任务全交给计算机，最笨的方法最好想到，但却占据更大的内存和更长的时间。</p>
+<hr>
+<h1 id="3x-进制减法">3.X 进制减法</h1>
+<p>进制规定了数字在数位上逢几进一。</p>
+<p>X 进制是一种很神奇的进制，因为其每一数位的进制并不固定！</p>
+<p>例如说某种 X 进制数，最低数位为二进制，第二数位为十进制，第三数位为八进制，则 X 进制数 321 转换为十进制数为 65。</p>
+<p>现在有两个 X 进制表示的整数 A 和 B，但是其具体每一数位的进制还不确定，只知道 A 和 B 是同一进制规则，且每一数位最高为 N 进制，最低为二进制。</p>
+<p>请你算出 A−B 的结果最小可能是多少。</p>
+<p>请注意，你需要保证 A 和 B 在 X 进制下都是合法的，即每一数位上的数字要小于其进制。</p>
+<p><strong>输入格式</strong><br>
+第一行一个正整数 N，含义如题面所述。</p>
+<p>第二行一个正整数 Ma，表示 X 进制数 A 的位数。</p>
+<p>第三行 Ma 个用空格分开的整数，表示 X 进制数 A 按从高位到低位顺序各个数位上的数字在十进制下的表示。</p>
+<p>第四行一个正整数 Mb，表示 X 进制数 B 的位数。</p>
+<p>第五行 Mb 个用空格分开的整数，表示 X 进制数 B 按从高位到低位顺序各个数位上的数字在十进制下的表示。</p>
+<p>请注意，输入中的所有数字都是十进制的。</p>
+<p><strong>输出格式</strong><br>
+输出一行一个整数，表示 X 进制数 A−B 的结果的最小可能值转换为十进制后再模 1000000007 的结果。</p>
+<p><strong>数据范围</strong><br>
+<code>对于 30% 的数据，N≤10;Ma,Mb≤8，</code><br>
+<code>对于 100% 的数据，2≤N≤1000;1≤Ma,Mb≤100000;A≥B。</code></p>
+<p><strong>输入样例：</strong><br>
+<code>11</code><br>
+<code>3</code><br>
+<code>10 4 0</code><br>
+<code>3</code><br>
+<code>1 2 0</code><br>
+<strong>输出样例：</strong><br>
+<code>94</code><br>
+<strong>样例解释</strong><br>
+当进制为：最低位 2 进制，第二数位 5 进制，第三数位 11 进制时，减法得到的差最小。</p>
+<p>此时 A 在十进制下是 108，B 在十进制下是 14，差值是 94。</p>
+<p><strong>样例的解释</strong><br>
+赛后看到好多人都在这题卡住了，就是因为算不出这个样例<br>
+<code>X 进制数，最低数位为二进制，第二数位为十进制，第三数位为八进制，则 X 进制数 321 转换为十进制数为 65</code><br>
+我一开始是这样理解的，<code>X 进制数 321转换为十进制为1*2^0+2*10^1+3*8^2=214</code>怎么算也得不出<code>65</code>，这样算是因为平时进制数在换算成十进制数时都是这样的，下面仔细剖析一下其中原理<br>
+    十进制数：3  4  5  6<br>
+每一位的进制：10 10 10 10</p>
+<p>在百位上，那么如何计算百位的值呢?<br>
+首先是由十位上的数到了10，从而产生进1的结果，再看百位是3，这样的结果产生了3次<br>
+那么十位上的10次结果是如何产生的呢？<br>
+是个位上的数字到了10，从而产生进1的结果，这样的结果产生了10次<br>
+那么百位上的值便如此计算：3* 10 * 10=300，这就和我们常用的3 * 10^2一致了，同时发现，<strong>计算除个位上的数字的十进制大小时，它的值仅与所有比它低的位次的进制有关，与该位次的进制是无关的。</strong></p>
+<p>有了以上的剖析，再次计算样例是应当是3 * 10 * 2+2 * 2+1 * 1=65，那么再次进行进制转换的计算时便有了新的理解方式，即权值的引入，即每一位次都有它的权值，在计算某一位次的值的大小时，便只需要将该位次上的数字乘以该位次的权值，便得到了该位次十进制的数值大小，将所有位次的数值与权值的积相加，得到的就是这个数的十进制数。 值得一提的是<strong>个位数字上的权值是等于1的。</strong></p>
+<p><code>X进制数转十进制数转换公式： A=a[1] + a[2] * (k1) + a[3] * (k1 * k2) + a[4] * (k1 * k2 * k3) + ··· + a[n]* (k1 * k2 *···* kn-1)</code></p>
+<p>再看如何分析这题，何时使得二者差值最小呢？<br>
+<img src="https://happyeathand.github.io/post-images/1656491397815.png" alt="" loading="lazy"><br>
+由y总的式子看出，a[i]-b[i]是个常数，那么只有在Π从0到i-1Xpi最小时有最小的差值，即每一位次的进制数取最小值就可以了，逐步贪心，得出结果。</p>
+<p>这里思维上出了点小bug，如果a&lt;b的话，那么pi不是越大越好吗？这样a-b的结果是个很小的负数啊，但是还是要注意，问的是差值，即两个数的差距最小，不是差的最小值。而且一开始敲代码的时候不知道为啥自己心里把a&gt;b当成了一个已知条件，顺着敲下来竟然AC了，由此可见出题者貌似压根没想到会有人有这种奇怪的想法，甚至算不上一个考查点<s>我为啥总是有些奇葩的想法（苦笑）</s>。</p>
+<p>ok解释完了贴题解</p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int n,a,b;
+int ma[100010],mb[100010];//ma和mb分别存储AB两个数字，按位次存储
+long long int j[100010],q[100010];//j代表第i位的进制数，q代表第i位的权值，这里不用long long类型的话答案会WA掉
+
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;n);
+	scanf(&quot;%d&quot;,&amp;a);
+	int i,len;
+	for(i=a;i&gt;=1;i--)//倒序输入，便于理解和计算，也与位次有关
+	{
+		scanf(&quot;%d&quot;,&amp;ma[i]);
+	}
+	
+	scanf(&quot;%d&quot;,&amp;b);
+	for(i=b;i&gt;=1;i--)//倒序输入，最高位次是有可能比A低的
+	{
+		scanf(&quot;%d&quot;,&amp;mb[i]);
+	}
+	
+	len=a;
+	if(b&gt;a) len=b;
+	for(i=len;i&gt;=1;i--)
+	{
+		j[i]=ma[i]&gt;mb[i]?ma[i]+1:mb[i]+1;//这里判断第i位上的进制最低可以取到多少
+		if(j[i]&lt;2) j[i]=2;//如果第i位上的值都是0就成了1进制了，所以再来个特判
+	}
+	
+	q[1]=1;//上面解释过，最低位次的权值就是它本身，所以权值按1算
+	for(i=2;i&lt;=len;i++)//这里的权值计算第一次写错了，写成了for(i=a;i&gt;=2;i--),属于是把最初的倒序输入给混淆了
+	{
+		q[i]=j[i-1]*q[i-1]%1000000007;//依次计算第i位的权值，注意a，b两个数进制是一样的，所以权重值也一样（第一次写算了两个权重值，当时理解的不是很透彻）
+	}
+	
+	long long int A=0,B=0,res=0;//结果可能很大，题目里提醒过了
+	for(i=a;i&gt;=1;i--)
+	{
+		A=(A+ma[i]*q[i])%1000000007;//这里计算a的十进制数时，每一次都模一下，也是避免越界吧，即便它是long long，不模的话会因为内存爆WA掉
+	}
+	
+	for(i=b;i&gt;=1;i--)
+	{
+		B=(B+mb[i]*q[i])%1000000007;
+	}
+	
+	res=(A-B+1000000007)%1000000007;//+一个mod是有可能A-B是负数
+	printf(&quot;%lld&quot;,res);
+	return 0;
+}
+</code></pre>
+<p><code>单就代码来说的话里面小细节还是很多的，mod和防爆int的处理平时就很少注意，而且道题目的数据出奇的大，处理的稍有不当就会WA掉</code><br>
+这题真的费脑子，思维不到位根本做不出来，做算法题还是要多想啊，思维到位了，其实代码量也不多，颅内工作量要远大于手指</p>
+<hr>
+<h1 id="4统计子矩阵">4.统计子矩阵</h1>
+<p>给定一个 N×M 的矩阵 A，请你统计有多少个子矩阵 (最小 1×1，最大 N×M) 满足子矩阵中所有数的和不超过给定的整数 K?</p>
+<p><strong>输入格式</strong><br>
+第一行包含三个整数 N,M 和 K。</p>
+<p>之后 N 行每行包含 M 个整数，代表矩阵 A。</p>
+<p><strong>输出格式</strong><br>
+一个整数代表答案。</p>
+<p><strong>数据范围</strong><br>
+对于 30% 的数据，N,M≤20，<br>
+对于 70% 的数据，N,M≤100，<br>
+对于 100% 的数据，1≤N,M≤500;0≤Aij≤1000;1≤K≤250000000。</p>
+<p><strong>输入样例：</strong><br>
+3 4 10<br>
+1 2 3 4<br>
+5 6 7 8<br>
+9 10 11 12<br>
+<strong>输出样例：</strong><br>
+19<br>
+<strong>样例解释</strong><br>
+满足条件的子矩阵一共有 19，包含：</p>
+<p>大小为 1×1 的有 10 个。<br>
+大小为 1×2 的有 3 个。<br>
+大小为 1×3 的有 2 个。<br>
+大小为 1×4 的有 1 个。<br>
+大小为 2×1 的有 3 个。<br>
+<strong>题解1</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int a[505][505],s[505][505];//s代表前n行m列数据之和
+
+int main()
+{
+	int i,j,n,m,k;
+	scanf(&quot;%d%d%d&quot;,&amp;n,&amp;m,&amp;k);
+	for(i=1;i&lt;=n;i++)
+	{
+		for(j=1;j&lt;=m;j++)
+		{
+			scanf(&quot;%d&quot;,&amp;a[i][j]);
+			s[i][j]=s[i-1][j]+s[i][j-1]-s[i-1][j-1]+a[i][j];
+			//printf(&quot;%d\n&quot;,s[i][j]);
+		}
+	}
+	
+	int count=0,p,q,num=0;
+	for(p=1;p&lt;=n;p++)
+	{
+		for(q=1;q&lt;=m;q++)
+		{
+			for(i=p;i&lt;=n;i++)//这里一开始写错了，把i和j都是从1开始的，实际应该一直分别大于p和q
+			{
+				for(j=q;j&lt;=m;j++)
+				{
+					count=s[i][j]-s[i][q-1]-s[p-1][j]+s[p-1][q-1];
+					if(count&lt;=k) 
+					{
+						//printf(&quot;%d\n&quot;,count);
+						num++;
+					}
+				}
+			}
+		}
+	}
+	printf(&quot;%d&quot;,num);
+	return 0;
+}
+</code></pre>
+<p>以p,q为子矩阵的左上角，i,j为子矩阵的右下角，依次遍历整个矩阵，计算符合要求的值<br>
+用上面前缀和的算法可以过掉60%的数据（<s>不知道为什么同样的做法我会比别人少10%</s>），利用前缀和求出的结果，从左上角开始依次进行判断，扫完整个二维数组，复杂度O(n^4)。</p>
+<p><strong>题解2</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int a[10005][10005],b[10005][10005];//同样先是两个数组，a用来输入，b用来存储前缀和
+
+int main()
+{
+	int n,m,k;
+	scanf(&quot;%d%d%d&quot;,&amp;n,&amp;m,&amp;k);
+	int i,j;
+	for(i=1;i&lt;=n;i++)
+	{
+		for(j=1;j&lt;=m;j++)
+		{
+			scanf(&quot;%d&quot;,&amp;a[i][j]);
+			b[i][j]=b[i-1][j]+b[i][j-1]-b[i-1][j-1]+a[i][j];
+		}
+	}
+	
+	int l,r;//l和r分别代表左右边界
+	long long int count=0;//这里没有考虑到答案会爆int，一个500X500的二维数组，如果所有子矩阵都符合要求的话，应该会爆的（不知道咋大概统计答案）
+	for(l=1;l&lt;=m;l++)
+	{
+		for(r=l;r&lt;=m;r++)
+		{
+			for(i=1,j=1;j&lt;=n;j++)//这里i代表指针上边界，j是指针下边界
+			{
+				while(i&lt;=j&amp;&amp;b[j][r]-b[i-1][r]-b[j][l-1]+b[i-1][l-1]&gt;k) i++;//如果子矩阵的和＞k，就把上边界下移，一直移，直到判断下边界，如果下边界还是&gt;k的话，i&gt;j了就
+				if(i&lt;=j) count=count+j-i+1;//反之，如果子矩阵的和&lt;k，而且这个矩阵的每个元素都是正数，那么i也不用再下移了，i到j的所有元素肯定就都是&lt;k
+			}
+		}
+	}
+	
+	printf(&quot;%lld&quot;,count);
+	return 0;
+}
+</code></pre>
+<p>优化思路<br>
+按列枚举左右边界，以列为处理的单位挨个进行判断，在对每n列进行处理时，由下指针j向下推进，上指针i进行判断是否改变上边界，若子矩阵的和符合题意，那么i不再进行下移，而是直接更新答案（因为再向下肯定会更小），count增加的数量为j-i+1；若子矩阵不符合题意，那么上边界i下移，找寻符合题意的位置或i＞j停止。</p>
+<p>优化后的复杂度是O(n^3)，相比题解1的做法，不再是按元素挨个进行处理，而是把列作为了处理单位，优化了一层循环。<br>
+下面是AcWing大佬的解释，更加清晰明了<img src="https://happyeathand.github.io/post-images/1656385980656.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="7李白打酒加强版">7.李白打酒加强版</h1>
+<p>话说大诗人李白，一生好饮。</p>
+<p>幸好他从不开车。</p>
+<p>一天，他提着酒壶，从家里出来，酒壶中有酒 2 斗。</p>
+<p>他边走边唱：</p>
+<p>无事街上走，提壶去打酒。</p>
+<p>逢店加一倍，遇花喝一斗。</p>
+<p>这一路上，他一共遇到店 N 次，遇到花 M 次。</p>
+<p>已知最后一次遇到的是花，他正好把酒喝光了。</p>
+<p>请你计算李白这一路遇到店和花的顺序，有多少种不同的可能？</p>
+<p>注意：壶里没酒 (0 斗) 时遇店是合法的，加倍后还是没酒；但是没酒时遇花是不合法的。</p>
+<p><strong>输入格式</strong><br>
+第一行包含两个整数 N 和 M。</p>
+<p><strong>输出格式</strong><br>
+输出一个整数表示答案。由于答案可能很大，输出模 1000000007 的结果。</p>
+<p><strong>数据范围</strong><br>
+对于 40% 的评测用例：1≤N,M≤10。<br>
+对于 100% 的评测用例：1≤N,M≤100。</p>
+<p><strong>输入样例：</strong><br>
+<code>5 10</code><br>
+<strong>输出样例：</strong><br>
+<code>14</code><br>
+<strong>样例解释</strong><br>
+如果我们用 0 代表遇到花，1 代表遇到店，14 种顺序如下：</p>
+<p><code>010101101000000</code><br>
+<code>010110010010000</code><br>
+<code>011000110010000</code><br>
+<code>100010110010000</code><br>
+<code>011001000110000</code><br>
+<code>100011000110000</code><br>
+<code>100100010110000</code><br>
+<code>010110100000100</code><br>
+<code>011001001000100</code><br>
+<code>100011001000100</code><br>
+<code>100100011000100</code><br>
+<code>011010000010100</code><br>
+<code>100100100010100</code><br>
+<code>101000001010100</code><br>
+<strong>dfs题解</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int n,m,count;//count作为答案输出最后的结果数
+void dfs(int h,int d,int ml,int now)//h和d分别代表遇到花和店的次数，ml代表酒的剩余，now代表目前在第几个店
+{
+	if(h&gt;m||d&gt;n)//return条件1.遇见花的次数大于m或者遇见店的次数大于n
+	{
+		return;
+	}
+	
+	if(ml&lt;0)//这里的判断一开始还在纠结如何才能直到自己目前在什么店里，其实不用，如果0酒遇见花的话，ml会小于0，所以不用确切知道自己目前在哪里，看酒的剩余就可以了
+	{
+		return;
+	}
+	
+	if(now==n+m-1)//在倒数第二步，该走最后一步了
+	{
+		if(ml==1&amp;&amp;d==n&amp;&amp;h==m-1)//如果酒还有剩余而且花还差一次，那么结果数自然＋1
+		{
+			count++;
+		}
+		return;//如果上面的if不成立也要return，不一定要把最后一步走完，到倒数第二步就得出结果了
+	}	
+	
+	
+	dfs(h+1,d,ml-1,now+1);
+	dfs(h,d+1,ml+ml,now+1);
+}
+
+int main()
+{
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+	dfs(0,0,2,0);
+	printf(&quot;%d&quot;,count);
+	return 0;
+}
+</code></pre>
+<p>思路补充：比赛dfs函数的参数设定出了问题，想着要明确每次自己到了哪里，是花还是店，其实大可不必，因为dfs的return条件都与到花和店的次数有关，那么只需要引入参数now，明确自己目前已经经过了几个店就可以了。而且dfs的reutrn条件之一，没酒时遇花，也不需要知道自己是否在花，只需要看一下酒的剩余就行了。</p>
+<p>其次就是如何用言语表述dfs函数，其实可以这么看，dfs(h,d,ml,now)即当前在第now步，当前酒的余量为ml，过花h次，过店d次，然后下一次的递归，那些if的判断是判断的上一次的dfs中参数的值，即先走到下一站，参数都改变后，再进行的判断。</p>
+<p>dfs做法最终只过了2/10的数据</p>
 
             </div>
           </article>
@@ -249,7 +543,7 @@ int main()
 
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
-    <img src="https://happyeathand.github.io/images/avatar.png?v=1651204482887" class="no-responsive avatar">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1656492687949" class="no-responsive avatar">
     <div class="text-muted"> 切忌好高骛远</div>
     <div class="social-container">
       
@@ -274,62 +568,82 @@ int main()
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/acwing786-di-k-ge-shu/">AcWing786. 第k个数</a>
+              <a href="https://happyeathand.github.io/post/acwing799-zui-chang-lian-xu-bu-chong-fu-zi-xu-lie/">AcWing799. 最长连续不重复子序列</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/acwing785-kuai-su-pai-xu/">AcWing785. 快速排序</a>
+              <a href="https://happyeathand.github.io/post/796-zi-ju-zhen-de-he-er-wei-qian-zhui-he/">AcWing796. 子矩阵的和（二维前缀和）</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/di-shi-san-jie-lan-qiao-bei/">第十三届蓝桥杯（不定期更新补题解）</a>
+              <a href="https://happyeathand.github.io/post/acwing795-qian-zhui-he/">AcWing795. 前缀和</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/c-yu-yan-sui-ji-shu-de-sheng-cheng-xiang-jie-zhuan-zai/">C语言随机数的生成【详解（转载）】</a>
+              <a href="https://happyeathand.github.io/post/acwing791-gao-jing-du-jia-fa/">AcWing791. 高精度加法</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/">骗分导论（转载）</a>
+              <a href="https://happyeathand.github.io/post/java-xue-xi-bi-ji-2/">java学习笔记2</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/suan-fa-chang-yong/">Coding笔记</a>
+              <a href="https://happyeathand.github.io/post/java-xue-xi-bi-ji/">java学习笔记</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/acwing1246-deng-chai-shu-lie/">ACwing1246. 等差数列</a>
+              <a href="https://happyeathand.github.io/post/acwing790-shu-de-san-ci-fang-gen/">AcWing790. 数的三次方根</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/acwing1212-di-gong-qu-bao/">ACwing1212. 地宫取宝</a>
+              <a href="https://happyeathand.github.io/post/acwing789-shu-de-fan-wei/">AcWing789. 数的范围</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/acwing2-01-bei-bao-wen-ti/">ACwing2. 01背包问题</a>
+              <a href="https://happyeathand.github.io/post/acwing788-ni-xu-dui-de-shu-liang/">AcWing788. 逆序对的数量</a>
             </li>
           
         
           
             <li>
-              <a href="https://happyeathand.github.io/post/acwing1205-mai-bu-dao-de-shu-mu/">ACwing1205. 买不到的数目</a>
+              <a href="https://happyeathand.github.io/post/acwing787-gui-bing-pai-xu/">AcWing787. 归并排序</a>
             </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
           
         
           
@@ -361,15 +675,15 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
           算法题
         </a>
       

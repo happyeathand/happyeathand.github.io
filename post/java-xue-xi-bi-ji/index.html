@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>表达式转换 | 闲🐟小站</title>
+<title>java学习笔记 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,154 +87,16 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>表达式转换</h1>
+            <h1>java学习笔记</h1>
             <p class="article-meta">
-              2021-10-31
-              
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
-                  算法题
-                </a>
+              2022-05-16
               
             </p>
             
             <div class="post-content">
-              <p>​<br>
-算术表达式有前缀表示法、中缀表示法和后缀表示法等形式。日常使用的算术表达式是采用中缀表示法，即二元运算符位于两个运算数中间。请设计程序将中缀表达式转换为后缀表达式。</p>
-<p>输入格式:<br>
-输入在一行中给出不含空格的中缀表达式，可包含+、-、*、\以及左右括号()，表达式不超过20个字符。</p>
-<p>输出格式:<br>
-在一行中输出转换后的后缀表达式，要求不同对象（运算数、运算符号）之间以空格分隔，但结尾不得有多余空格。</p>
-<p>输入样例:<br>
-<code>2+3*(7-4)+8/4</code></p>
-<p>结尾无空行</p>
-<p>输出样例:<br>
-<code>2 3 7 4 - * + 8 4 / +</code></p>
-<p>结尾无空行</p>
-<hr>
-<h3 id="题解">题解</h3>
-<pre><code>//若操作符的优先级大于堆栈出口的操作符，
-//就直接将操作符存储到堆栈中
-
-//否则将栈顶的操作符挨个弹出，
-//直到操作符优先级大于栈顶操作符
-//或者栈空 
-
-//当遇到左括号时直接入栈
-//当遇到右括号时出栈直到遇到左括号
-#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-struct stack
-{
-	char op[20];
-	int top;
-	int quality[20];
-};
-int main()
-{
-	stack p;
-	p.top=-1;
-	char str[20];
-	gets(str);
-	int i=0;
-	int x;
-	while(str[i])
-	{
-		if(str[i]&gt;='0'&amp;&amp;str[i]&lt;='9')
-		{
-			printf(&quot;%c &quot;,str[i]);
-			i++;
-			continue;
-		}
-		if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
-		{
-						//记住运算符优先级
-						//和栈的元素一一对应 
-			if(str[i]=='+'||str[i]=='-')//+ -都是一级 
-				{
-					x=1;
-				}
-			if(str[i]=='*'||str[i]=='/')//* /二级 
-				{
-					x=2;
-				}
-			if(p.top==-1)//栈为空直接入栈 
-			{
-				p.top++;
-				p.op[p.top]=str[i];
-/*修改1*/		p.quality[p.top]=x;
-				i++;
-				continue;
-			}
-			if(p.top&gt;-1) //栈不为空开始判断 
-			{
-				if(x&gt;p.quality[p.top])//操作符大于栈顶运算符 
-				{
-					p.top++;//栈顶数字下标右移 
-					p.op[p.top]=str[i];//操作符入栈 
-					p.quality[p.top]=x;//栈顶运算符级别改变 
-					i++;
-					continue;
-				}
-				else
-				{
-					while(x&lt;=p.quality[p.top]||p.top!=-1)
-					//退出循环条件（操作符运算优先级&gt;栈顶运算符优先级）
-					//栈清空 
-					{
-						printf(&quot;%c &quot;,p.op[p.top]);//栈顶运算符输出 
-						p.top--;//栈顶数组下标左移 
-					}
-					if(p.top=-1)
-					{
-						p.top++;
-						p.op[p.top]=str[i];
-					} 
-				}
-			}
-		}
-				//以上是没有遇到小括号的情况 
-		if(str[i]=='(')
-		{
-			p.top++;
-			p.op[p.top]=str[i];
-			p.quality[p.top]=0;//括号算是0级，正好当左括号
-							   //为栈顶时可以直接入栈 
-		}
-		if(str[i]==')')
-		{
-			while(p.op[p.top]!='(')
-			{
-				printf(&quot;%c &quot;,p.op[p.top]);
-				p.top--;
-			}
-			p.top--;
-		}
-	i++;
-	}
-	while(p.top!=-1)
-	{
-		printf(&quot;%c &quot;,p.op[p.top]);
-		p.top--;
-	}
-	return 0;
-}
-//2+3*7-4+8/4
-</code></pre>
-<hr>
-<p>具体转法没有一点头绪，从网上看完思路后敲了一个转换程序出来</p>
-<p>首先大致思路就是输入完中缀式后从第一个字符开始遍历字符串，挨个处理，碰到数字直接输出就好，碰到运算符开始进行处理。</p>
-<p>首先把不同运算符分为不同等级，+-1级，*/2级，（）0级</p>
-<p>若栈空，直接将操作符入栈</p>
-<p>若操作符优先级大于栈顶运算符直接入栈</p>
-<p>若操作符优先级小于等于栈顶运算符则将栈顶运算符挨个出栈，直到该操作符优先级大于栈顶运算符优先级，或者栈为空时。</p>
-<p>对于括号有特殊操作，读到“（”时将“（”直接入栈，读到“）”时将“）”以前的运算符挨个出栈，直到读到一个“（”时才停止。</p>
-<p>PS：“（”等级设定为0级刚好可以让独到的操作符直接入栈。</p>
-<h3 id="遇到的问题"><strong>遇到的问题：</strong></h3>
-<p>1.在一开始的结构构思时，对于每一个入栈的操作符没有好的思路去给定他们的等级，后来发现只要跟着栈顶走就好了，没必要记住每一个入栈元素的优先级，只要用的时候能把他拿出来就好了，保证入栈操作符的字符串序列和运算符等级的那个数列能对应上就好了，关键还是栈顶的处理。<br>
-2.一个很低级的错误，对于if语句的处理不好，在前面的if中已经改变了某些变量的值，下面的if语句中用新的变量值作了比较，导致if的判别出现混乱，采用了比较无脑的解决方法，直接给结束if判别的语句框里都加上continue，很好用。<br>
-3.还完有一个需要注意的点是循环语句结束时要改变变量的值。</p>
-<p>这道题网上还有树和加减括号的做法，有时间了再补上。<br>
-​</p>
+              <p>2022/5/16  1：57<br>
+时间真是个很神奇的东西，它能让人忘却许多事，两人间因某些不愉快而产生的憎恨，自己在年轻时因为错误的抉择而留下的悔恨，或是因为种种原因在当初留下的不甘，这些曾经以为天大的事，就像海滩边的脚印，最终都会在岁月的冲刷下被抹平而了无痕迹。<br>
+我当时以为是我没错，其实回头想想好像是两个幼稚的小人儿，一个古灵精怪，看似大大咧咧其实心中有数，一个沉默寡言，看似高冷沉稳实则幼稚，别扭，固执的要死。</p>
 
             </div>
           </article>
@@ -387,11 +249,11 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
           转载
         </a>
       

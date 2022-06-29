@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>C语言随机数的生成【详解（转载）】 | 闲🐟小站</title>
+<title>AcWing790. 数的三次方根 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,171 +87,52 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>C语言随机数的生成【详解（转载）】</h1>
+            <h1>AcWing790. 数的三次方根</h1>
             <p class="article-meta">
-              2022-04-07
+              2022-05-07
               
-                <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
-                  转载
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+                  算法基础课学习记录
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p>一、rand 函数 和 srand 函数<br>
-在C语言中比较常用的随机函数是 rand 函数，它可以随机的产生 0 ~ rand_max 的随机数,定义类型不同最大值也不同，rand 函数包含在头文件stdlib.h中。</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+              <p>给定一个浮点数 n，求它的三次方根。</p>
+<h1 id="输入格式">输入格式</h1>
+<p>共一行，包含一个浮点数 n。</p>
+<h1 id="输出格式">输出格式</h1>
+<p>共一行，包含一个浮点数，表示问题的解。</p>
+<p>注意，结果保留 6 位小数。</p>
+<h1 id="数据范围">数据范围</h1>
+<p><code>−10000≤n≤10000</code></p>
+<h1 id="输入样例">输入样例：</h1>
+<p><code>1000.00</code></p>
+<h1 id="输出样例">输出样例：</h1>
+<p><code>10.000000</code></p>
+<hr>
+<h1 id="解">解</h1>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
 int main()
 {
-    int a=rand();
-    printf(&quot;%d&quot;,a);
-    return 0;
+	double n,l,r,mid;
+	cin&gt;&gt;n;
+	l=-10000;
+	r=10000;
+	while(r-l&gt;1e-8)/*浮点数的二分，结果可能是小数（应该说大多数情况都是小数）所以没法像整数二分那样又l=r的情况，所以判断条件写成r-l&gt;1e-8,至少要写到1e-7因为要保留六位小数，写太多会超时，写太少通过不了*/
+	{
+		mid=l+(r-l)/2;
+		if(mid*mid*mid&gt;=n) r=mid;
+		else l=mid;  /*为了精确所以不能写成l=mid+1，结果可能是小数，+1就直接跨过正确答案了*/
+	}
+	printf(&quot;%lf\n&quot;,l);/*冷知识，printt(&quot;%lf&quot;);自动保留6位小数，结尾输出l和r都是对的，我想原因是答案判断到后8位小数已经很精确了吧，所以两个数在保留小数时就一样了*/
 }
 </code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344145945.png" alt="" loading="lazy"></p>
-<p>你会发现每次产生的随机数都是相同的，因为rand 函数产生的随机数是伪随机数，是根据一个数按照某个公式推算出来的，这个数我们称之为“种子”，但是这个种子在系统启动之后就是一个定值。</p>
-<p>要想每次产生的随机数不一样，那么，我们就要用到 srand 函数。</p>
-<p>srand() 函数原型是：</p>
-<pre><code>void srand (usigned int seed);
-</code></pre>
-<p><code>rand() 产生随机数时，如果用srand(seed) 播下种子之后，一旦种子相同，产生的随机数将是相同的。当然很多时候刻意让rand() 产生的随机数随机化，用时间作种子 srand(time(NULL)) ，这样每次运行程序的时间肯定是不相同的，产生的随机数肯定就不一样了。</code></p>
-<p>通常可以利用 time(0) 或 getpid(0) 作为seed的返回值，下面我们只介绍用time(0)实现随机数。</p>
-<pre><code>srand((unsigned)time(NULL));   //用时间作种子
-</code></pre>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    srand((unsigned)time(NULL));
-    int n=rand();
-    printf(&quot;%d\n&quot;,n);
-    return 0;
-}
-</code></pre>
-<p><code>2224</code>     <code>2400</code></p>
-<p>二、生成范围随机数公式<br>
-但，作题时我们往往不会用到上面这种方式去产生一个随机数，而是希望产生一定范围内的数据。</p>
-<p>1 产生随机数范围：[0,9]</p>
-<pre><code>int a=rand()%10;  //注意10会被整除，所以不包括10
-</code></pre>
-<p>2产生随机数范围：[0,99]</p>
-<pre><code>int a=rand()%100;
-</code></pre>
-<p>3产生随机数范围：[66,88]</p>
-<pre><code>int a=66+rand()%23;
-</code></pre>
-<p>结论产生随机数范围：[m,n]</p>
-<pre><code>int a=m+rand()%(n-m+1);
-</code></pre>
-<p>接下来举几个例子：</p>
-<p>注意：下面的程序会将 srand((unsigned)time(NULL)) 换成 srand(time(0))，用srand(time(0))方便，且一样可以满足以上产生范围随机数的各种情况。</p>
-<p>三、随机数实例：选择排序等<br>
-① 随机产生10个[150,270)范围内随机数</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[11];
-    int i;
-    printf(&quot;随机产生10个[150,270)范围内随机数:\n\n&quot;);
-    srand(time(0));   //srand(time(NULL));
-    for(i=1;i&lt;=10;i++)
-        //一般键盘随机输入10个数方式：scanf(&quot;%d&quot;,&amp;a[i]);
-        a[i]=150+rand()%120;
-    for(i=1;i&lt;=10;i++)
-        printf(&quot;%d &quot;,a[i]);
-    printf(&quot;\n&quot;);
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344591267.png" alt="" loading="lazy"></p>
-<p>② 随机产生10个[0,99)范围内随机数（指针）</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10]; 
-    int *p; 
-    printf(&quot;随机产生10个[0,99)范围内随机数:\n\n&quot;);
-    srand(time(0));    //srand(time(NULL));    
-    for(p=a;p&lt;(a+10);p++)
-        *p=rand()%100; 
-    for(p=a;p&lt;(a+10);p++)
-        printf(&quot;%d &quot;,*p);   //使用指针指向当前的数组元素 
-    printf(&quot;\n&quot;); 
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344635604.png" alt="" loading="lazy"></p>
-<p>③ 地址 — 随机数</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10];
-    int i;
-    printf(&quot;产生10个[0,99]随机数:\n\n&quot;);
-    srand(time(0));          //srand(time(NULL));   
-    for(i=0;i&lt;10;i++)
-    {
-        a[i]=rand()%100;      //随机函数产生 [0,100)
-        printf(&quot;%d  &quot;,a[i]); 
-    }
-    printf(&quot;\n\n&quot;);
-    printf(&quot;  地址   --- 随机数\n\n&quot;); 
-    for(i=0;i&lt;10;i++)
-        printf(&quot; %d --- %d\n&quot;,a+i,*(a+i));   //通过原数组名和元素序号计算地址 
-    printf(&quot;\n&quot;); 
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344694035.png" alt="" loading="lazy"></p>
-<p>④ 实例：选择排序</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10];
-    int i,t,j,min;
-    srand(time(0));
-    printf(&quot;随机产生10个[0,99]随机数：\n&quot;);
-    for(i=0;i&lt;10;i++)
-        a[i]=rand()%100;      //产生10随机数
-    for(i=0;i&lt;10;i++)
-        printf(&quot;%d &quot;,a[i]);   //输出随机数
-    printf(&quot;\n\n&quot;);
-    for(i=0;i&lt;=9;i++)
-    {
-        min=i;
-        for(j=i+1;j&lt;10;j++)
-           if(a[min]&gt;a[j])
-               min=j;
-       if(i!=min)
-       {
-           t=a[i];
-           a[i]=a[min];
-           a[min]=t;
-       } 
-    } 
-    printf(&quot;由小到大排序：\n&quot;);
-    for(i=0;i&lt;10;i++)
-        printf(&quot;%d &quot;,a[i]);
-    return 0;
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344734283.png" alt="" loading="lazy"></p>
-<p><a href="https://blog.csdn.net/weixin_46022083/article/details/106661495?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164934070116780261929218%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164934070116780261929218&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-106661495.142^v7^control,157^v4^control&utm_term=c%E8%AF%AD%E8%A8%80%E9%9A%8F%E6%9C%BA%E6%95%B0&spm=1018.2226.3001.4187"  target ="_blank">点我看原文 </a></p>
+<p>浮点数的二分和整数的二分差别在两点<br>
+1.循环结束的条件不同，整数二分l和r到最后一定会重合，在l向右靠近时经过+1处理最后也会重合，所以最后输出l和r结果是一样的，循环结束的条件写成<code>while(r&gt;l)</code>。然而浮点型二分在l和r分别向右或左靠拢时也靠不到对方，因为在循环里它们等于的都是mid，没有自增过，在两数贴近时通过一个精度比较高的判断<code>while((r-l)&gt;1e-8)</code>，得到一个尽量比较精确的答案<br>
+2.自增，整数二分里<code>mid</code>与<code>x</code>比较后l或r是有自增的，依次达到l与r重合的目的，然而浮点二分里没有，因为没有最小单位可增，增小了会超时，增大了会与正确答案相距甚远。（个人理解）</p>
 
             </div>
           </article>
@@ -262,9 +143,9 @@ int main()
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/">
+              <a href="https://happyeathand.github.io/post/acwing789-shu-de-fan-wei/">
                 <h3 class="post-title">
-                  骗分导论（转载）
+                  AcWing789. 数的范围
                 </h3>
               </a>
             </div>
@@ -415,7 +296,7 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
           算法基础课学习记录
         </a>
       
@@ -423,7 +304,7 @@ int main()
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
           算法题
         </a>
       

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>AcWing785. 快速排序 | 闲🐟小站</title>
+<title>闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -15,12 +15,6 @@
 <link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
 
 
-  
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
-  
-
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
 
@@ -29,7 +23,6 @@
 
   </head>
   <body>
-  
     <nav class="navbar border fixed split-nav">
   <div class="nav-brand">
     <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
@@ -83,138 +76,169 @@
   </div>
 </nav>
 
+
     <div id="top" class="row site">
       <div class="sm-12 md-8 col">
         <div class="paper">
-          <article class="article">
-            <h1>AcWing785. 快速排序</h1>
-            <p class="article-meta">
-              2022-04-28
-              
-                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
-                  算法基础课学习记录
-                </a>
-              
-            </p>
-            
-            <div class="post-content">
-              <p>给定你一个长度为 n 的整数数列。</p>
-<p>请你使用快速排序对这个数列按照从小到大进行排序。</p>
-<p>并将排好序的数列按顺序输出。</p>
-<h3 id="输入格式"><strong>输入格式</strong></h3>
-<p>输入共两行，第一行包含整数 n。</p>
-<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
-<h3 id="输出格式"><strong>输出格式</strong></h3>
-<p>输出共一行，包含 n 个整数，表示排好序的数列。</p>
-<h3 id="数据范围"><strong>数据范围</strong></h3>
-<p>1≤n≤100000</p>
-<h3 id="输入样例"><strong>输入样例：</strong></h3>
-<p><code>5</code><br>
-<code>3 1 2 4 5</code></p>
-<h3 id="输出样例"><strong>输出样例：</strong></h3>
-<p><code>1 2 3 4 5</code></p>
-<h2 id="解"><strong>解</strong></h2>
-<pre><code>#include&lt;bits/stdc++.h&gt;
-using namespace std;
-
-int a[100005];
-
-int main()
-{
-	int n,i;
-	cin &gt;&gt; n;
-	for(i=0;i&lt;n;i++)
-	{
-		cin &gt;&gt; a[i];
-	}
-	sort(a,a+n);
-	for(i=0;i&lt;n;i++)
-	{
-		cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;
-	}
-}
-</code></pre>
-<p>以后尝试用c++写题了，这题直接sort就可ac</p>
-<hr>
-<pre><code>#include&lt;bits/stdc++.h&gt;
-using namespace std;
-
-const int N = 1e6+10;
-
-int a[N];
-
-void quick_sort(int a[],int l,int r)
-{
-    if(l&gt;=r)/*递归退出条件，即两个指针相遇或错位了。其实写l==r就可，不过这样写习惯了也比较好，以免以后会出现什么奇怪的问题*/
-	return;
-
-	int i,j,x;
-	x=a[(l+r)/2];//取中点，取边界值会超时
-	i=l-1;//是因为下面是do while，所以i=l-1
-	j=r+1;//与上面同理
-	while(i&lt;j)
-	{
-		do i++;while(a[i]&lt;x);
-		do j--;while(a[j]&gt;x);
-		if(i&lt;j) swap(a[i],a[j]);
-	}
-	
-	quick_sort(a,l,j);//再递归处理左半部分
-	quick_sort(a,j+1,r);//再递归处理右半部分
-}
-
-int main()
-{
-	int n,i;
-	cin &gt;&gt; n;
-	for(i=0;i&lt;n;i++)
-	{
-		cin &gt;&gt; a[i];
-	}
-	quick_sort(a,0,n-1);
-	for(i=0;i&lt;n;i++)
-	{
-		cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;
-	}
-}
-</code></pre>
-<p>看视频题解后的解法，采用分治的思想，把一个大问题分成一个个小问题，然后再用递归去解决每一个小问题，这道题是利用两个指针（i，j）分别从头和尾（l，r）向中间靠拢，每靠拢一次，就和值x进行一次比较（x的值在后面说明），若<code>a[i]&gt;x</code>则i停止扫描，若<code>a[j]&lt;x</code>则j停止扫描，ij都停止扫描后再交换值继续扫描，这样结束后大于x的值都在右边，小于x的值都在左边。随后递归改变边界值的位置继续扫描，直到两个指针位置重合，然后以同样的方式再扫另一半，程序结束。<br>
-x的值本来是取的左边界，但是超时了，后来看评论区有人说是如果输入已经是排好序的输入了，那么费的时间会很久，看来是这样的<br>
-<img src="https://happyeathand.github.io/post-images/1651196366464.png" alt="" loading="lazy"><br>
-其实大概就是如果是个递增的数列，那么以边界值做x的话，递归处理右半部分的次数会相当多，时间复杂度也就上去了，但若是取中值（相当于一个随机值，只要不是边界值就好hh）的话，是会比取边界值快不少（至少在有序数列里是这样）。</p>
-<hr>
-<p>5月4日再看这道题时不记得咋写的了，中点写成了x=(a[l]+a[r])/2，这样写有爆内存的危险，不可取不可取，感觉还是对递归的理解不够深刻</p>
-<hr>
-<p>5月6日再看又忘了咋写的了，不过递归嘛，想象成最简单的情况，比如数组只有2个数的时候，这样就好理解一些。感觉这个快排应该是先处理再递归深入的，每次处理后都分成2组，然后2组再处理，直到最后分出来了n组1个数的单独小组，l=r了就该return了，然后处理完再从最深处return出来就行了</p>
-
-            </div>
-          </article>
-        </div>
-        <div class="paper" data-aos="fade-in">
           
-            <div class="next-post">
-              <div class="next">
-                下一篇
-              </div>
-              <a href="https://happyeathand.github.io/post/di-shi-san-jie-lan-qiao-bei/">
-                <h3 class="post-title">
-                  第十三届蓝桥杯C/C++大学B组省赛
-                </h3>
-              </a>
-            </div>
-          
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/acwing717-jian-dan-fei-bo-na-qi/">ACwing717. 简单斐波那契</a>
+    </h2>
+    <p class="article-meta">
+      2022-03-06
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
+          算法题
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/acwing717-jian-dan-fei-bo-na-qi/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/acwing93-di-gui-shi-xian-zu-he-xing-mei-ju/">ACwing93. 递归实现组合型枚举</a>
+    </h2>
+    <p class="article-meta">
+      2022-03-05
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+          算法题
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/acwing93-di-gui-shi-xian-zu-he-xing-mei-ju/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/acwing92-di-gui-shi-xian-zhi-shu-xing-mei-ju/">ACwing92. 递归实现指数型枚举</a>
+    </h2>
+    <p class="article-meta">
+      2022-03-05
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+          算法题
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/acwing92-di-gui-shi-xian-zhi-shu-xing-mei-ju/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/acwing-94di-gui-shi-xian-pai-lie-xing-mei-ju/">ACwing 94.递归实现排列型枚举</a>
+    </h2>
+    <p class="article-meta">
+      2022-03-05
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+          算法题
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/acwing-94di-gui-shi-xian-pai-lie-xing-mei-ju/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/luo-gu-p1028-noip2001-pu-ji-zu-shu-de-ji-suan/">洛谷 P1028 [NOIP2001 普及组] 数的计算</a>
+    </h2>
+    <p class="article-meta">
+      2022-01-16
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/luo-gu-p1028-noip2001-pu-ji-zu-shu-de-ji-suan/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/">表达式转换</a>
+    </h2>
+    <p class="article-meta">
+      2021-10-31
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+          算法题
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/biao-da-shi-zhuan-huan/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
+
+
         </div>
         
-          
+        <div class="row flex-edges">
+  
+    <a href="https://happyeathand.github.io/page/2/" class="paper-btn">
+      上一页
+    </a>
+  
+  
+</div>
 
-          
-            <div class="paper" data-aos="fade-in">
-              <div id="disqus_thread"></div>
-            </div>
-          
-        
       </div>
-
+      
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
     <img src="https://happyeathand.github.io/images/avatar.png?v=1656492687949" class="no-responsive avatar">
@@ -349,15 +373,15 @@ x的值本来是取的左边界，但是超时了，后来看评论区有人说�
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
           算法题
         </a>
       
@@ -368,9 +392,7 @@ x的值本来是取的左边界，但是超时了，后来看评论区有人说�
   </div>
 </div>
 
-
     </div>
-
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
 <script type="application/javascript">
@@ -383,26 +405,8 @@ hljs.initHighlightingOnLoad()
 
 
 
-  
 
-  
-    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
-    <script>
+  <script src="./media/live2d/autoload.js"></script>
 
-    var options = {
-      shortname: '',
-      apikey: '0NWl9LKrl0YpFYaROBH8Q1yhreCs6nghVjjZ4KTNhx3Mx0RuPEVB4ctVbtfXq95d',
-    }
-    if ('') {
-      options.api = ''
-    }
-    var dsqjs = new DisqusJS(options)
-
-    </script>
-  
-
-
-
-
-  </body>
+</body>
 </html>

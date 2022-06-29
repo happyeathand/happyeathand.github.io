@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>C语言随机数的生成【详解（转载）】 | 闲🐟小站</title>
+<title>AcWing788. 逆序对的数量 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,171 +87,97 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>C语言随机数的生成【详解（转载）】</h1>
+            <h1>AcWing788. 逆序对的数量</h1>
             <p class="article-meta">
-              2022-04-07
+              2022-05-04
               
-                <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
-                  转载
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+                  算法基础课学习记录
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p>一、rand 函数 和 srand 函数<br>
-在C语言中比较常用的随机函数是 rand 函数，它可以随机的产生 0 ~ rand_max 的随机数,定义类型不同最大值也不同，rand 函数包含在头文件stdlib.h中。</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+              <p>给定一个长度为 n 的整数数列，请你计算数列中的逆序对的数量。</p>
+<p>逆序对的定义如下：对于数列的第 i 个和第 j 个元素，如果满足 i&lt;j 且 a[i]&gt;a[j]，则其为一个逆序对；否则不是。</p>
+<h1 id="输入格式"><strong>输入格式</strong></h1>
+<p>第一行包含整数 n，表示数列的长度。</p>
+<p>第二行包含 n 个整数，表示整个数列。</p>
+<h1 id="输出格式"><strong>输出格式</strong></h1>
+<p>输出一个整数，表示逆序对的个数。</p>
+<h1 id="数据范围"><strong>数据范围</strong></h1>
+<p><code>1≤n≤100000</code><br>
+数列中的元素的取值范围 <code>[1,109]。</code></p>
+<h1 id="输入样例"><strong>输入样例：</strong></h1>
+<p><code>6</code><br>
+<code>2 3 4 5 6 1</code></p>
+<h1 id="输出样例"><strong>输出样例：</strong></h1>
+<p><code>5</code></p>
+<hr>
+<h2 id="题解"><strong>题解</strong></h2>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+
+int a[100010],temp[100010];
+
+long long merge_sort(int l,int r)//
+{
+	if(l&gt;=r)//递归退出条件
+	return 0;
+	
+	int mid=(l+r)/2;//和归并一样，取数组的中间值
+	long long count=merge_sort(l,mid)+merge_sort(mid+1,r);
+	
+	int i,j,k=0;
+	i=l;j=mid+1;
+	while(i&lt;=mid&amp;&amp;j&lt;=r)
+	{
+		if(a[i]&lt;=a[j])
+		{
+			temp[k]=a[i];i++;k++;//这里中间数组一开始还写错了，temp里没写k写成i了
+		}
+		else
+		{
+			count=count+(mid-i+1);
+			temp[k]=a[j];j++;k++;
+		}
+	}
+	
+	while(i&lt;=mid)
+	{
+		temp[k]=a[i];i++;k++;
+	}
+	while(j&lt;=r)
+	{
+		temp[k]=a[j];j++;k++;
+	}
+	
+	for(i=l,k=0;i&lt;=r;i++,k++) a[i]=temp[k];
+	return count;
+}
+
 int main()
 {
-    int a=rand();
-    printf(&quot;%d&quot;,a);
-    return 0;
+	int i,n;
+	cin&gt;&gt;n;
+	for(i=0;i&lt;n;i++)
+	cin&gt;&gt;a[i];
+	
+	cout&lt;&lt;merge_sort(0,n-1);
 }
 </code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344145945.png" alt="" loading="lazy"></p>
-<p>你会发现每次产生的随机数都是相同的，因为rand 函数产生的随机数是伪随机数，是根据一个数按照某个公式推算出来的，这个数我们称之为“种子”，但是这个种子在系统启动之后就是一个定值。</p>
-<p>要想每次产生的随机数不一样，那么，我们就要用到 srand 函数。</p>
-<p>srand() 函数原型是：</p>
-<pre><code>void srand (usigned int seed);
-</code></pre>
-<p><code>rand() 产生随机数时，如果用srand(seed) 播下种子之后，一旦种子相同，产生的随机数将是相同的。当然很多时候刻意让rand() 产生的随机数随机化，用时间作种子 srand(time(NULL)) ，这样每次运行程序的时间肯定是不相同的，产生的随机数肯定就不一样了。</code></p>
-<p>通常可以利用 time(0) 或 getpid(0) 作为seed的返回值，下面我们只介绍用time(0)实现随机数。</p>
-<pre><code>srand((unsigned)time(NULL));   //用时间作种子
-</code></pre>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    srand((unsigned)time(NULL));
-    int n=rand();
-    printf(&quot;%d\n&quot;,n);
-    return 0;
-}
-</code></pre>
-<p><code>2224</code>     <code>2400</code></p>
-<p>二、生成范围随机数公式<br>
-但，作题时我们往往不会用到上面这种方式去产生一个随机数，而是希望产生一定范围内的数据。</p>
-<p>1 产生随机数范围：[0,9]</p>
-<pre><code>int a=rand()%10;  //注意10会被整除，所以不包括10
-</code></pre>
-<p>2产生随机数范围：[0,99]</p>
-<pre><code>int a=rand()%100;
-</code></pre>
-<p>3产生随机数范围：[66,88]</p>
-<pre><code>int a=66+rand()%23;
-</code></pre>
-<p>结论产生随机数范围：[m,n]</p>
-<pre><code>int a=m+rand()%(n-m+1);
-</code></pre>
-<p>接下来举几个例子：</p>
-<p>注意：下面的程序会将 srand((unsigned)time(NULL)) 换成 srand(time(0))，用srand(time(0))方便，且一样可以满足以上产生范围随机数的各种情况。</p>
-<p>三、随机数实例：选择排序等<br>
-① 随机产生10个[150,270)范围内随机数</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[11];
-    int i;
-    printf(&quot;随机产生10个[150,270)范围内随机数:\n\n&quot;);
-    srand(time(0));   //srand(time(NULL));
-    for(i=1;i&lt;=10;i++)
-        //一般键盘随机输入10个数方式：scanf(&quot;%d&quot;,&amp;a[i]);
-        a[i]=150+rand()%120;
-    for(i=1;i&lt;=10;i++)
-        printf(&quot;%d &quot;,a[i]);
-    printf(&quot;\n&quot;);
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344591267.png" alt="" loading="lazy"></p>
-<p>② 随机产生10个[0,99)范围内随机数（指针）</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10]; 
-    int *p; 
-    printf(&quot;随机产生10个[0,99)范围内随机数:\n\n&quot;);
-    srand(time(0));    //srand(time(NULL));    
-    for(p=a;p&lt;(a+10);p++)
-        *p=rand()%100; 
-    for(p=a;p&lt;(a+10);p++)
-        printf(&quot;%d &quot;,*p);   //使用指针指向当前的数组元素 
-    printf(&quot;\n&quot;); 
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344635604.png" alt="" loading="lazy"></p>
-<p>③ 地址 — 随机数</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10];
-    int i;
-    printf(&quot;产生10个[0,99]随机数:\n\n&quot;);
-    srand(time(0));          //srand(time(NULL));   
-    for(i=0;i&lt;10;i++)
-    {
-        a[i]=rand()%100;      //随机函数产生 [0,100)
-        printf(&quot;%d  &quot;,a[i]); 
-    }
-    printf(&quot;\n\n&quot;);
-    printf(&quot;  地址   --- 随机数\n\n&quot;); 
-    for(i=0;i&lt;10;i++)
-        printf(&quot; %d --- %d\n&quot;,a+i,*(a+i));   //通过原数组名和元素序号计算地址 
-    printf(&quot;\n&quot;); 
-    return 0; 
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344694035.png" alt="" loading="lazy"></p>
-<p>④ 实例：选择排序</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;time.h&gt;
-int main()
-{
-    int a[10];
-    int i,t,j,min;
-    srand(time(0));
-    printf(&quot;随机产生10个[0,99]随机数：\n&quot;);
-    for(i=0;i&lt;10;i++)
-        a[i]=rand()%100;      //产生10随机数
-    for(i=0;i&lt;10;i++)
-        printf(&quot;%d &quot;,a[i]);   //输出随机数
-    printf(&quot;\n\n&quot;);
-    for(i=0;i&lt;=9;i++)
-    {
-        min=i;
-        for(j=i+1;j&lt;10;j++)
-           if(a[min]&gt;a[j])
-               min=j;
-       if(i!=min)
-       {
-           t=a[i];
-           a[i]=a[min];
-           a[min]=t;
-       } 
-    } 
-    printf(&quot;由小到大排序：\n&quot;);
-    for(i=0;i&lt;10;i++)
-        printf(&quot;%d &quot;,a[i]);
-    return 0;
-}
-</code></pre>
-<p>运行结果<br>
-<img src="https://happyeathand.github.io/post-images/1649344734283.png" alt="" loading="lazy"></p>
-<p><a href="https://blog.csdn.net/weixin_46022083/article/details/106661495?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164934070116780261929218%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164934070116780261929218&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-106661495.142^v7^control,157^v4^control&utm_term=c%E8%AF%AD%E8%A8%80%E9%9A%8F%E6%9C%BA%E6%95%B0&spm=1018.2226.3001.4187"  target ="_blank">点我看原文 </a></p>
+<p>这道题是运用归并的思想来做的，首先对于一个数组，一对逆序对有三种情况<br>
+<img src="https://happyeathand.github.io/post-images/1651648023349.png" alt="" loading="lazy"><br>
+<font color="red">1.像红圈这样，两个数都在mid的左侧</font><br>
+<font color="green">2.像绿圈一样，两个数都在mid的右侧</font><br>
+<font color="gold">3.像黄圈一样，两个数分别在mid的两侧</font></p>
+<p>其实这三种情况都可以归类为第三种情况，再归并排序的做法中，会不断的把数组一分为二直到每一份都是单独的，这样的话在递归执行到最深处时，无论是逆序对的比较还是进行数组大小的排序都是左半边与右半边进行比较。用归并排序的规律，每次左半边与右半边进行比较，比较完之后合并，合并完了之后就成了下一次归并的左半边，依次退出递归，直到最后退到最后两个，merge_sort(l,mid)和merge_sort(mid+1,r)。<br>
+下面再说说细节方面，首先是要先知道的规律，左右半边的元素在各自任意调换顺序，是不影响逆序对的比较的<br>
+<img src="https://happyeathand.github.io/post-images/1651650247674.jpg" alt="" loading="lazy"><br>
+第二步中，找到了<code>4 2</code>这对逆序对，随后4和2都变成了左半部分，他们不会再互相比较，所以即便打乱顺序也是不影响的，相当于每次判断都是一个分割后的“左”与“右”进行比较。<br>
+在第四行，当<code>2 3 4 7</code> 与<code>1</code>进行比较时，只需要知道<code>2&gt;1</code>即可，因为前面已经排好序了，左半边最小的数已经<code>&gt;1</code>了，那么后边的数也自然而然地就<code>&gt;1</code>,则count+=mid-i+1。</p>
+<p>最后小吐槽一下 AcWing的难度等级有点迷啊，Leecode上这道题算困难题的，到了AcWing成简单题了233😤。。。</p>
 
             </div>
           </article>
@@ -262,9 +188,9 @@ int main()
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/pian-fen-dao-lun-zhuan-zai/">
+              <a href="https://happyeathand.github.io/post/acwing787-gui-bing-pai-xu/">
                 <h3 class="post-title">
-                  骗分导论（转载）
+                  AcWing787. 归并排序
                 </h3>
               </a>
             </div>
@@ -415,15 +341,15 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
           算法题
         </a>
       
