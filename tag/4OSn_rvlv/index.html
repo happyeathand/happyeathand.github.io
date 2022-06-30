@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>AcWing795. 前缀和 | 闲🐟小站</title>
+<title>在农大摸鱼的日子 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -15,12 +15,6 @@
 <link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
 
 
-  
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
-  
-
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
 
@@ -29,7 +23,6 @@
 
   </head>
   <body>
-  
     <nav class="navbar border fixed split-nav">
   <div class="nav-brand">
     <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
@@ -86,97 +79,40 @@
     <div id="top" class="row site">
       <div class="sm-12 md-8 col">
         <div class="paper">
-          <article class="article">
-            <h1>AcWing795. 前缀和</h1>
-            <p class="article-meta">
-              2022-06-21
-              
-                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
-                  算法基础课学习记录
-                </a>
-              
-            </p>
-            
-            <div class="post-content">
-              <p>输入一个长度为 n 的整数序列。</p>
-<p>接下来再输入 m 个询问，每个询问输入一对 l,r。</p>
-<p>对于每个询问，输出原序列中从第 l 个数到第 r 个数的和。</p>
-<p><strong>输入格式</strong><br>
-第一行包含两个整数 n 和 m。</p>
-<p>第二行包含 n 个整数，表示整数数列。</p>
-<p>接下来 m 行，每行包含两个整数 l 和 r，表示一个询问的区间范围。</p>
-<p><strong>输出格式</strong><br>
-共 m 行，每行输出一个询问的结果。</p>
-<p><strong>数据范围</strong><br>
-<code>1≤l≤r≤n,</code><br>
-<code>1≤n,m≤100000,</code><br>
-−1000≤数列中元素的值≤1000<br>
-<strong>输入样例：</strong><br>
-<code>5 3</code><br>
-<code>2 1 3 6 4</code><br>
-<code>1 2</code><br>
-<code>1 3</code><br>
-<code>2 4</code><br>
-<strong>输出样例：</strong><br>
-<code>3</code><br>
-<code>6</code><br>
-<code>10</code></p>
-<hr>
-<p><strong>题解</strong></p>
-<pre><code>#include&lt;stdio.h&gt;
+          <h2 class="current-tag">标签: 在农大摸鱼的日子</h2>
+          
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://happyeathand.github.io/post/ke-zi-you-bian-ji-de-chu-xiao-jia-jia-tiao/">可自由编辑的出校假假条</a>
+    </h2>
+    <p class="article-meta">
+      2021-11-15
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge success">
+          在农大摸鱼的日子
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      
+    </p>
+    <div class="row">
+      <a href="https://happyeathand.github.io/post/ke-zi-you-bian-ji-de-chu-xiao-jia-jia-tiao/" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
 
-int s[100005];//数组s类似于数列里的前n项和
 
-int main()
-{
-	int i,n,m,a;
-	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
-	for(i=1;i&lt;=n;i++)
-	{
-		scanf(&quot;%d&quot;,&amp;a);
-		s[i]=s[i-1]+a;
-	}
-	
-	int l,r;
-	for(i=0;i&lt;m;i++)
-	{
-		scanf(&quot;%d%d&quot;,&amp;l,&amp;r);
-		printf(&quot;%d\n&quot;,s[r]-s[l-1]);
-	}
-	
-	return 0;
-}
-</code></pre>
-<p>暴力写法直接超时，利用前缀和的思想，先把所有的s[n]算出来，最多算100000次，然后后面的l与r之间的和直接用s[r]-s[l-1]就ok了</p>
-
-            </div>
-          </article>
         </div>
-        <div class="paper" data-aos="fade-in">
-          
-            <div class="next-post">
-              <div class="next">
-                下一篇
-              </div>
-              <a href="https://happyeathand.github.io/post/acwing791-gao-jing-du-jia-fa/">
-                <h3 class="post-title">
-                  AcWing791. 高精度加法
-                </h3>
-              </a>
-            </div>
-          
-        </div>
-        
-          
+        <div class="row flex-edges">
+  
+  
+</div>
 
-          
-            <div class="paper" data-aos="fade-in">
-              <div id="disqus_thread"></div>
-            </div>
-          
-        
       </div>
-
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
     <img src="https://happyeathand.github.io/images/avatar.png?v=1656578844043" class="no-responsive avatar">
@@ -313,19 +249,19 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
           算法题
         </a>
       
-        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge success">
           在农大摸鱼的日子
         </a>
       
@@ -335,7 +271,6 @@ int main()
     Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
-
 
     </div>
 
@@ -348,26 +283,6 @@ AOS.init();
 hljs.initHighlightingOnLoad()
 
 </script>
-
-
-
-  
-
-  
-    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
-    <script>
-
-    var options = {
-      shortname: '',
-      apikey: '0NWl9LKrl0YpFYaROBH8Q1yhreCs6nghVjjZ4KTNhx3Mx0RuPEVB4ctVbtfXq95d',
-    }
-    if ('') {
-      options.api = ''
-    }
-    var dsqjs = new DisqusJS(options)
-
-    </script>
-  
 
 
 

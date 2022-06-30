@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>AcWing795. 前缀和 | 闲🐟小站</title>
+<title>可自由编辑的出校假假条 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,67 +87,20 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>AcWing795. 前缀和</h1>
+            <h1>可自由编辑的出校假假条</h1>
             <p class="article-meta">
-              2022-06-21
+              2021-11-15
               
-                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
-                  算法基础课学习记录
+                <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+                  在农大摸鱼的日子
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p>输入一个长度为 n 的整数序列。</p>
-<p>接下来再输入 m 个询问，每个询问输入一对 l,r。</p>
-<p>对于每个询问，输出原序列中从第 l 个数到第 r 个数的和。</p>
-<p><strong>输入格式</strong><br>
-第一行包含两个整数 n 和 m。</p>
-<p>第二行包含 n 个整数，表示整数数列。</p>
-<p>接下来 m 行，每行包含两个整数 l 和 r，表示一个询问的区间范围。</p>
-<p><strong>输出格式</strong><br>
-共 m 行，每行输出一个询问的结果。</p>
-<p><strong>数据范围</strong><br>
-<code>1≤l≤r≤n,</code><br>
-<code>1≤n,m≤100000,</code><br>
-−1000≤数列中元素的值≤1000<br>
-<strong>输入样例：</strong><br>
-<code>5 3</code><br>
-<code>2 1 3 6 4</code><br>
-<code>1 2</code><br>
-<code>1 3</code><br>
-<code>2 4</code><br>
-<strong>输出样例：</strong><br>
-<code>3</code><br>
-<code>6</code><br>
-<code>10</code></p>
-<hr>
-<p><strong>题解</strong></p>
-<pre><code>#include&lt;stdio.h&gt;
-
-int s[100005];//数组s类似于数列里的前n项和
-
-int main()
-{
-	int i,n,m,a;
-	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
-	for(i=1;i&lt;=n;i++)
-	{
-		scanf(&quot;%d&quot;,&amp;a);
-		s[i]=s[i-1]+a;
-	}
-	
-	int l,r;
-	for(i=0;i&lt;m;i++)
-	{
-		scanf(&quot;%d%d&quot;,&amp;l,&amp;r);
-		printf(&quot;%d\n&quot;,s[r]-s[l-1]);
-	}
-	
-	return 0;
-}
-</code></pre>
-<p>暴力写法直接超时，利用前缀和的思想，先把所有的s[n]算出来，最多算100000次，然后后面的l与r之间的和直接用s[r]-s[l-1]就ok了</p>
+              <p><img src="https://happyeathand.github.io/post-images/1656578595740.png" alt="" loading="lazy"><br>
+用易班扫码几乎可以假乱真<br>
+免责条款：该网址仅用来娱乐和学习，如使用者构成违法犯罪行为与本人无关</p>
 
             </div>
           </article>
@@ -158,9 +111,9 @@ int main()
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing791-gao-jing-du-jia-fa/">
+              <a href="https://happyeathand.github.io/post/jian-zhan-li-shi-ji-geng-xin/">
                 <h3 class="post-title">
-                  AcWing791. 高精度加法
+                  闲🐟小站更新历史
                 </h3>
               </a>
             </div>
@@ -313,11 +266,11 @@ int main()
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
           转载
         </a>
       

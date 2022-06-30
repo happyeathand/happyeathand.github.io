@@ -7,7 +7,7 @@
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1656492687949">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1656578844043">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
@@ -94,22 +94,22 @@
             </p>
             
             <div class="post-content">
-              <h2 id="1刷题统计"><strong>1.刷题统计</strong></h2>
+              <h1 id="1刷题统计">1.刷题统计</h1>
 <p>小明决定从下周一开始努力刷题准备蓝桥杯竞赛。</p>
 <p>他计划周一至周五每天做 a 道题目，周六和周日每天做 b 道题目。</p>
 <p>请你帮小明计算，按照计划他将在第几天实现做题数大于等于 n 题？</p>
-<h4 id="输入格式"><strong>输入格式</strong></h4>
-<p>输入一行包含三个整数 a,b 和 n。</p>
-<h4 id="输出格式"><strong>输出格式</strong></h4>
-<p>输出一个整数代表天数。</p>
-<h4 id="数据范围"><strong>数据范围</strong></h4>
-<p>对于 50% 的评测用例，1≤a,b,n≤10^6，<br>
+<p><strong>输入格式</strong><br>
+输入一行包含三个整数 a,b 和 n。</p>
+<p><strong>输出格式</strong><br>
+输出一个整数代表天数。</p>
+<p><strong>数据范围</strong><br>
+对于 50% 的评测用例，1≤a,b,n≤10^6，<br>
 对于 100% 的评测用例， 1≤a,b,n≤10^18 。</p>
-<h4 id="输入样例"><strong>输入样例：</strong></h4>
-<p><code>10 20 99</code></p>
-<h4 id="输出样例"><strong>输出样例：</strong></h4>
-<p><code>8</code></p>
-<h2 id="题解">题解：</h2>
+<p><strong>输入样例：</strong><br>
+<code>10 20 99</code><br>
+<strong>输出样例：</strong><br>
+<code>8</code><br>
+<strong>题解（已AC）：</strong></p>
 <pre><code>#include&lt;stdio.h&gt;
 
 int main()
@@ -157,9 +157,9 @@ int main()
 <strong>输出样例：</strong><br>
 <code>4</code><br>
 <code>2</code><br>
-<code>4</code></p>
-<h2 id="题解-2">题解：</h2>
-<p>最开始没思考，上来就是模拟</p>
+<code>4</code><br>
+<strong>题解</strong>：<br>
+最开始没思考，上来就是模拟（过9/10个测试点，最后一个点有几率超时）</p>
 <pre><code>#include&lt;stdio.h&gt;
 
 int a[10005],b[10005];
@@ -200,8 +200,8 @@ int main()
 	return 0;
 } 
 </code></pre>
-<p>结果就是不知道怎么退出循环了，如果按照考试时那个思路直接写个while(循环次数&lt;10000)可以过8个测试点，但是其实稍微思考过后就知道每个位置的最大值在爱丽丝修建一个来回后就已经得出了，注意这个来回是相对于每个植株的一个来回，也就是说对于第n个植株，爱丽丝第二次修剪它时已经走了1.5个来回了，所以可以写成while(次数&lt;3*n)，但是要注意在acwing上这样有一定几率超时，不稳定，蓝桥的官网题没出，还没有试。</p>
-<h2 id="下面就是正常题解了">下面就是正常题解了</h2>
+<p>结果就是不知道怎么退出循环了，如果按照考试时那个思路直接写个while(循环次数&lt;10000)可以过8个测试点，但是其实稍微思考过后就知道每个位置的最大值在爱丽丝修建一个来回后就已经得出了，注意这个来回是相对于每个植株的一个来回，也就是说对于第n个植株，爱丽丝第二次修剪它时已经走了1.5个来回了，所以可以写成while(次数&lt;3*n)，但是要注意在acwing上这样有一定几率超时，不稳定，蓝桥的官网题没出，还没有试。<br>
+<strong>下面就是正常题解了（AC）</strong></p>
 <pre><code>#include&lt;stdio.h&gt;
 
 int main()
@@ -266,7 +266,7 @@ int main()
 <img src="https://happyeathand.github.io/post-images/1656491397815.png" alt="" loading="lazy"><br>
 由y总的式子看出，a[i]-b[i]是个常数，那么只有在Π从0到i-1Xpi最小时有最小的差值，即每一位次的进制数取最小值就可以了，逐步贪心，得出结果。</p>
 <p>这里思维上出了点小bug，如果a&lt;b的话，那么pi不是越大越好吗？这样a-b的结果是个很小的负数啊，但是还是要注意，问的是差值，即两个数的差距最小，不是差的最小值。而且一开始敲代码的时候不知道为啥自己心里把a&gt;b当成了一个已知条件，顺着敲下来竟然AC了，由此可见出题者貌似压根没想到会有人有这种奇怪的想法，甚至算不上一个考查点<s>我为啥总是有些奇葩的想法（苦笑）</s>。</p>
-<p>ok解释完了贴题解</p>
+<p>ok解释完了贴题解（已AC）</p>
 <pre><code>#include&lt;stdio.h&gt;
 
 int n,a,b;
@@ -347,7 +347,7 @@ int main()
 大小为 1×3 的有 2 个。<br>
 大小为 1×4 的有 1 个。<br>
 大小为 2×1 的有 3 个。<br>
-<strong>题解1</strong></p>
+<strong>题解1（未AC）</strong></p>
 <pre><code>#include&lt;stdio.h&gt;
 
 int a[505][505],s[505][505];//s代表前n行m列数据之和
@@ -391,7 +391,7 @@ int main()
 </code></pre>
 <p>以p,q为子矩阵的左上角，i,j为子矩阵的右下角，依次遍历整个矩阵，计算符合要求的值<br>
 用上面前缀和的算法可以过掉60%的数据（<s>不知道为什么同样的做法我会比别人少10%</s>），利用前缀和求出的结果，从左上角开始依次进行判断，扫完整个二维数组，复杂度O(n^4)。</p>
-<p><strong>题解2</strong></p>
+<p><strong>题解2（已AC）</strong></p>
 <pre><code>#include&lt;stdio.h&gt;
 
 int a[10005][10005],b[10005][10005];//同样先是两个数组，a用来输入，b用来存储前缀和
@@ -428,10 +428,80 @@ int main()
 	return 0;
 }
 </code></pre>
-<p>优化思路<br>
+<p><strong>优化思路</strong><br>
 按列枚举左右边界，以列为处理的单位挨个进行判断，在对每n列进行处理时，由下指针j向下推进，上指针i进行判断是否改变上边界，若子矩阵的和符合题意，那么i不再进行下移，而是直接更新答案（因为再向下肯定会更小），count增加的数量为j-i+1；若子矩阵不符合题意，那么上边界i下移，找寻符合题意的位置或i＞j停止。</p>
 <p>优化后的复杂度是O(n^3)，相比题解1的做法，不再是按元素挨个进行处理，而是把列作为了处理单位，优化了一层循环。<br>
 下面是AcWing大佬的解释，更加清晰明了<img src="https://happyeathand.github.io/post-images/1656385980656.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="5积木画">5.积木画</h1>
+<p>小明最近迷上了积木画，有这么两种类型的积木，分别为 I 型（大小为 2 个单位面积）和 L 型（大小为 3 个单位面积）：<img src="https://happyeathand.github.io/post-images/1656573796508.png" alt="" loading="lazy"><br>
+同时，小明有一块面积大小为 2×N 的画布，画布由 2×N 个 1×1 区域构成。</p>
+<p>小明需要用以上两种积木将画布拼满，他想知道总共有多少种不同的方式？</p>
+<p>积木可以任意旋转，且画布的方向固定。</p>
+<p><strong>输入格式</strong><br>
+输入一个整数 N，表示画布大小。</p>
+<p><strong>输出格式</strong><br>
+输出一个整数表示答案。</p>
+<p>由于答案可能很大，所以输出其对 1000000007 取模后的值。</p>
+<p><strong>数据范围</strong><br>
+<code>1≤N≤107。</code></p>
+<p><strong>输入样例：</strong><br>
+<code>3</code><br>
+<strong>输出样例：</strong><br>
+<code>5</code><br>
+<strong>样例解释</strong><br>
+五种情况如下图所示，颜色只是为了标识不同的积木：<img src="https://happyeathand.github.io/post-images/1656573813888.png" alt="" loading="lazy"></p>
+<p><strong>思路</strong><br>
+<img src="https://happyeathand.github.io/post-images/1656574235809.jpg" alt="" loading="lazy"></p>
+<p>其实j型的突起也意味着排好了第i列后，第i+1列有多少个多余的格子。最后要求的是 f[n][0]即补充完第i列，且第i+1列有0个突起，那么f[n][0]如何得来呢，是由</p>
+<pre><code>1.f[n-1][1]补充了1个L型砖块
+2.f[n-1][0]补充了2个横向排放的l型砖块
+3.f[n-1][0]补充了1个竖向排放的l型砖块
+</code></pre>
+<p>这3种情况的来的，然而要求这3种方案的排放方法还要往前推，意味着排放到第i位的方法数，仅与排放到第i-1位的方法数有关，那么我们只需要找到所有初始排放数的方法数量就可以递推出想要的结果了。</p>
+<pre><code>第一种：
+□
+□             1个竖向的l型方块  f[1][0]=1
+第二种：
+□     □□
+□□   □      1个L型方块，2种摆放方式f[1][1]=2
+第三种：
+□□
+□□           2个l型方块横向摆放，1种摆放方式f[1][2]=1
+</code></pre>
+<p>话说这个f[1][2]=1我在想，为什么不能加上2个l型竖向摆放的情况呢？大佬是这样解释的<img src="https://happyeathand.github.io/post-images/1656575649795.png" alt="" loading="lazy"><br>
+可以这样理解吧，我们只操作第i列，第i+1列是被第i列的操作而影响的，而不是直接去操作第i+1列（呃，或许有这么一点点的些许牵强，不过也能理解）<br>
+好了，思路捋顺了，接下来就是<strong>上代码（AC）</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+long long int f[10000005][3];//写的时候又忘记加long long了
+int mod=1000000007,n;
+
+int main()
+{
+    //3种初始的状态
+	f[1][0]=1;
+	f[1][1]=2;
+	f[1][2]=1;
+	scanf(&quot;%d&quot;,&amp;n);
+	int i;
+	for(i=2;i&lt;=n;i++)//开始摆第i列
+	{
+        //加1个竖着的l型和啥也不加，摆第i-1列时就占了第i列2个位置的情况
+		f[i][0]=(f[i-1][0]+f[i-1][2])%mod;
+
+        //加1个竖着的L型，两种摆放方式，和摆第i-1列时占了第i列1个格子，第i列再横着摆一个的情况，这里横着摆为什么不*2呢？原因是f[i-1][1]就已经是包含了2种情况了
+		f[i][1]=(f[i-1][0]*2+f[i-1][1])%mod;
+
+        //第i列占了0个格子，加2个横着摆放的l型，和第i列占了1个格子，7字型摆一个L型的
+		f[i][2]=(f[i-1][0]+f[i-1][1])%mod;
+	}
+	
+	printf(&quot;%lld&quot;,f[n][0]);
+	return 0;
+}
+</code></pre>
+<p>这道题的做法貌似挺多的，题解区都是看不懂的名词，类如状态压缩dp，矩阵快速幂，滚动数组云云，看的我很迷茫，先这么着吧，很小可能性回过头来再补别的做法了。</p>
 <hr>
 <h1 id="7李白打酒加强版">7.李白打酒加强版</h1>
 <p>话说大诗人李白，一生好饮。</p>
@@ -471,7 +541,7 @@ int main()
 <code>011010000010100</code><br>
 <code>100100100010100</code><br>
 <code>101000001010100</code><br>
-<strong>dfs题解</strong></p>
+<strong>dfs题解（未AC）</strong></p>
 <pre><code>#include&lt;stdio.h&gt;
 
 int n,m,count;//count作为答案输出最后的结果数
@@ -512,6 +582,43 @@ int main()
 <p>思路补充：比赛dfs函数的参数设定出了问题，想着要明确每次自己到了哪里，是花还是店，其实大可不必，因为dfs的return条件都与到花和店的次数有关，那么只需要引入参数now，明确自己目前已经经过了几个店就可以了。而且dfs的reutrn条件之一，没酒时遇花，也不需要知道自己是否在花，只需要看一下酒的剩余就行了。</p>
 <p>其次就是如何用言语表述dfs函数，其实可以这么看，dfs(h,d,ml,now)即当前在第now步，当前酒的余量为ml，过花h次，过店d次，然后下一次的递归，那些if的判断是判断的上一次的dfs中参数的值，即先走到下一站，参数都改变后，再进行的判断。</p>
 <p>dfs做法最终只过了2/10的数据</p>
+<hr>
+<p><strong>dp代码（已AC）</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int n,m,mod=1000000007;
+int f[105][105][110];//状态方程f[i][j][k]，i 经过了i次店，j 经过了j次花，k 当前壶里还剩k的酒
+
+int main()
+{
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+	f[0][0][2]=1;//题干表示的初始状态
+	int i,j,k;
+	for(i=0;i&lt;=n;i++)
+	{
+		for(j=0;j&lt;=m;j++)
+		{
+			for(k=0;k&lt;110;k++)//这个k的边界其实到100就ok了，以为最多遇到花100次，结果要求酒是0，那多于100了肯定就算不做一次结果了
+			{
+				if(i!=0&amp;&amp;k%2==0) f[i][j][k]=(f[i][j][k]+f[i-1][j][k/2])%mod;//加一下从店走来的情况
+				if(j!=0) f[i][j][k]=(f[i][j][k]+f[i][j-1][k+1])%mod;//加一下从花走来的情况
+			}
+		}
+	}
+	
+	printf(&quot;%d&quot;,f[n][m-1][1]);//最后结果的话没必要走到最后一步，和dfs一样，走到倒数第二步结果就出来了，判断条件也只能在倒数第二步
+	return 0;
+}
+</code></pre>
+<p><strong>思路</strong><br>
+<img src="https://happyeathand.github.io/post-images/1656554730265.png" alt="" loading="lazy"><br>
+看了y总的闫式dp分析法，这道题用dp的话求方案数只需要两部分组成就够了，那就是上一步到了花和上一步到了店的所有方案数之和，一直顺着递推到f[n][m][110]酒ok了<br>
+求结果f[n][m-1][1]，自然要求f[n][m-2][2],那又要求f[n-1][m-2][1]和f[n][m-3][3],那又要求…………，以此类推只要从f[0][0][2]推到f[n][m][110]就ok了</p>
+<p>理解过后看，这道题dp的难度也不是很大，就是写的时候容易陷入一个误区，其实不一定要明确自己当前是在花还是店，只要在经过的总次数那里限制一下就好了。</p>
+<p>还有一个理解不到位的地方，就是k的循环，回过头想想其实dp也算是个多重循环，只不过是顺着思维走下来的，是逐步递进的，和递归也有相似之处，函数和状态方程的参数的确定很重要，确定方程后写上循环，确保状态方程的任意一个值最后都能求出来就好了，然而递归简单写的话只能求解最后结果，但要是加上剪枝还有记忆化搜索？优化后也能达到同样效果吧。</p>
+<hr>
+<p>现在就还剩6.扫雷和8.砍竹子两道题了，大概扫了一眼需要的知识，一个是有向图和哈希表，一个是线段树，刚巧这两个我都不会，而且题解大多用的c++，很多地方也看不懂，估计要先刷完相关部分的题和c++语法知识才会回来补了。值得一提的是，扫雷这题俺纯暴力写过了3个测试数据hhhhhh<br>
+总的来说，<strong>革命尚未成功，同志仍需努力</strong> 2022/06/30</p>
 
             </div>
           </article>
@@ -543,7 +650,7 @@ int main()
 
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
-    <img src="https://happyeathand.github.io/images/avatar.png?v=1656492687949" class="no-responsive avatar">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1656578844043" class="no-responsive avatar">
     <div class="text-muted"> 切忌好高骛远</div>
     <div class="social-container">
       
@@ -666,6 +773,8 @@ int main()
         
           
         
+          
+        
       </ul>
     </div>
   </div>
@@ -679,12 +788,16 @@ int main()
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
           算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge success">
+          在农大摸鱼的日子
         </a>
       
     </div>
