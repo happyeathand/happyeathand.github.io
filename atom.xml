@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲🐟小站</title>
-    <updated>2022-06-30T10:47:38.512Z</updated>
+    <updated>2022-07-02T09:07:18.680Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://happyeathand.github.io/images/avatar.png</logo>
     <icon>https://happyeathand.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, 闲🐟小站</rights>
+    <entry>
+        <title type="html"><![CDATA[AcWing792. 高精度减法]]></title>
+        <id>https://happyeathand.github.io/post/792-gao-jing-du-jian-fa/</id>
+        <link href="https://happyeathand.github.io/post/792-gao-jing-du-jian-fa/">
+        </link>
+        <updated>2022-07-02T08:12:34.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[AcWing799. 最长连续不重复子序列]]></title>
         <id>https://happyeathand.github.io/post/acwing799-zui-chang-lian-xu-bu-chong-fu-zi-xu-lie/</id>
@@ -72,12 +79,5 @@
         <link href="https://happyeathand.github.io/post/acwing786-di-k-ge-shu/">
         </link>
         <updated>2022-04-29T02:33:50.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AcWing785. 快速排序]]></title>
-        <id>https://happyeathand.github.io/post/acwing785-kuai-su-pai-xu/</id>
-        <link href="https://happyeathand.github.io/post/acwing785-kuai-su-pai-xu/">
-        </link>
-        <updated>2022-04-28T07:59:07.000Z</updated>
     </entry>
 </feed>
