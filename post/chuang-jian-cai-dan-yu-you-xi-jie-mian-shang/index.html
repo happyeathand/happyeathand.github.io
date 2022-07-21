@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>创建菜单与游戏界面（上） | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1658370525632">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>创建菜单与游戏界面（上）</h1>
+            <p class="article-meta">
+              2022-07-15
+              
+                <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge ">
+                  King Of Bot
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>首先第一章的主要内容是实现这样一个界面<img src="https://happyeathand.github.io/post-images/1658234927163.png" alt="" loading="lazy"><br>
+主要就是两个主体<strong>1.导航栏</strong> + <strong>2.地图的构建</strong>，纯前端，不涉及后端代码（y总：工欲善其事，必先利其器，前端代码直接要了半条命233）</p>
+<hr>
+<p>首先构思整个页面的设计，其实可以直接参照AcWing的官网<img src="https://happyeathand.github.io/post-images/1658235401650.png" alt="" loading="lazy"><br>
+顶部有各个小部件，包含着网站的各个功能和跳转后的页面，<img src="https://happyeathand.github.io/post-images/1658235495739.png" alt="" loading="lazy"><br>
+所以首先做好网站的导航栏组件，在components目录下创建NavBar.vue 文件，来进行一个导航栏代码的编写。直接从Bootstrap上搜索关键字NavBar，寻找自己需要的样式<img src="https://happyeathand.github.io/post-images/1658236262518.png" alt="" loading="lazy"><br>
+注意这是一个纯html界面，所以要粘贴到<code>&lt;template&gt;&lt;/template&gt;</code>标签中。</p>
+<p>NavBar作为整体项目的一个组件需要导入到App.vue中，再进行一个导入<img src="https://happyeathand.github.io/post-images/1658236940147.png" alt="" loading="lazy"><br>
+导入完成后保存就得到了初步的网站页面，但是效果并不是像boostrap里展示的那样，原因是在vue里安装了boostrap的依赖，App.vue里还没有进行css样式和js的导入，再进行一个导入<img src="https://happyeathand.github.io/post-images/1658278772925.png" alt="" loading="lazy"> 这样页面效果就进行了一个正常的展示<br>
+中间还出现了一个小插曲，在浏览器运行时出现了这样的报错<img src="https://happyeathand.github.io/post-images/1658278976336.png" alt="" loading="lazy">只需要再安装一个名为@popper的依赖就可以了<br>
+下面的工作就是在NavBar里进行一个代码的修改，直到自己满意为止</p>
+<p>ok导航栏修饰完毕后实现下一个功能，即在点击导航栏上的模块时，页面可以进行一个跳转，同时改变当前网址。<br>
+主要有5个不同页面</p>
+<pre><code>1.Pk页面
+2.Recoed 对局列表
+3.Ranklist 排行榜
+4.User Bots 我的bot
+5.404 非法界面
+</code></pre>
+<p>把这些页面统一新建在View文件夹下进行管理。新建完之后找到router文件，router【路由】嘛，就是进行一个导航的作用，在router文件夹下的index.js文件中进行编写，导入View中各个模块的包，再进行一个声明。完成后，输入不过同路径即可到达不同的页面。然后就是一个点击跳转的效果，在NavBar里修改有关“link”的代码<br>
+示例<img src="https://happyeathand.github.io/post-images/1658280233319.png" alt="" loading="lazy"><br>
+重复以上操作即可实现想要的效果。<br>
+完成后在浏览器里运行，每一次点击不同页面浏览器都会有一次刷新，~~可能会影响用户和使用体验？~~可以以使用<code>&lt;router-link&gt;</code>标签进行优化，和原始的写法就是语法声明上的区别，功能是一样的，具体使用方法见代码。<br>
+之后就是完善每个模块的页面了，首先是参照着AcWing的样式，给每个页面添加一个白框，用于整体页面的布局，在白框里实现各种功能，那么既然每个模块都会用到，所以在components里新建一个ContentField组件，写好这个组件后，其他页面就可以直接用了<img src="https://happyeathand.github.io/post-images/1658281853318.png" alt="" loading="lazy"><br>
+效果如下<br>
+<img src="https://happyeathand.github.io/post-images/1658281874075.png" alt="" loading="lazy"><br>
+然后下一个完成的是点击模块，显示高亮的效果，见NavBar的js代码，很详细</p>
+<p>ok至此导航栏就实现完成了</p>
+<hr>
+<p>下面是游戏界面地图的创建<img src="https://happyeathand.github.io/post-images/1658283030513.png" alt="" loading="lazy"><br>
+地图有以下特性</p>
+<pre><code>1.是一个13X13的正方形，有一圈墙，双方玩家分别出生在左下和右上方
+2.地图会生成随机障碍物，以左上到右下的轴对称
+3.地图从左下到右上是连通的，增加竞技性和趣味性
+</code></pre>
+<p>在构建地图之前，思考游戏如何实现。每个对象在1秒的时间内发生60次变化，从而实现一个动态的效果，就这个帧率刷新的特性而言是每个对象都有的，因此在assest下新建一个AcGameObject.js，用于其他对象的调用。而在AcGameObject.js里就要实现这些基本功能，类如帧率的刷新，删除对象等功能</p>
+<p>基类写完后就该开始构建地图了，再在assest下新建一个GameMap.js文件，用于地图的构建，其功能就是在调用时完成对画布的渲染，即在每一帧画出地图，GameMap.js相当于画笔，还需要一个画布，则在components中再新建一个GameMap.vue用来构建画布，再将GameMap.js的画法，如何作画进行传入，即可完成页面的渲染。</p>
+<p>那么该如何作画呢？首先要画出最基本的地图，深绿浅绿小格子相间的一个正方形<img src="https://happyeathand.github.io/post-images/1658367062974.png" alt="" loading="lazy">而且这个地图是随着浏览器窗口大小的变化自适应的，那么它的边长就是一个动态变化的值，还有一个就是y总先是定义了一个PlayGround.vue，然后再把GameMap.vue导入到PlayGround.vue里的，为什么要这样做呢？我想一是为了方便调试网页的布局，二是方便对游戏地图的大小进行一个控制，不让他的取值取决于浏览器窗口大小，而是取决于这个PlayGround的边框大小，不会出现过大或者过小的情况。</p>
+<p>其次就是障碍物墙的生成，首先四周要先安上一圈，其次地图内还要生成一些随机的障碍物，这些障碍物有以下要求</p>
+<pre><code>1.不能生成在出玩家生点，即左下和右上两个角落
+2.障碍物不能格挡开地图，即坐下到右上两个角要连通
+</code></pre>
+<p>明确了以上两点就可以进行墙的构造了，因为无论是随即障碍物还是四周的墙，他们的画法都是一样的，所以在scripts中新建一个Wall.js用来画墙，再导入到GameMap.js里，在GameMap.js里判断是否画，画的话直接调用就ok了</p>
+<p>至此就差不多结束了，最终的页面生成<img src="https://happyeathand.github.io/post-images/1658370042713.png" alt="" loading="lazy"><br>
+如果想替换网页的图标的话，在public目录下把.ico后缀的图片替换掉就可以以了</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/acwing4268-xing-gan-su-shu/">
+                <h3 class="post-title">
+                  AcWing4268. 性感素数
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1658370525632" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/king-of-bots-xiang-mu-zong-lan/">King Of Bots源码地址</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/chuang-jian-cai-dan-yu-you-xi-jie-mian-shang/">创建菜单与游戏界面（上）</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing4268-xing-gan-su-shu/">AcWing4268. 性感素数</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing797-chai-fen/">AcWing797. 差分</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/792-gao-jing-du-jian-fa/">AcWing792. 高精度减法</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing799-zui-chang-lian-xu-bu-chong-fu-zi-xu-lie/">AcWing799. 最长连续不重复子序列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/796-zi-ju-zhen-de-he-er-wei-qian-zhui-he/">AcWing796. 子矩阵的和（二维前缀和）</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing795-qian-zhui-he/">AcWing795. 前缀和</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing791-gao-jing-du-jia-fa/">AcWing791. 高精度加法</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing790-shu-de-san-ci-fang-gen/">AcWing790. 数的三次方根</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge success">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge warning">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>
