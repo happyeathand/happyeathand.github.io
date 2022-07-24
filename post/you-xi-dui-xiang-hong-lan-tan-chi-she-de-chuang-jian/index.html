@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>游戏对象 红蓝贪吃蛇的创建 | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1658645105238">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>游戏对象 红蓝贪吃蛇的创建</h1>
+            <p class="article-meta">
+              2022-07-23
+              
+                <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+                  King Of Bot
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>这次要完成的效果如下<img src="https://happyeathand.github.io/post-images/1658566142694.png" alt="" loading="lazy"></p>
+<p>先修复一个小小的问题，是关于玩家双方博弈的一个问题，<img src="https://happyeathand.github.io/post-images/1658567419779.png" alt="" loading="lazy">当AB的蛇头处于图中的位置时，假如A蛇占有优势，那么A蛇绝不会向上走，反而B蛇大概率会向下走，因为两蛇相撞打成平局的话对B蛇来说是最好的选择，那么这样看来的话就相当于A蛇作为优势方，决策会减少。<br>
+那么如何解决这个问题呢，首先明确两蛇的初始位置分别是（11，1）和（1，11），横纵坐标相加都是偶数，只需要改变地图大小，让红蛇初始位置变为（1，12）就可以了，这样的话<br>
+<code>蓝蛇坐标的变化规律为偶奇偶奇偶奇偶奇</code><br>
+<code>红蛇坐标的变化规律为奇偶奇偶奇偶奇偶</code><br>
+这样假如两蛇再面对面相遇时，必定是一奇一偶，不存在了下一目标是同一个格子的决策。</p>
+<p>地图从正方形变成了长方形，那么对称方式也不能是轴对称了，改为中心对称<br>
+ps:现在生成地图的逻辑还在前端代码里，后期会移动到后端</p>
+<hr>
+<p>ok首先在script下新建一个Cell.js用于存放组成蛇身体每个部分的信息，构造函数传来两个参数，在得出画图时需要的参数<img src="https://happyeathand.github.io/post-images/1658569973853.png" alt="" loading="lazy"></p>
+<p>然后在新建一个Snake.js用于蛇的各种行为动作包括移动，渲染，状态等<br>
+首先先说蛇的移动，所谓移动就是在每一帧都改变蛇的位置，连贯起来从而在视觉上达到一个连贯流畅的移动效果，到代码里就是蛇的坐标值的改变，先用蛇头举例<img src="https://happyeathand.github.io/post-images/1658570521424.png" alt="" loading="lazy">那么蛇头就可以动起来了，以秒速5格子的速度前进（因为还没有写终止条件所以蛇目前会一直走下去）且看起来很流畅</p>
+<p>这里举例用的是蛇头，而且走的是直线，所以实现下来并没有特别难，那么如果是一个已经变长后，且已经拐过弯的小蛇的移动呢？<img src="https://happyeathand.github.io/post-images/1658571175961.png" alt="" loading="lazy">那么这个问题如何解决呢？y总的方法是，只有首位两个小球动，其他位置不动，这样看起来也是连贯的，而且拐角处的小球也不出bug。创建一个虚拟的头，新头，向目标位置移动。</p>
+<p>再完成蛇的移动的代码前，首先考虑蛇什么时候可移动，作为一个回合制，肯定是双方都做出抉择之后蛇才进行移动，这时snake.js中要定义新的参数direction，即小蛇的移动方向，以及status，小蛇当前是否是移动状态，当既满足运动状态，玩家或AI给出了移动方向的指令后，小蛇就可以进行移动了，因此写一个判断函数在GameMap.js中看是否符合进行移动的要求（公共区域，<s>y总说了，运动员不能既当运动员又当裁判😅</s>）<img src="https://happyeathand.github.io/post-images/1658572103314.png" alt="" loading="lazy"></p>
+<p>ok当条件符合可以走下一步的时候，那么有许多状态是要改变的，比如小蛇的坐标，运动的状态，移动的次数等等，所以在Snake.js 中再加一个next_step函数，进行在完成下一回合操作后状态的改变，并定义一些变量，step回合数，direction移动方向，next_cell目的地位置，和dr[],dc[]行列方向上的偏移量</p>
+<p>然后回到GameMap.js,如果check_ready函数成立，那么调用GameMap.js里的next_step函数，GameMap.js里的next_step函数再挨个遍历小蛇，调用Snakes.js里的next_step函数<img src="https://happyeathand.github.io/post-images/1658573482903.png" alt="" loading="lazy">（大概就是这么个意思，大佬写代码时都很精简，能调用就调用，具体到每个方法，而不是在check_ready里判断为true后直接调用Snakes.js里的next_step函数，这样逻辑条理都比较清晰，代码也规整）</p>
+<p>接下来的问题就是如何给蛇输入移动方向的信息，目前是在前端写代码，无法从后端获取到指令，所以先用wasd控制小蓝蛇，方向键控制小红蛇。在component里给GanmeMap.vue里的canvas输入一个指令<img src="https://happyeathand.github.io/post-images/1658574323758.png" alt="" loading="lazy"></p>
+<p>获取完输入后就可以进行蛇的移动了，在Snakes.js的update_move里进行移动，前提要在udate里判断一下，看是否是移动的状态。<img src="https://happyeathand.github.io/post-images/1658574587580.png" alt="" loading="lazy"><br>
+接下来写update_move函数，在此之前先在next_step里增加一个新的小球<img src="https://happyeathand.github.io/post-images/1658577467210.png" alt="" loading="lazy">，相当于现在有两个头，再看蛇头的移动。</p>
+<p>y总在讲的时候是这样讲的<img src="https://happyeathand.github.io/post-images/1658639398393.png" alt="" loading="lazy">需要移动的话就和蛇头一起动，不需要的话就别动这么呆着，只让蛇头动就好了</p>
+<p>下一个问题是蛇目前的形状不太好看<img src="https://happyeathand.github.io/post-images/1658639472844.png" alt="" loading="lazy">，要把它变得圆润一些<br>
+y总的方法<img src="https://happyeathand.github.io/post-images/1658640043431.png" alt="" loading="lazy">避免小蛇过于臃肿再缩小每个cell和矩形，格子的80%就够了</p>
+<p>蛇画的差不多了（还差个眼睛），然后给蛇的运动加一个判断<img src="https://happyeathand.github.io/post-images/1658640823771.png" alt="" loading="lazy">再判断完之后在snake.js的next_step里改变蛇的状态，合法操作的话改为move，死亡的话直接改为die<br>
+如果小蛇die的话，身体会变为灰色<img src="https://happyeathand.github.io/post-images/1658641315025.png" alt="" loading="lazy">只有在小蛇处于idel状态时才会返回true</p>
+<p>最后就是给小蛇加眼睛了，实则是给蛇头上画两个小圆，眼睛是朝前看的，所以在每一次改变蛇头移动方向时，小蛇眼的方向也要一起改变<img src="https://happyeathand.github.io/post-images/1658642377828.png" alt="" loading="lazy">，这个偏移量是相对于蛇头这个cell的圆心的偏移量，然后经过简单的计算再画出来就ok了</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/king-of-bots-xiang-mu-zong-lan/">
+                <h3 class="post-title">
+                  King Of Bots源码地址
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1658645105238" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/kob-you-xi-gui-ze/">KOB游戏规则</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/you-xi-dui-xiang-hong-lan-tan-chi-she-de-chuang-jian/">游戏对象 红蓝贪吃蛇的创建</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/king-of-bots-xiang-mu-zong-lan/">King Of Bots源码地址</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/chuang-jian-cai-dan-yu-you-xi-jie-mian-shang/">创建菜单界面与游戏地图</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing4268-xing-gan-su-shu/">AcWing4268. 性感素数</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing797-chai-fen/">AcWing797. 差分</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/792-gao-jing-du-jian-fa/">AcWing792. 高精度减法</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing799-zui-chang-lian-xu-bu-chong-fu-zi-xu-lie/">AcWing799. 最长连续不重复子序列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/796-zi-ju-zhen-de-he-er-wei-qian-zhui-he/">AcWing796. 子矩阵的和（二维前缀和）</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing795-qian-zhui-he/">AcWing795. 前缀和</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge ">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>
