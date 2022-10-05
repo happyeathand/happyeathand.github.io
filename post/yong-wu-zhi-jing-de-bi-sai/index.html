@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>永无止境的比赛 | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1664957574045">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>永无止境的比赛</h1>
+            <p class="article-meta">
+              2022-09-27
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+                  算法题
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>题目描述<br>
+每年有数十场斯诺克比赛，Jinotega团队试图参加所有比赛（出于某种原因，他们更喜欢“斯诺克”这个名字）！当比赛在远离家乡的地方举行时，伊万、阿尔乔姆和康斯坦丁会乘飞机去参加比赛，然后再回来。</p>
+<p>吉诺特加最好的朋友，基地团队已经找到了他们的行程单列表，其中包含有关出发和到达机场的信息。现在他们想知道，吉诺特加现在在哪里：在家里还是在遥远的比赛中？他们知道：</p>
+<p>此列表包含吉诺特加今年的所有航班（按任意顺序排列），<br>
+吉诺特加只从家乡飞到斯诺克比赛，然后又回来了，<br>
+每次比赛结束后，吉诺特加都会飞回家（尽管他们可能会多次在一个地方参加比赛），<br>
+最后，在年初，吉诺特加在家。<br>
+请帮助他们确定吉诺特加的位置！</p>
+<p>输入描述<br>
+在第一行输入中，有一个整数n：吉诺特加的航班数（1≤n≤100）。在第二行中，有一串3个大写的拉丁字母：吉诺特加家乡机场的名称。在接下来的n行中有航班信息，每行一个航班，形式为“XXX-&gt;YYY”，其中“XXX”是出发机场的名称“YYY”是到达机场的名称。这些机场正好是吉诺特加的家乡机场。</p>
+<p>保证航班信息与吉诺特加朋友的知识一致，这在声明的主要部分有所描述。</p>
+<p><strong>输出描述</strong><br>
+如果吉诺特加现在在家，打印“home”（不带引号），否则打印“contest”。</p>
+<p><strong>样例输入</strong><br>
+4<br>
+SVO<br>
+SVO-&gt;CDG<br>
+LHR-&gt;SVO<br>
+SVO-&gt;LHR<br>
+CDG-&gt;SVO<br>
+<strong>样例输出</strong><br>
+home<br>
+提示<br>
+在样本中，吉诺特加可能首先从SVO飞到CDG机场并返回，然后从SVO飞到LHR再返回，所以现在他们应该在家里</p>
+<hr>
+<pre><code>#include&lt;stdio.h&gt;
+int main()
+{
+	char op[110];
+	int n,m;
+	scanf(&quot;%d&quot;,&amp;n);
+	m=n;
+	getchar();
+	gets(op);
+	while(n--)
+	{
+		gets(op);
+	}
+	if(m%2==0)
+	printf(&quot;home&quot;);
+	else
+	printf(&quot;contest&quot;);
+	return 0;
+}
+</code></pre>
+<p>为什么这道题读起来不是很通顺呢，因为他原题是全英文，这是经过浏览器翻译后的文本233.。。  <img src="https://happyeathand.github.io/post-images/1664271692555.png" alt="" loading="lazy"><br>
+8过问题不大，因为这是个脑筋急转弯题。<br>
+因为题目说了<strong>每次参加完比赛后都要回家</strong>，哪怕是在一个地方参加两次比赛，而且这个人的<strong>航班全部和斯诺克比赛有关</strong>，意思是只要航程次数为偶数，他最后就必定在家，如果为奇数他就必定在比赛。</p>
+<p>其实如果题目换一下，每次比赛完后不一定直接回家，可能直接飞往下一次比赛场地，那么如何解呢？<br>
+或许可以写一个结构体，里面包含着出发地和目的地，再加一个参数在判断这个人的行程时判断该航班有没有判断过，然后再从头遍历结构体，得出完整的的航行路线，但这样时间复杂度是很大的，因为每次都遍历了整个结构体。</p>
+<p>其实这样的话还有个问题就是输入的问题，例如 <code>SVO-&gt;CDG</code>,SVO和CDG是两个参数，那么再读入字符串时如何把它拆分呢？最笨的方法就是读整个字符串再由-&gt;作为分界点来拆分成两个字符串，但这未免也太麻烦了，不过除此之外还真想不到其他办法了。</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">
+                <h3 class="post-title">
+                  棋盘的估值
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1664957574045" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/fang-yu-dao-dan/">防御导弹</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ying-bi-wen-ti/">硬币问题</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/wu-liao-de-tu-hao/">无聊的土豪</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xiao-qiu-xia-luo/"> 小球下落</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">永无止境的比赛</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">棋盘的估值</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xun-zhao-fu-du-ji/">寻找复读机</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-guai-de-shu-lie/"> 奇怪的数列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/">平面切割（特别版）</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge ">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

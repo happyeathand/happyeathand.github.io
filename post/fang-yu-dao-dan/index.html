@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>防御导弹 | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1664957574045">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>防御导弹</h1>
+            <p class="article-meta">
+              2022-10-03
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+                  算法题
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p><strong>题目描述</strong><br>
+某国为了防御敌国的导弹袭击，发展出一种导弹拦截系统。但是这种导弹拦截 系统有一个缺陷：虽然它的第一发炮弹能够达到任意的高度，但是以后每一发炮弹都不能高于前一发的高度。某天，雷达捕捉到敌国的导弹来袭。由于该系统还在试 用阶段，所以只有一套系统，因此有可能不能拦截所有的导弹。</p>
+<p><strong>输入描述</strong><br>
+最多20个整数，分别表示导弹依次飞来的高度（雷达给出高度数据是不大于30000的正整数）</p>
+<p><strong>输出描述</strong><br>
+整数M。表示：这套系统最多能拦截 M 枚导弹.</p>
+<p><strong>样例输入</strong><br>
+300 250 275 252 200 138 245<br>
+<strong>样例输出</strong><br>
+5</p>
+<hr>
+<p>以下题解便于调试都是固定输入6个变量，若按照题目要求应该当是while(scanf(&quot;%d&quot;,&amp;a[i])!=EOF),面向样例编程（doge）</p>
+<p><strong>这个算dp解法吧（大概）</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int a[8],d[8];
+
+int main()
+{
+	int j,i;
+	for(i=0;i&lt;6;i++) scanf(&quot;%d&quot;,&amp;a[i]);
+	for(i=0;i&lt;6;i++)
+	{
+		for(j=0;j&lt;i;j++)
+		{
+			if(a[j]&gt;=a[i])
+			d[i]=d[i]&gt;d[j]+1?d[i]:d[j]+1;
+		}
+	}
+	
+	int max=-1;
+	for(i=0;i&lt;6;i++)
+	{
+		//printf(&quot;%d &quot;,d[i]);
+		if(d[i]&gt;max) max=d[i];
+	}
+	
+	printf(&quot;%d&quot;,max+1);
+}
+</code></pre>
+<p>这可能是一道入门级的dp题，很遗憾，写不出来。看完题解手动过了一遍才明白过来，其实dp关键就还是在于这个状态转移方程怎么写，感觉比dfs还不好想。<br>
+这道题的d[i]意思是以第i个数字结尾时的最长不上升子序列。那么就是两层循环，外层挨个判断第i位，内层从头向第i位判断，如果符合条件，就执行操作。</p>
+<hr>
+<p><strong>dfs解法</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int a[20];
+int max=-1,i;
+
+void dfs(int n,int m,int count)//当前最低高度为n，判断到第m个数据了，当前最多能拦截count个导弹 
+{
+	if(count&gt;max) max=count;
+	if(m==7)
+	return;
+	if(a[m]&lt;n)
+	{
+		dfs(a[m],m+1,count+1);
+		dfs(n,m+1,count);
+		return; 
+	}
+	else
+	dfs(n,m+1,count);
+	return;
+}
+
+int main()
+{
+	for(i=1;i&lt;=6;i++) scanf(&quot;%d&quot;,&amp;a[i]);
+	
+	dfs(30001,1,0);
+	printf(&quot;%d&quot;,max);
+	return 0;
+}
+</code></pre>
+<p>这题数据小，最多20个输入，甚至能dfs，就挨个判断条件然后dfs就ok了。不过感觉不是正派，如果数据大的话肯定还是需要优化。</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/ying-bi-wen-ti/">
+                <h3 class="post-title">
+                  硬币问题
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1664957574045" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/fang-yu-dao-dan/">防御导弹</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ying-bi-wen-ti/">硬币问题</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/wu-liao-de-tu-hao/">无聊的土豪</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xiao-qiu-xia-luo/"> 小球下落</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">永无止境的比赛</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">棋盘的估值</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xun-zhao-fu-du-ji/">寻找复读机</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-guai-de-shu-lie/"> 奇怪的数列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/">平面切割（特别版）</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge ">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

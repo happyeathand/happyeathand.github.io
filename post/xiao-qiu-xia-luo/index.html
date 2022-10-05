@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title> 小球下落 | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1664957574045">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1> 小球下落</h1>
+            <p class="article-meta">
+              2022-09-27
+              
+                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge warning">
+                  算法题
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p><strong>题目描述</strong><br>
+有一棵二叉树，最大深度为D，且所有叶子的深度都相同，。所有节点从上到下从左到右编号为1，2，3，。。。2D-1。在节点1处放一个小球，他会往下落。每个内节点上都有一个开关，初始全为闭合。每次小球落到一个开关上时，它的状态都会改变。当小球到达一个内节点时，如果开关关闭时往左走，否则往右走。直到叶子节点。</p>
+<p><strong>输入描述</strong><br>
+第一行n，代表接下来有n个测试数据</p>
+<p>接下来n行，每行对应深度D，小球编号m（代表第m个落下的小球）</p>
+<p><strong>输出描述</strong><br>
+第m个小球落到的结点编号</p>
+<p><strong>样例输入</strong><br>
+4<br>
+4 2<br>
+3 4<br>
+10 1<br>
+2 2<br>
+<strong>样例输出</strong><br>
+12<br>
+7<br>
+512<br>
+3</p>
+<hr>
+<pre><code>#include&lt;stdio.h&gt;
+
+int a[1000];
+
+int main()
+{
+	int n;
+	scanf(&quot;%d&quot;,&amp;n);
+	while(n--)
+	{
+		int d,m;
+		scanf(&quot;%d%d&quot;,&amp;d,&amp;m);
+		for(int i=0;i&lt;1000;i++) a[i]=0;
+		int index=1;
+		for(int i=0;i&lt;m;i++)
+		{
+			for(int j=1;j&lt;d;j++)
+			{
+				if(a[index]==0)
+				{
+					a[index]=1;
+					index=2*index;
+				}
+				else
+				{
+					a[index]=0;
+					index=2*index+1;
+				}
+			}
+			if(i==(m-1)) printf(&quot;%d\n&quot;,index);
+			index=1;
+		}
+	}
+	return 0;
+}
+</code></pre>
+<p>这道题之前校赛是做过的，用数组模拟二叉树然后模拟就ok了，但是有个问题要注意下，第一次写完之后结果刚好是正确结果的2倍，为啥呢，一看原来是因为循环里的层数，就是for循环里二叉树深度的初始值j是从0开始的，然而应该直接从1开始就对了，因为都是从第一层放入的嘛。</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">
+                <h3 class="post-title">
+                  永无止境的比赛
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1664957574045" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/fang-yu-dao-dan/">防御导弹</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ying-bi-wen-ti/">硬币问题</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/wu-liao-de-tu-hao/">无聊的土豪</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xiao-qiu-xia-luo/"> 小球下落</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">永无止境的比赛</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">棋盘的估值</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xun-zhao-fu-du-ji/">寻找复读机</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-guai-de-shu-lie/"> 奇怪的数列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/">平面切割（特别版）</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge success">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

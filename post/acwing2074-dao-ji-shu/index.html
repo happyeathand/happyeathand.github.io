@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>AcWing2074. 倒计数 | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1664957574045">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>AcWing2074. 倒计数</h1>
+            <p class="article-meta">
+              2022-07-26
+              
+                <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+                  暑假每日一题2022
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>艾弗里有一个由 N 个正整数构成的数组。</p>
+<p>数组中的第 i 个整数是 Ai。</p>
+<p>如果一个连续的子数组的长度为 m，并且按顺序包含整数 m,m−1,m−2,…,2,1，则称它为 m 倒计数。</p>
+<p>例如，[3,2,1] 是 3 倒计数。</p>
+<p>请帮助艾弗里计算她的数组中有多少个 K 倒计数。</p>
+<p><strong>输入格式</strong><br>
+第一行包含整数 T，表示共有 T 组测试数据。</p>
+<p>对于每组数据，第一行包含两个整数 N 和 K。</p>
+<p>第二行包含 N 个整数，其中第 i 个表示 Ai。</p>
+<p><strong>输出格式</strong><br>
+每组数据输出一个结果，每个结果占一行。</p>
+<p>结果表示为 Case #x: y，其中 x 为组别编号（从 1 开始），y 为 K 倒计数的数量。</p>
+<p><strong>数据范围</strong></p>
+<pre><code>1≤T≤100,
+2≤K≤N,
+1≤Ai≤2×105,
+2≤N≤2×105
+</code></pre>
+<p><strong>输入样例：</strong></p>
+<pre><code>3
+12 3
+1 2 3 7 9 3 2 1 8 3 2 1
+4 2
+101 100 99 98
+9 6
+100 7 6 5 4 3 2 1 100
+</code></pre>
+<p><strong>输出样例：</strong></p>
+<pre><code>Case #1: 2
+Case #2: 0
+Case #3: 1
+</code></pre>
+<p><strong>样例解释</strong><br>
+在示例 1 中，有两个 3 倒计数，如下：</p>
+<p><code>1 2 3 7 9 3 2 1 8 3 2 1</code><br>
+<code>1 2 3 7 9 3 2 1 8 3 2 1</code><br>
+在示例 2 中，没有 2 倒计数。</p>
+<p>在示例 3 中，有一个 6 倒计数，如下：</p>
+<p><code>100 7 6 5 4 3 2 1 100</code></p>
+<hr>
+<p><s>时隔21天的每日一题2333</s><br>
+这道题就是很简单的数组处理，暴力就能满分，但是还是让我印象深刻，因为有些自己的错误小认知被刷新了<br>
+<strong>贴题解</strong></p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int t,n,k,count;
+
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;t);
+	for(int tt=1;tt&lt;=t;tt++)
+	{
+		count=0;
+		scanf(&quot;%d&quot;,&amp;n);
+		int a[n+1];
+		scanf(&quot;%d&quot;,&amp;k);
+		for(int i=0;i&lt;n;i++)
+		{
+			scanf(&quot;%d&quot;,&amp;a[i]);
+		}
+		for(int i=0;i&lt;n;i++)
+		{
+			if(a[i]==k)
+			{
+				for(int j=1;j&lt;=k-1;j++)
+				{
+					if(a[i+j]!=k-j)
+					{
+						break;
+					}
+					if(k-j==1)
+					{
+						count++;
+					}
+				}
+			}
+		}
+		printf(&quot;Case #%d: %d\n&quot;,tt,count);
+	}
+	return 0;
+}
+</code></pre>
+<p>一开始我的代码酱婶儿的</p>
+<pre><code>#include&lt;stdio.h&gt;
+
+int t,n,k,count;
+int a[10005];
+
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;t);
+	for(int tt=1;tt&lt;=t;tt++)
+	{
+		count=0;
+		scanf(&quot;%d&quot;,&amp;n);
+		scanf(&quot;%d&quot;,&amp;k);
+		for(int i=0;i&lt;n;i++)
+		{
+			scanf(&quot;%d&quot;,&amp;a[i]);
+		}
+		for(int i=0;i&lt;n;i++)
+		{
+			if(a[i]==k)
+			{
+				for(int j=1;j&lt;=k-1;j++)
+				{
+					if(a[i+j]!=k-j)
+					{
+						break;
+					}
+					if(k-j==1)
+					{
+						count++;
+					}
+				}
+			}
+		}
+		printf(&quot;Case #%d: %d\n&quot;,tt,count);
+	}
+	return 0;
+}
+</code></pre>
+<p>唯一的区别在于数组a[n]的定义位置，一开始是全局定义，不知道什么时候养成的小癖好，最近写题都是定义全局变量，然后运行时就出了问题，加了调试以后是这样的<img src="https://happyeathand.github.io/post-images/1658826426744.png" alt="" loading="lazy">前四次都没问题，到了第五次却莫名其妙通过了，果然一看是全局变量的问题，第一次输入的值后续也用到了，所以第一次修改是在第一个for循环里重新<code>int a[100005]</code>了一次，结果发现还是不对，最后只能改成了第一次题解那样。<br>
+所以一个错误的常识就是每次定义a[n]都认为是把数组a初始化了一次，实则不然，其实还是同一个数组，而且，它的值竟然还保留着。。。。<br>
+可怜用了两年的c，这种东西都不知道</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/kob-you-xi-gui-ze/">
+                <h3 class="post-title">
+                  KOB游戏规则
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1664957574045" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/fang-yu-dao-dan/">防御导弹</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ying-bi-wen-ti/">硬币问题</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/wu-liao-de-tu-hao/">无聊的土豪</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xiao-qiu-xia-luo/"> 小球下落</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">永无止境的比赛</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">棋盘的估值</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xun-zhao-fu-du-ji/">寻找复读机</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-guai-de-shu-lie/"> 奇怪的数列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/">平面切割（特别版）</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge ">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge ">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

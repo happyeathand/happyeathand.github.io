@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>配置Mysql与注册登录模块 step5 | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1664957574045">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>配置Mysql与注册登录模块 step5</h1>
+            <p class="article-meta">
+              2022-08-05
+              
+            </p>
+            
+            <div class="post-content">
+              <p>网站内的页面大致可以分为两类<br>
+1.公开页面，即未登录就可以访问的页面  比如登陆页面<br>
+2.授权页面，经过了某些授权之后才可以进行访问的页面，而且在浏览器上成功登陆一次后，就可以访问具有相同授权权限的页面</p>
+<p>传统的session验证存在跨域的问题，所以采用jwt验证的方式<br>
+<img src="https://happyeathand.github.io/post-images/1659709677743.png" alt="" loading="lazy"><br>
+大概就是先通过后端的UserDetailsServiceImpl进行一个验证，对用户输入的信息和数据库的已存入用户的信息进行一个比对，如果成功的话会生成一个jwttoken，由userid，密钥，以及加密后的字符串三部分组成，其中userid和字符串存在用户本地，在用户发送请求进行验证时会由服务器提供的密钥进行比对</p>
+<p>ok下面再进行一些配置，如下<img src="https://happyeathand.github.io/post-images/1659710470611.png" alt="" loading="lazy"></p>
+<p>然后对数据库进行操作，勾选userid的自增的选项(https://happyeathand.github.io/post-images/1659710558402.png)然后再新增一个photo列，用来存储用户头像</p>
+<p>下面实现三个API<img src="https://happyeathand.github.io/post-images/1659769703503.png" alt="" loading="lazy"></p>
+<pre><code>1.根据user的username和password获取一个jwttoken
+2.成功获取token后，向服务器发送一个请求，获取当前用户的信息，包括username，userid，photo
+3.注册账号
+</code></pre>
+<p>写API的话就是三个步骤，先写controller，用于调用service里的接口，然后是service里的impl里，写接口的具体的实现..代码逻辑比较清楚，就是很多方法的调用，和Mybatis-plus用起来不熟悉，注释写起来还是挺吃力的<s>相当困难</s>，具体的就不赘述了，逻辑比较简单，看源码就好</p>
+<p>接下来就是写register和login的前端界面。<img src="https://happyeathand.github.io/post-images/1659784397955.png" alt="" loading="lazy">在view里新创建这两个view<br>
+然后在router里导入一下两个新界面<img src="https://happyeathand.github.io/post-images/1659788601102.png" alt="" loading="lazy"><br>
+然后写注册登陆界面的话，无非就是几个部分，输入用户名，输入密码，提交按钮，如果信息有误的话进行一个报错<img src="https://happyeathand.github.io/post-images/1659788687009.png" alt="" loading="lazy">挨个写好就ok了，还有一个就是在用户登陆成功后需要把用户的信息存到全局，放到store里，新建一个user.js文件，</p>
+<p>写好后再修改UserAccountLoginView.vue里的代码，在输入信息无误后，点击提交应该实现一个页面的跳转</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/pei-zhi-mysql-yu-zhu-ce-deng-lu-mo-kuai-step4/">
+                <h3 class="post-title">
+                  配置Mysql与注册登录模块  step4
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1664957574045" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/fang-yu-dao-dan/">防御导弹</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ying-bi-wen-ti/">硬币问题</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/wu-liao-de-tu-hao/">无聊的土豪</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xiao-qiu-xia-luo/"> 小球下落</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">永无止境的比赛</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">棋盘的估值</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xun-zhao-fu-du-ji/">寻找复读机</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-guai-de-shu-lie/"> 奇怪的数列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/">平面切割（特别版）</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge ">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

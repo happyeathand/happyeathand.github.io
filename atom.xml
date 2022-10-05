@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲🐟小站</title>
-    <updated>2022-07-24T06:56:27.581Z</updated>
+    <updated>2022-10-05T08:14:58.583Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
@@ -11,73 +11,73 @@
     <icon>https://happyeathand.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, 闲🐟小站</rights>
     <entry>
-        <title type="html"><![CDATA[KOB游戏规则]]></title>
-        <id>https://happyeathand.github.io/post/kob-you-xi-gui-ze/</id>
-        <link href="https://happyeathand.github.io/post/kob-you-xi-gui-ze/">
+        <title type="html"><![CDATA[AcWing875. 快速幂]]></title>
+        <id>https://happyeathand.github.io/post/acwing875-kuai-su-mi/</id>
+        <link href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">
         </link>
-        <updated>2022-07-23T09:27:18.000Z</updated>
+        <updated>2022-10-05T07:13:18.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[游戏对象 红蓝贪吃蛇的创建 step3]]></title>
-        <id>https://happyeathand.github.io/post/you-xi-dui-xiang-hong-lan-tan-chi-she-de-chuang-jian/</id>
-        <link href="https://happyeathand.github.io/post/you-xi-dui-xiang-hong-lan-tan-chi-she-de-chuang-jian/">
+        <title type="html"><![CDATA[防御导弹]]></title>
+        <id>https://happyeathand.github.io/post/fang-yu-dao-dan/</id>
+        <link href="https://happyeathand.github.io/post/fang-yu-dao-dan/">
         </link>
-        <updated>2022-07-23T08:36:21.000Z</updated>
+        <updated>2022-10-03T10:12:40.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[King Of Bots源码地址]]></title>
-        <id>https://happyeathand.github.io/post/king-of-bots-xiang-mu-zong-lan/</id>
-        <link href="https://happyeathand.github.io/post/king-of-bots-xiang-mu-zong-lan/">
+        <title type="html"><![CDATA[硬币问题]]></title>
+        <id>https://happyeathand.github.io/post/ying-bi-wen-ti/</id>
+        <link href="https://happyeathand.github.io/post/ying-bi-wen-ti/">
         </link>
-        <updated>2022-07-21T02:27:30.000Z</updated>
+        <updated>2022-10-02T02:22:22.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[创建菜单界面与游戏地图 step2]]></title>
-        <id>https://happyeathand.github.io/post/chuang-jian-cai-dan-yu-you-xi-jie-mian-shang/</id>
-        <link href="https://happyeathand.github.io/post/chuang-jian-cai-dan-yu-you-xi-jie-mian-shang/">
+        <title type="html"><![CDATA[无聊的土豪]]></title>
+        <id>https://happyeathand.github.io/post/wu-liao-de-tu-hao/</id>
+        <link href="https://happyeathand.github.io/post/wu-liao-de-tu-hao/">
         </link>
-        <updated>2022-07-15T01:27:33.000Z</updated>
+        <updated>2022-10-02T02:07:59.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[AcWing4268. 性感素数]]></title>
-        <id>https://happyeathand.github.io/post/acwing4268-xing-gan-su-shu/</id>
-        <link href="https://happyeathand.github.io/post/acwing4268-xing-gan-su-shu/">
+        <title type="html"><![CDATA[ 小球下落]]></title>
+        <id>https://happyeathand.github.io/post/xiao-qiu-xia-luo/</id>
+        <link href="https://happyeathand.github.io/post/xiao-qiu-xia-luo/">
         </link>
-        <updated>2022-07-05T09:16:56.000Z</updated>
+        <updated>2022-09-27T10:31:47.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[AcWing797. 差分]]></title>
-        <id>https://happyeathand.github.io/post/acwing797-chai-fen/</id>
-        <link href="https://happyeathand.github.io/post/acwing797-chai-fen/">
+        <title type="html"><![CDATA[永无止境的比赛]]></title>
+        <id>https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/</id>
+        <link href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">
         </link>
-        <updated>2022-07-05T08:06:03.000Z</updated>
+        <updated>2022-09-27T09:38:43.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[AcWing792. 高精度减法]]></title>
-        <id>https://happyeathand.github.io/post/792-gao-jing-du-jian-fa/</id>
-        <link href="https://happyeathand.github.io/post/792-gao-jing-du-jian-fa/">
+        <title type="html"><![CDATA[棋盘的估值]]></title>
+        <id>https://happyeathand.github.io/post/qi-pan-de-gu-zhi/</id>
+        <link href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">
         </link>
-        <updated>2022-07-02T08:12:34.000Z</updated>
+        <updated>2022-09-27T08:50:21.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[AcWing799. 最长连续不重复子序列]]></title>
-        <id>https://happyeathand.github.io/post/acwing799-zui-chang-lian-xu-bu-chong-fu-zi-xu-lie/</id>
-        <link href="https://happyeathand.github.io/post/acwing799-zui-chang-lian-xu-bu-chong-fu-zi-xu-lie/">
+        <title type="html"><![CDATA[寻找复读机]]></title>
+        <id>https://happyeathand.github.io/post/xun-zhao-fu-du-ji/</id>
+        <link href="https://happyeathand.github.io/post/xun-zhao-fu-du-ji/">
         </link>
-        <updated>2022-06-23T07:06:53.000Z</updated>
+        <updated>2022-09-27T07:27:49.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[AcWing796. 子矩阵的和（二维前缀和）]]></title>
-        <id>https://happyeathand.github.io/post/796-zi-ju-zhen-de-he-er-wei-qian-zhui-he/</id>
-        <link href="https://happyeathand.github.io/post/796-zi-ju-zhen-de-he-er-wei-qian-zhui-he/">
+        <title type="html"><![CDATA[ 奇怪的数列]]></title>
+        <id>https://happyeathand.github.io/post/qi-guai-de-shu-lie/</id>
+        <link href="https://happyeathand.github.io/post/qi-guai-de-shu-lie/">
         </link>
-        <updated>2022-06-21T08:53:44.000Z</updated>
+        <updated>2022-09-27T06:52:01.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[AcWing795. 前缀和]]></title>
-        <id>https://happyeathand.github.io/post/acwing795-qian-zhui-he/</id>
-        <link href="https://happyeathand.github.io/post/acwing795-qian-zhui-he/">
+        <title type="html"><![CDATA[平面切割（特别版）]]></title>
+        <id>https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/</id>
+        <link href="https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/">
         </link>
-        <updated>2022-06-21T03:03:46.000Z</updated>
+        <updated>2022-09-27T06:50:29.000Z</updated>
     </entry>
 </feed>

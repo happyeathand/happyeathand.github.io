@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>AcWing827. 双链表 | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1664957574045">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>AcWing827. 双链表</h1>
+            <p class="article-meta">
+              2022-08-10
+              
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+                  算法基础课学习记录
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>实现一个双链表，双链表初始为空，支持 5 种操作：</p>
+<p>在最左侧插入一个数；<br>
+在最右侧插入一个数；<br>
+将第 k 个插入的数删除；<br>
+在第 k 个插入的数左侧插入一个数；<br>
+在第 k 个插入的数右侧插入一个数<br>
+现在要对该链表进行 M 次操作，进行完所有操作后，从左到右输出整个链表。</p>
+<p>注意:题目中第 k 个插入的数并不是指当前链表的第 k 个数。例如操作过程中一共插入了 n 个数，则按照插入的时间顺序，这 n 个数依次为：第 1 个插入的数，第 2 个插入的数，…第 n 个插入的数。</p>
+<p><strong>输入格式</strong><br>
+第一行包含整数 M，表示操作次数。</p>
+<p>接下来 M 行，每行包含一个操作命令，操作命令可能为以下几种：</p>
+<p>L x，表示在链表的最左端插入数 x。<br>
+R x，表示在链表的最右端插入数 x。<br>
+D k，表示将第 k 个插入的数删除。<br>
+IL k x，表示在第 k 个插入的数左侧插入一个数。<br>
+IR k x，表示在第 k 个插入的数右侧插入一个数。<br>
+<strong>输出格式</strong><br>
+共一行，将整个链表从左到右输出。</p>
+<p><strong>数据范围</strong><br>
+1≤M≤100000<br>
+所有操作保证合法。</p>
+<p><strong>输入样例：</strong></p>
+<pre><code>10
+R 7
+D 1
+L 3
+IL 2 10
+D 3
+IL 2 7
+L 8
+R 9
+IL 4 7
+IR 2 2
+</code></pre>
+<p><strong>输出样例：</strong><br>
+<code>8 7 7 3 2 9</code></p>
+<hr>
+<p><strong>题解</strong></p>
+<p>双链表的操作和单链表大同小异，不同的是多了一个tail节点，不知道有啥用，应该是为了方便头尾元素的插入吧，还有就是方便最后的链表遍历？（大概）。然后需要注意的就是head和tail仅作为标志，不存值，遍历也是不包括他们两个的。</p>
+<pre><code>#include&lt;iostream&gt;
+
+using namespace std;
+
+const int N = 1e5 + 10;
+
+int m;
+int e[N], l[N], r[N];//e[N]表示链表中元素的值，l[N]左指针指向第n个元素左边的元素的位次，r[n]同理
+int idx;//第几个插入的元素
+void init()//初始化链表
+{
+	r[0]=1;//链表的头和尾都先定义好了，head是0，tail是1
+	l[1]=0;
+	idx=2;//idx从2开始
+}
+void add(int k,int x)//这里的函数是向第k个插入的元素右面插入一个新的值x，如果是向左插入，参数改成l[k]就ok了
+{
+	e[idx]=x;
+	l[idx]=k;
+	r[idx]=r[k];
+	l[r[k]]=idx;
+	r[k]=idx;
+	idx++;
+}
+void remove(int k)
+{
+	r[l[k]]=r[k];
+	l[r[k]]=l[k];
+}
+
+
+int main()
+{//因为c语言判断字符太麻烦所以直接找了个c++的题解copy一下主函数
+	 ios::sync_with_stdio(false);
+    cin &gt;&gt; m;
+
+    init();
+
+    while(m--)
+    {
+        string op;
+        cin &gt;&gt; op;
+        int k, x;
+        if(op==&quot;R&quot;)
+        {
+            cin &gt;&gt; x;
+            add(l[1], x);//向链表最右端添加一个数，即把这个数插入在位次为1的元素的左边
+        }
+        else if(op==&quot;L&quot;)
+        {
+            cin &gt;&gt; x;
+            add(0, x);//和上边一个道理，向最左端插入一个数，就是把这个数插入到位次为0的元素右边
+        }
+        else if(op==&quot;D&quot;)
+        {
+            cin &gt;&gt; k;
+            remove(k + 1);//为什么是k+1呢，因为位次是从0开始计算的，然而init里面已经初始化了head和tail，所以已经被占了俩个，然而题目说的是第k个插入的数，又要从1开始计算，所以这里写k+1就合理了
+        }
+        else if(op==&quot;IL&quot;)
+        {
+            cin &gt;&gt; k &gt;&gt; x;
+            add(l[k + 1], x);
+        }
+        else
+        {
+            cin &gt;&gt; k &gt;&gt; x;
+            add(k + 1, x);
+        }    
+    }
+    for(int i=r[0];i!=1;i=r[i])
+    printf(&quot;%d &quot;,e[i]);
+}
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/pei-zhi-mysql-yu-zhu-ce-deng-lu-mo-kuai-step6/">
+                <h3 class="post-title">
+                  配置Mysql与注册登录模块 step6
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1664957574045" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/fang-yu-dao-dan/">防御导弹</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ying-bi-wen-ti/">硬币问题</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/wu-liao-de-tu-hao/">无聊的土豪</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xiao-qiu-xia-luo/"> 小球下落</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/yong-wu-zhi-jing-de-bi-sai/">永无止境的比赛</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-pan-de-gu-zhi/">棋盘的估值</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/xun-zhao-fu-du-ji/">寻找复读机</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/qi-guai-de-shu-lie/"> 奇怪的数列</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/ping-mian-qie-ge-te-bie-ban/">平面切割（特别版）</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge ">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>
