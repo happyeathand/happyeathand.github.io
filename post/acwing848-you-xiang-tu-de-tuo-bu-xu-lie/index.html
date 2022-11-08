@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>AcWing848. 有向图的拓扑序列 (topsort) | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1667886521078">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>AcWing848. 有向图的拓扑序列 (topsort)</h1>
+            <p class="article-meta">
+              2022-11-01
+              
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+                  算法基础课学习记录
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>给定一个 n 个点 m 条边的有向图，点的编号是 1 到 n，图中可能存在重边和自环。</p>
+<p>请输出任意一个该有向图的拓扑序列，如果拓扑序列不存在，则输出 −1。</p>
+<p>若一个由图中所有点构成的序列 A 满足：对于图中的每条边 (x,y)，x 在 A 中都出现在 y 之前，则称 A 是该图的一个拓扑序列。</p>
+<p><strong>输入格式</strong><br>
+第一行包含两个整数 n 和 m。</p>
+<p>接下来 m 行，每行包含两个整数 x 和 y，表示存在一条从点 x 到点 y 的有向边 (x,y)。</p>
+<p><strong>输出格式</strong><br>
+共一行，如果存在拓扑序列，则输出任意一个合法的拓扑序列即可。</p>
+<p>否则输出 −1。</p>
+<p><strong>数据范围</strong><br>
+1≤n,m≤105<br>
+<strong>输入样例：</strong><br>
+3 3<br>
+1 2<br>
+2 3<br>
+1 3<br>
+<strong>输出样例：</strong><br>
+1 2 3</p>
+<hr>
+<p><img src="https://happyeathand.github.io/post-images/1667304253057.jpg" alt="" loading="lazy"><br>
+先贴一张题解里的题解图片吧，写的实在是太详细了，我能想到或者不能想到的都有，所以直接贴了。</p>
+<p>再说说自己的理解吧，这道题与其说是给出一个拓扑序列，倒不如说是判断该图是否为有向无环图，因为它所输出的拓扑序列是且只能是按照节点序的第一个拓扑序列。</p>
+<p>如果图是一个有向无环图的话，那么正常情况是，随着入度不断减小，会不断出现新的0入度点，在遍历到0入度点指向的结点之后会把0入度点入队，而0入度点射出去的那条边会被删掉，如何删呢？就是指向的那个结点的入度数减1，删去的是哪条边这件事是不需要记录的，以为只有在入度数为0时才会执行下一步。</p>
+<p>这里topsort函数的返回值是一个bool值，这样的话入队的结点就是答案之一，每个结点最多只能入队一次，那么所有结点入队后我们就可以说这个图有拓扑序列了（但无法给出所有序列和序列个数），既然要输出一个拓扑序列，那么存进去的值以及顺序是要保存下来的，那就不能用STL容器里的queue了，因为值要存储，所以用数组去模拟队列执行。</p>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int N=100010,M=2*N;
+
+int h[N],e[M],ne[M],idx;
+int n,m,tt,hh;//hh与tt分别代表头节点和尾节点
+int d[N],q[N];//d存储入度数，q存储入队的结点
+
+void add(int a,int b)
+{
+    e[idx]=b;
+    ne[idx]=h[a];
+    h[a]=idx;
+    idx++;
+}
+
+bool topsort()
+{
+    hh=0;tt=0;  
+    for(int i=1;i&lt;=n;i++)//初始化判断把入度为0的结点入队
+    {
+        if(d[i]==0)
+        {
+            q[tt]=i;
+            tt++;
+        }
+    }
+    
+    while(hh&lt;=tt)
+    {
+        int t=q[hh];//取队头结点
+        hh++;
+        for(int i=h[t];i!=-1;i=ne[i])
+        {
+            int j=e[i];
+            d[j]--;
+            if(d[j]==0)//入度为0的话就入队
+            {
+                q[tt]=j;
+                tt++;
+            }
+        }
+    }
+    return tt==n;
+}
+
+int main()
+{
+    memset(h,-1,sizeof h);
+    memset(d,0,sizeof d);
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=0;i&lt;m;i++)
+    {
+        int a,b;
+        cin&gt;&gt;a&gt;&gt;b;
+        add(a,b);
+        d[b]++;
+    }
+    if(topsort())
+    {
+        for(int i=0;i&lt;n;i++)
+        {
+            printf(&quot;%d &quot;,q[i]);
+        }
+    }
+    else cout&lt;&lt;-1&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/acwing847-tu-zhong-dian-de-ceng-ci/">
+                <h3 class="post-title">
+                  AcWing847. 图中点的层次 (bfs)
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1667886521078" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/">AcWing853. 有边数限制的最短路 (bellman_fold算法)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/850-dijkstra-qiu-zui-duan-lu-ii/">850. Dijkstra求最短路 II (数据较大)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/849-dijkstra-qiu-zui-duan-lu-i/">849. Dijkstra求最短路 I (数据较小)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing848-you-xiang-tu-de-tuo-bu-xu-lie/">AcWing848. 有向图的拓扑序列 (topsort)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing847-tu-zhong-dian-de-ceng-ci/">AcWing847. 图中点的层次 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing846-shu-de-chong-xin/">AcWing846. 树的重心 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing845-ba-shu-ma/">AcWing845. 八数码 (bfs,map,队列)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">AcWing844. 走迷宫 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">AcWing843. n-皇后问题 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂 (数论)</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge warning">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

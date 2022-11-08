@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>AcWing845. 八数码 (bfs,map,队列) | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1667886521078">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>AcWing845. 八数码 (bfs,map,队列)</h1>
+            <p class="article-meta">
+              2022-10-28
+              
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
+                  算法基础课学习记录
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>在一个 3×3 的网格中，1∼8 这 8 个数字和一个 x 恰好不重不漏地分布在这 3×3 的网格中。</p>
+<p><strong>例如：</strong></p>
+<pre><code>1 2 3
+x 4 6
+7 5 8
+</code></pre>
+<p>在游戏过程中，可以把 x 与其上、下、左、右四个方向之一的数字交换（如果存在）。</p>
+<p>我们的目的是通过交换，使得网格变为如下排列（称为正确排列）：</p>
+<pre><code>1 2 3
+4 5 6
+7 8 x
+</code></pre>
+<p>例如，示例中图形就可以通过让 x 先后与右、下、右三个方向的数字交换成功得到正确排列。</p>
+<p>交换过程如下：</p>
+<pre><code>1 2 3   1 2 3   1 2 3   1 2 3
+x 4 6   4 x 6   4 5 6   4 5 6
+7 5 8   7 5 8   7 x 8   7 8 x
+</code></pre>
+<p>现在，给你一个初始网格，请你求出得到正确排列至少需要进行多少次交换。</p>
+<p><strong>输入格式</strong><br>
+输入占一行，将 3×3 的初始网格描绘出来。</p>
+<p>例如，如果初始网格如下所示：</p>
+<pre><code>1 2 3 
+x 4 6 
+7 5 8 
+</code></pre>
+<p>则输入为：<code>1 2 3 x 4 6 7 5 8</code></p>
+<p><strong>输出格式</strong><br>
+输出占一行，包含一个整数，表示最少交换次数。</p>
+<p>如果不存在解决方案，则输出 −1。</p>
+<p><strong>输入样例：</strong><br>
+<code>2 3 4 1 5 x 7 6 8</code><br>
+<strong>输出样例</strong><br>
+<code>19</code></p>
+<hr>
+<p>bfs，本质上应该和走迷宫那题差不多，一个是走到终点坐标，一个是走到某一种状态，坐标好存但状态不好存。定义一个unordered_map&lt;string,int&gt;用来存储到达某种情况所需要的最小步数，队列q<string>用来存储在相同层数（步数）下的情况，dis用来存储层数，即最小步数。<br>
+如何存储情况呢？把二维数组转换成字符串，在取其在二维数组下的坐标时x=一维下表/3，y=一维下标%3。<br>
+if(d.count(t)==0)意思是说，如果map中已经存储过了某种情况，那么下次再遇到该种情况时是不再存入的，第一次存入即是最简短的路径了，意思是如果再一次碰到该种情况，那么它的步数是一定大于第一次的，那么这种情况也不会入队，相当于bfs再判断过程中是不断优化的，舍弃了冗余走法，转而存储到达某结点的最优路径。(如果没有这个判断会内存超限)<br>
+本来是想手动模拟验证一下的，但奈何情况太多了，其实可以和走迷宫那道题相比较，每种情况可以作为一种节点，这样的话走到该路径的情况不止一条。或者说是如果该种情况无解，那如果不判断的话想必会陷入死循环，多半是四个数来回转动，不断的向map和q中存入元素，可能会造成内存超限（我猜的），但一定会导致输出不出来-1，程序无法结束。<br>
+unordered_map和map的区别在于前者是无序的，仅仅创建了一个哈希表，而后者是有序的，相对来说更占据运行时间。</p>
+<pre><code>#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;queue&gt;
+#include&lt;unordered_map&gt;
+using namespace std;
+
+queue&lt;string&gt; q;//队列q，参数是string类型，用于记录不同的排列方式
+unordered_map&lt;string,int&gt; d;//用于记录从初始状态到该种状态下需要进行几步改变
+string endd = &quot;12345678x&quot;;//最终状态是endd
+int dis;//中介值，用于记录当前层走了几步
+int dx[]={-1,0,1,0},dy[]={0,1,0,-1};//x轴和y轴上的偏移量
+
+int bfs(string start)
+{
+
+	q.push(start);
+	d[start]=0;
+	while(!q.empty())
+	{
+		auto t=q.front();
+		q.pop();
+		
+		dis=d[t];
+		if(t==endd)//如果t等于目标字符串了就return出去
+		{
+			return dis;
+		}
+		
+		int k=t.find('x');//寻找x的下标
+		int a=k/3,b=k%3;//把一维数组中的下标转换成二维数组中的坐标(a,b)
+		for(int i=0;i&lt;4;i++)//四个方向都判断一遍看能不能走
+		{
+			int x=a+dx[i],y=b+dy[i];//走之后的坐标
+			if(x&gt;=0&amp;&amp;x&lt;3&amp;&amp;y&gt;=0&amp;&amp;y&lt;3)//条件符合可以走
+			{
+				swap(t[k],t[x*3+y]);//交换值
+				if(d.count(t)==0)//如果map里没有存入过到达情况t的路径数
+				{
+					d[t]=dis+1;//该种情况的步数＋1
+					q.push(t);//把该种情况入队
+				}
+				swap(t[k],t[x*3+y]);//回复原样，判断下一个方向
+			}
+		}
+	}
+	return -1;
+}
+
+int main()
+{
+	string op,c;
+	for(int i=1;i&lt;=9;i++)
+	{
+		cin&gt;&gt;c;
+		op+=c;
+	}
+	cout&lt;&lt;bfs(op)&lt;&lt;endl;
+	return 0;
+}
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">
+                <h3 class="post-title">
+                  AcWing844. 走迷宫 (bfs)
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1667886521078" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/">AcWing853. 有边数限制的最短路 (bellman_fold算法)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/850-dijkstra-qiu-zui-duan-lu-ii/">850. Dijkstra求最短路 II (数据较大)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/849-dijkstra-qiu-zui-duan-lu-i/">849. Dijkstra求最短路 I (数据较小)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing848-you-xiang-tu-de-tuo-bu-xu-lie/">AcWing848. 有向图的拓扑序列 (topsort)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing847-tu-zhong-dian-de-ceng-ci/">AcWing847. 图中点的层次 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing846-shu-de-chong-xin/">AcWing846. 树的重心 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing845-ba-shu-ma/">AcWing845. 八数码 (bfs,map,队列)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">AcWing844. 走迷宫 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">AcWing843. n-皇后问题 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂 (数论)</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge success">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

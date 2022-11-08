@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>AcWing844. 走迷宫 (bfs) | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1667886521078">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>AcWing844. 走迷宫 (bfs)</h1>
+            <p class="article-meta">
+              2022-10-27
+              
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+                  算法基础课学习记录
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>给定一个 n×m 的二维整数数组，用来表示一个迷宫，数组中只包含 0 或 1，其中 0 表示可以走的路，1 表示不可通过的墙壁。</p>
+<p>最初，有一个人位于左上角 (1,1) 处，已知该人每次可以向上、下、左、右任意一个方向移动一个位置。</p>
+<p>请问，该人从左上角移动至右下角 (n,m) 处，至少需要移动多少次。</p>
+<p>数据保证 (1,1) 处和 (n,m) 处的数字为 0，且一定至少存在一条通路。</p>
+<p><strong>输入格式</strong><br>
+第一行包含两个整数 n 和 m。</p>
+<p>接下来 n 行，每行包含 m 个整数（0 或 1），表示完整的二维数组迷宫。</p>
+<p><strong>输出格式</strong><br>
+输出一个整数，表示从左上角移动至右下角的最少移动次数。</p>
+<p><strong>数据范围</strong><br>
+1≤n,m≤100<br>
+<strong>输入样例：</strong></p>
+<pre><code>5 5
+0 1 0 0 0
+0 1 0 1 0
+0 0 0 0 0
+0 1 1 1 0
+0 0 0 1 0
+</code></pre>
+<p><strong>输出样例：</strong><br>
+8</p>
+<hr>
+<p>bfs实现最短路径问题，从起点出发，每次走向下一个格子时都要判断上下左右四个方向，如果有可以走的格子就把它push进队列，然后不断从队列弹出新格，每个岔路都是一种新的走法，因为题目中说明了迷宫是连通的，所以肯定会有解法，只需最后输出终点的步数就可以了（最后取结果时和dp有点相似）。</p>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+typedef pair&lt;int,int&gt; pi;//这里的两个int分别代表横纵坐标
+int mapp[105][105],a[105][105];//mapp代表地图，a[i][j]代表走到坐标(i,j)至少需要几步
+int m,n;
+queue &lt;pi&gt; q;
+
+int bfs()
+{
+	int dx[]={-1,0,1,0},dy[]={0,1,0,-1};//x和y方向上的偏移量
+	//memset(a,-1,sizeof(a));//这里y总先把所有答案初始化为了-1，可能是为了区分起点吧
+	//a[0][0]=0;
+	
+	q.push({0,0});//先把左标(0,0)push进队列
+	while(!q.empty())
+	{
+		auto t=q.front();//auto就是根据后边的变量的值自适应的进行定义，这里取队头的值
+		q.pop();//取完队头记得把它弹出去
+		
+		for(int i=0;i&lt;4;i++)//上下左右四个方向进行判断，哪个方向能走
+		{
+			int x=t.first+dx[i],y=t.second+dy[i];
+			if(x&gt;=0&amp;&amp;x&lt;n&amp;&amp;y&gt;=0&amp;&amp;y&lt;m&amp;&amp;mapp[x][y]==0&amp;&amp;a[x][y]==0)//前边四个判断判断边界，后边两个判断第一个是确保坐标(x,y)不是墙，第二个是判断(x,y)还没有走过
+			{
+				q.push({x,y});//如果合法的话就把(x,y)push进队列里，下次从(x,y)开始走
+				a[x][y]=a[t.first][t.second]+1;//这里和dp差不多，意思是走到(x,y)坐标最少需要几步，不必担心有别的路径会和这条路径产生冲突，在上面的判断里避免了这种情况
+			}
+		}
+	}
+	return a[n-1][m-1];
+}
+
+int main()
+{
+	cin&gt;&gt;n&gt;&gt;m;
+	for(int i=0;i&lt;n;i++)
+	{
+		for(int j=0;j&lt;m;j++)
+		{
+			cin&gt;&gt;mapp[i][j];
+		}
+	}
+	
+	cout&lt;&lt;bfs();
+	return 0;
+ } 
+</code></pre>
+<p>dfs应该也是可以实现的，记录不同路径到达终点的步数最后再取最小值应该也可以。</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">
+                <h3 class="post-title">
+                  AcWing843. n-皇后问题 (dfs)
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1667886521078" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/">AcWing853. 有边数限制的最短路 (bellman_fold算法)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/850-dijkstra-qiu-zui-duan-lu-ii/">850. Dijkstra求最短路 II (数据较大)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/849-dijkstra-qiu-zui-duan-lu-i/">849. Dijkstra求最短路 I (数据较小)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing848-you-xiang-tu-de-tuo-bu-xu-lie/">AcWing848. 有向图的拓扑序列 (topsort)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing847-tu-zhong-dian-de-ceng-ci/">AcWing847. 图中点的层次 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing846-shu-de-chong-xin/">AcWing846. 树的重心 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing845-ba-shu-ma/">AcWing845. 八数码 (bfs,map,队列)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">AcWing844. 走迷宫 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">AcWing843. n-皇后问题 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂 (数论)</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

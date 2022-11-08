@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>850. Dijkstra求最短路 II (数据较大) | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1667886521078">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>850. Dijkstra求最短路 II (数据较大)</h1>
+            <p class="article-meta">
+              2022-11-03
+              
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+                  算法基础课学习记录
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>给定一个  n  个点 m 条边的有向图，图中可能存在重边和自环，所有边权均为非负值。</p>
+<p>请你求出 1 号点到 n 号点的最短距离，如果无法从 1 号点走到 n 号点，则输出 −1。</p>
+<p><strong>输入格式</strong><br>
+第一行包含整数 n 和 m。</p>
+<p>接下来 m 行每行包含三个整数 x,y,z，表示存在一条从点 x 到点 y 的有向边，边长为 z。</p>
+<p><strong>输出格式</strong><br>
+输出一个整数，表示 1 号点到 n 号点的最短距离。</p>
+<p>如果路径不存在，则输出 −1。</p>
+<p><strong>数据范围</strong><br>
+1≤n,m≤1.5×105,<br>
+图中涉及边长均不小于 0，且不超过 10000。<br>
+数据保证：如果最短路存在，则最短路的长度不超过 109。</p>
+<p><strong>输入样例：</strong><br>
+3 3<br>
+1 2 2<br>
+2 3 1<br>
+1 3 4<br>
+<strong>输出样例：</strong><br>
+3</p>
+<hr>
+<p>利用优先队列进行优化，图用邻接表进行存储，将点到1结点的距离存储在pair中（因为优先队列会自动排序，排完序无法建立点和距离的连接，用pair存储还能找到与距离对应的点）。步骤和bfs差不多，在把相连的结点入队后，会自动在优先队列里排好序，然后再弹出，这样得到的是带权值的最短路径</p>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int N=150010;
+
+typedef pair&lt;int,int&gt;pi;
+int n,m;
+int h[N],ne[N],e[N],w[N],idx;//在用某一条边的权值时是以这条边来索引的
+int dis[N];//
+bool state[N];
+priority_queue&lt;pi, vector&lt;pi&gt;, greater&lt;pi&gt;&gt; heap;//创建优先队列存储second结点到1结点的最短路径first
+//在内部排序时是先排first，再排second，所以first要存路径长度
+//第一个参数是存储对象的类型
+//第二个参数是存储元素的底层容器
+//第三个参数是函数对象
+
+void add(int a,int b,int c)//多引入一个参数，表示边的权值
+{
+    e[idx]=b;
+    w[idx]=c;
+    ne[idx]=h[a];
+    h[a]=idx;
+    idx++;
+}
+
+int dijkstra()//返回的是题目的结果
+{
+    dis[1]=0;
+    heap.push({0,1});//把1结点push进去
+    while(!heap.empty())
+    {
+        auto t=heap.top();
+        heap.pop();
+        int ver=t.second;//记录一下队顶元素的下标
+        
+        if(state[ver]) continue;//如果已经群定了最短路就不需要再向下判断了
+        state[ver]=true;//每次第一次判断某个节点时那么接下来就能找到它的最短路径
+        
+        for(int i=h[ver];i!=-1;i=ne[i])
+        {
+            int j=e[i];
+            if(dis[j]&gt;dis[ver]+w[i])
+            {
+                dis[j]=dis[ver]+w[i];
+                heap.push({dis[j],j});
+            }
+        }
+    }
+    
+    if(dis[n]==0x3f3f3f3f) return -1;
+    else return dis[n];
+}
+
+int main()
+{
+    memset(dis,0x3f,sizeof dis);//初始最短路径为无穷大
+    memset(h,-1,sizeof h);
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=0;i&lt;m;i++)
+    {
+        int a,b,c;
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+        add(a,b,c);
+        //重边输入没有判断，是因为它到了优先队列里会自动排序，短的肯定是先入队的，那么判断完之后结点的state会发生改变，长的边就不会判断到了
+    }
+    
+    cout&lt;&lt;dijkstra()&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/849-dijkstra-qiu-zui-duan-lu-i/">
+                <h3 class="post-title">
+                  849. Dijkstra求最短路 I (数据较小)
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1667886521078" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/">AcWing853. 有边数限制的最短路 (bellman_fold算法)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/850-dijkstra-qiu-zui-duan-lu-ii/">850. Dijkstra求最短路 II (数据较大)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/849-dijkstra-qiu-zui-duan-lu-i/">849. Dijkstra求最短路 I (数据较小)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing848-you-xiang-tu-de-tuo-bu-xu-lie/">AcWing848. 有向图的拓扑序列 (topsort)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing847-tu-zhong-dian-de-ceng-ci/">AcWing847. 图中点的层次 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing846-shu-de-chong-xin/">AcWing846. 树的重心 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing845-ba-shu-ma/">AcWing845. 八数码 (bfs,map,队列)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">AcWing844. 走迷宫 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">AcWing843. n-皇后问题 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂 (数论)</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge warning">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge warning">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

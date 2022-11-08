@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>AcWing846. 树的重心 (dfs) | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1667886521078">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>AcWing846. 树的重心 (dfs)</h1>
+            <p class="article-meta">
+              2022-10-30
+              
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
+                  算法基础课学习记录
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>给定一颗树，树中包含 n 个结点（编号 1∼n）和 n−1 条无向边。</p>
+<p>请你找到树的重心，并输出将重心删除后，剩余各个连通块中点数的最大值。</p>
+<p>重心定义：重心是指树中的一个结点，如果将这个点删除后，剩余各个连通块中点数的最大值最小，那么这个节点被称为树的重心。</p>
+<p><strong>输入格式</strong><br>
+第一行包含整数 n，表示树的结点数。</p>
+<p>接下来 n−1 行，每行包含两个整数 a 和 b，表示点 a 和点 b 之间存在一条边。</p>
+<p><strong>输出格式</strong><br>
+输出一个整数 m，表示将重心删除后，剩余各个连通块中点数的最大值。</p>
+<p><strong>数据范围</strong><br>
+1≤n≤105<br>
+<strong>输入样例</strong><br>
+9<br>
+1 2<br>
+1 7<br>
+1 4<br>
+2 8<br>
+2 5<br>
+4 3<br>
+3 9<br>
+4 6<br>
+<strong>输出样例：</strong><br>
+4</p>
+<hr>
+<p>先解释一下题意，意思是删除图中的重心（以下图为例），给出删掉重心之后的各个连通块中的点数最大值。<br>
+就是假如删去4，（3，9）（6）（8，5，2，1，7）这三个size都是4的连通块。其实就是把所有结点的连通块点数的最大值放一起比较，在这些最大值中找最小值<br>
+样例的重心显然是1，在删去1后，连通块的最大值是4，所以输出4<br>
+<img src="https://happyeathand.github.io/post-images/1667131808192.png" alt="" loading="lazy"></p>
+<p>这道题真是让人脑洞大开，应该是第一次做图相关的题，估计得研究了不到三个小时，终于差不多透彻了，首先弄清楚邻接表的概念，不是以节点组成的单链表，而是以边组成的单链表，和链表有着相同的性质，抽出某一个边，你找不到它的出发点，只能不断向下走，所以要想遍历整个图的话要从某个节点的第一条边开始。</p>
+<p>先分析add函数，头插法，先看样例的前三个数据</p>
+<pre><code>1   2
+1   7
+1   4
+按次序来应该是
+h[1]:-1
+
+h[1]:0-&gt;-1
+e[0]=2
+ne[0]=h[1]=0
+h[1]=0
+idx=1
+
+h[1]:1-&gt;0-&gt;-1
+e[1]=7
+ne[1]=0
+h[1]=1
+idx=2
+
+h[1]:2-&gt;1-&gt;0-&gt;-1
+e[2]=4
+ne[2]=1
+h[1]=2
+idx=3
+
+（注意上述解释只显示了add(a,b)的情况，实际上还有add(b,a),对理解起不到作用，所以就没有模拟）
+
+可以观察出h[i]的值是在不断变化着的，它代表着以i为起始点的第1条边，第一条边所指向的终点是e[i],
+那么以i为起始点的其它的边的终点怎么得到呢？首先要得到这条边，即ne[i]，相当于是一个栈，先add的
+边和点的信息都在后边。
+这样就建立起了边和结点之间的联系，又因为这是一个无向图，相当于特殊的有向图，没有孤立的点，可以从某一个点到达任何另外一个点。
+</code></pre>
+<p>接下来就很清晰了，只需要从某一个点入手dfs，即可遍历到所有点，而且在state的限制下，指向某一个点后，被指向的点不能够再原路指回去，在每次递归得出每个结点的最大子节点数之和时，都和ans比较一下，递归结束之后答案也就出来了。</p>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int n;
+const int N=10010,M=2*N;//结点最多有100000个，那么边就最多有200000个
+int ne[M];//表示 与 第 idx 条边 同起点 的 下一条边 的 idx
+int e[M];//表示 第idx 条边的 终点
+int h[N];//表示 第 i 个节点的 第一条边的 idx
+int idx;//表示 第idx 条边的 终点
+
+int ans=10010;//最终结果
+bool state[N];//该节点是否遍历过了
+
+void add(int a,int b)//添加节点和边的函数，添加一条无向边，从a指向b
+{
+   //头插法，末尾处是-1
+   e[idx]=b;
+   ne[idx]=h[a];
+   h[a]=idx;
+   idx++;
+}
+
+int dfs(int u)//第u个结点一共有多少个子结点
+{
+   state[u]=true;//遍历过u之后状态改变
+   int sum=1,res=0;//sum就是第u个结点的所有子结点，算它自己，res是所有子节点中最大的那个size
+   for(int i=h[u];i!=-1;i=ne[i])//从以u结点为起始点的第一条边开始判断
+   {
+       int j=e[i];//j等于该条边的终点
+       if(!state[j])
+       {
+           int s=dfs(j);//求该子节点的子节点数
+           res=max(s,res);//不断更新这个数值
+           sum+=s;//子节点的总数累加
+       }
+   }
+   //这里res得到的就已经是指出去的所有边的子节点的size的最大值了
+   res=max(res,n-sum);//因为不能再指回去了，所以指过来的那条边上的子节点数就是n-sum
+
+   //这里求的是题目的结果
+   ans=min(res,ans);//ans是全局变量，每次深入递归时，结束都要在这里比较一下
+   return sum;
+}
+
+int main()
+{
+   memset(h, -1, sizeof h);
+   cin&gt;&gt;n;
+   for (int i = 0; i &lt; n-1; i ++ )
+   {
+       int a,b;
+       cin&gt;&gt;a&gt;&gt;b;
+       add(a, b);
+       add(b,a);
+   }
+   dfs(7);
+   cout&lt;&lt;ans&lt;&lt;endl;
+   return 0;
+}
+</code></pre>
+<p>这题让我自己写的话估计一辈子都写不出来，在求每个结点的子结点的个数时实际上是遍历了每个结点冰找出了他们的最大连通块，而这需要每个子节点的个数，而dfs刚好实现这个功能，真是环环相扣太精妙了</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/acwing845-ba-shu-ma/">
+                <h3 class="post-title">
+                  AcWing845. 八数码 (bfs,map,队列)
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1667886521078" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/">AcWing853. 有边数限制的最短路 (bellman_fold算法)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/850-dijkstra-qiu-zui-duan-lu-ii/">850. Dijkstra求最短路 II (数据较大)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/849-dijkstra-qiu-zui-duan-lu-i/">849. Dijkstra求最短路 I (数据较小)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing848-you-xiang-tu-de-tuo-bu-xu-lie/">AcWing848. 有向图的拓扑序列 (topsort)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing847-tu-zhong-dian-de-ceng-ci/">AcWing847. 图中点的层次 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing846-shu-de-chong-xin/">AcWing846. 树的重心 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing845-ba-shu-ma/">AcWing845. 八数码 (bfs,map,队列)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">AcWing844. 走迷宫 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">AcWing843. n-皇后问题 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂 (数论)</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge warning">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge secondary">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge success">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>AcWing843. n-皇后问题 (dfs) | 闲🐟小站</title>
+<meta name="description" content=" 切忌好高骛远">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://happyeathand.github.io/favicon.ico?v=1667886521078">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://happyeathand.github.io/styles/main.css">
+
+
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://happyeathand.github.io">闲🐟小站</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                留言板
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>AcWing843. n-皇后问题 (dfs)</h1>
+            <p class="article-meta">
+              2022-10-25
+              
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge success">
+                  算法基础课学习记录
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <p>n−皇后问题是指将 n 个皇后放在 n×n 的国际象棋棋盘上，使得皇后不能相互攻击到，即任意两个皇后都不能处于同一行、同一列或同一斜线上。<br>
+<img src="https://happyeathand.github.io/post-images/1666693178605.png" alt="" loading="lazy"><br>
+现在给定整数 n，请你输出所有的满足条件的棋子摆法。</p>
+<p><strong>输入格式</strong><br>
+共一行，包含整数 n。</p>
+<p><strong>输出格式</strong><br>
+每个解决方案占 n 行，每行输出一个长度为 n 的字符串，用来表示完整的棋盘状态。</p>
+<p>其中 . 表示某一个位置的方格状态为空，Q 表示某一个位置的方格上摆着皇后。</p>
+<p>每个方案输出完成后，输出一个空行。</p>
+<p>注意：行末不能有多余空格。</p>
+<p>输出方案的顺序任意，只要不重复且没有遗漏即可。</p>
+<p><strong>数据范围</strong><br>
+1≤n≤9<br>
+<strong>输入样例：</strong><br>
+4<br>
+<strong>输出样例：</strong></p>
+<pre><code>.Q..
+...Q
+Q...
+..Q.
+
+..Q.
+Q...
+...Q
+.Q..
+</code></pre>
+<hr>
+<p>第一种解法是按照棋盘的每个格子进行枚举。row col数组分别表示当前行或列是否放入了棋子，dg和udg表示俩个对角是否放入了棋子。<br>
+x和y都从0开始挨个枚举，每个格子都有放或不放俩种情况，不放的时候无需考虑，直接dfs下一步即可；如果放的话需要满足条件，只有当x行y列以及对角dg[x+y]和对角udg[n-y+x]都为false时才能放棋子，进行dfs(x,y+1,u+1)。<br>
+复杂度2<sup>(n</sup>2)高于解法二<br>
+<strong>解法一</strong></p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int n;
+char map[20][20];//地图
+bool row[20],col[20],dg[20],udg[20];//行 列  对角1  对角2
+
+void dfs(int x,int y,int u)//判断到坐标(x,y)，当前已经放入了u个棋子
+{
+    if(y==n) y=0,x++;//处理每列判断到头的情况
+    if(x==n)
+    {
+        if(u==n)
+        {
+            for(int i=0;i&lt;n;i++) puts(map[i]);
+            puts(&quot;&quot;);
+        }
+        return;
+    }
+    
+    dfs(x,y+1,u);
+    
+    if(!row[x]&amp;&amp;!col[y]&amp;&amp;!dg[x+y]&amp;&amp;!udg[n-y+x])
+    {
+        row[x]=col[y]=dg[x+y]=udg[n-y+x]=true;
+        map[x][y]='Q';
+        dfs(x,y+1,u+1);
+        row[x]=col[y]=dg[x+y]=udg[n-y+x]=false;
+        map[x][y]='.';
+    }
+}
+
+int main()
+{
+    cin &gt;&gt; n;
+    for (int i = 0; i &lt; n; i ++ )
+    {
+        for (int j = 0; j &lt; n; j ++ )
+        {
+            map[i][j]='.';
+        }
+    }
+    dfs(0,0,0);
+    return 0;
+}
+</code></pre>
+<p>第二种思路是按行进行枚举，因为同一行只能同时存在一个棋子，所以可以直接按行枚举（按列同理），这里的dfs的参数时当前枚举到了第x行，复杂度是n*n!<br>
+<strong>解法二</strong></p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int n;
+char map[20][20];
+bool col[20],dg[20],udg[20];
+
+void dfs(int x)
+{
+    if(x==n)
+    {
+        for(int i=0;i&lt;n;i++)puts(map[i]);
+        puts(&quot;&quot;);
+        return;
+    }
+        for(int i=0;i&lt;n;i++)
+        {
+            if(!col[i]&amp;&amp;!dg[i+x]&amp;&amp;!udg[n-x+i])
+            {
+                map[x][i]='Q';
+                col[i]=dg[i+x]=udg[n-x+i]=true;
+                dfs(x+1);
+                map[x][i]='.';
+                col[i]=dg[i+x]=udg[n-x+i]=false;
+            }
+        }
+}
+
+int main()
+{
+    cin &gt;&gt; n;
+    for (int i = 0; i &lt; n; i ++ )
+    {
+        for (int j = 0; j &lt; n; j ++ )
+        {
+            map[i][j]='.';
+        }
+    }
+    dfs(0);
+    return 0;
+}
+</code></pre>
+<p>两种解法大致思路差不多，有一个地方搞不明白，就是这个udg括号里的是怎么推导出来的，dg[x+y]的话好说，横纵坐标之和相等的话这两个坐标就在对角线上，但是一反过来就不知道咋搞了</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">
+                <h3 class="post-title">
+                  AcWing875. 快速幂 (数论)
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="disqus_thread"></div>
+            </div>
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://happyeathand.github.io/images/avatar.png?v=1667886521078" class="no-responsive avatar">
+    <div class="text-muted"> 切忌好高骛远</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/">AcWing853. 有边数限制的最短路 (bellman_fold算法)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/850-dijkstra-qiu-zui-duan-lu-ii/">850. Dijkstra求最短路 II (数据较大)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/849-dijkstra-qiu-zui-duan-lu-i/">849. Dijkstra求最短路 I (数据较小)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing848-you-xiang-tu-de-tuo-bu-xu-lie/">AcWing848. 有向图的拓扑序列 (topsort)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing847-tu-zhong-dian-de-ceng-ci/">AcWing847. 图中点的层次 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing846-shu-de-chong-xin/">AcWing846. 树的重心 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing845-ba-shu-ma/">AcWing845. 八数码 (bfs,map,队列)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">AcWing844. 走迷宫 (bfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">AcWing843. n-皇后问题 (dfs)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">AcWing875. 快速幂 (数论)</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+          算法基础课学习记录
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge ">
+          算法题
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
+          暑假每日一题2022
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge warning">
+          King Of Bot
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
+          转载
+        </a>
+      
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge warning">
+          在农大摸鱼的日子
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://happyeathand.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'samennnn',
+      apikey: 'uXCnep0BqHvrMqv7521WnuyB9bnGbrqnVv6IfDqHcaPyXoEtxHCOe0xpDx3cahwl',
+    }
+    if ('') {
+      options.api = ''
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
+
+
+
+
+  </body>
+</html>
