@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Coding笔记 | 闲🐟小站</title>
+<title>AcWing851. spfa求最短路 (队列优化版bellman_fold算法) | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,62 +87,124 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>Coding笔记</h1>
+            <h1>AcWing851. spfa求最短路 (队列优化版bellman_fold算法)</h1>
             <p class="article-meta">
-              2022-03-30
+              2022-11-08
               
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
-                  算法题
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+                  算法基础课学习记录
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p><strong>常用问题</strong></p>
-<ol>
-<li>时间的计算，可以转换成int类型，无论是小时分秒还是年月日，同理</li>
-<li>闰年的计算，闰年即可以被4整除的同时不可以被100整除，或者可以被400整除</li>
-<li>连续输入表示方法<code>while(scanf(&quot;%d&quot;,&amp;n)!=EOF)</code></li>
-</ol>
-<p><strong>库函数的问题</strong></p>
-<ol>
-<li>bool类型变量要定义头文件&lt;stdbool.h&gt;,如果自己的话不如定义int型的函数。如果是题目要求就没办法了</li>
-<li>代码结尾一定要记得加return 0。</li>
-<li>Int型最大能存21亿多点，准确来说是-2147483647~+2147483647<br>
-而long long int可以存-9223372036854775808～+9223372036854775807，而且长长整型的输入和输出前面都要加一个ll，譬如scanf(“%lld”,&amp;a),printf(“%lld”,a)。<br>
-4． 输出的补齐，补足两位用0补齐这么写：printf(“%02d”,a)</li>
-<li>double类型的输入scanf(“%lf”),输出可以是%f也可以是%lf，float应该就都是%f了。</li>
-<li>转换绝对值时浮点型和整型的函数不一样，整型是abs（），浮点型是fabs（）。</li>
-<li>在用“%c”格式输入字符时，空格字符和转义字符都作为有效字符输入。<code>scnaf(&quot;%c%c%c&quot;,&amp;c1,&amp;c2,&amp;c3);</code><p><code>若输入a b c，则c1=a,c2=空格，c3=b</code><br>
-<strong>数论</strong></li>
-<li>计算最大公约数的函数</li>
-</ol>
-<pre><code>int gcd(int a,int b)//计算的是两个参数的最大公约数
+              <p>给定一个 n 个点 m 条边的有向图，图中可能存在重边和自环， 边权可能为负数。</p>
+<p>请你求出 1 号点到 n 号点的最短距离，如果无法从 1 号点走到 n 号点，则输出 impossible。</p>
+<p>数据保证不存在负权回路。</p>
+<p><strong>输入格式</strong><br>
+第一行包含整数 n 和 m。</p>
+<p>接下来 m 行每行包含三个整数 x,y,z，表示存在一条从点 x 到点 y 的有向边，边长为 z。</p>
+<p><strong>输出格式</strong><br>
+输出一个整数，表示 1 号点到 n 号点的最短距离。</p>
+<p>如果路径不存在，则输出 impossible。</p>
+<p><strong>数据范围</strong><br>
+1≤n,m≤10^5,<br>
+图中涉及边长绝对值均不超过 10000。</p>
+<p><strong>输入样例：</strong><br>
+3 3<br>
+1 2 5<br>
+2 3 -3<br>
+1 3 4<br>
+<strong>输出样例：</strong><br>
+2</p>
+<hr>
+<p>bellman_fold算法是傻瓜式的遍历，逐点遍历，再逐边更新，时间复杂度O(n*m),spfa算法则是再次基础上进行了优化，把更新后的点push进队列，再逐个push出去更新与之相连的点，若再有更新再重复以上操作。与djsktra算法相似，但是spfa在pop时是无序pop，因为有负权边的存在，所以在pop完之后state还要更新为true，因为有可能再更新再入队。<br>
+有篇区分三者的题解写的很好，贴一下</p>
+<p><strong>首先，三者都是用来求最短路，但是思想和复杂度不相同。</strong></p>
+<p><strong>bellman-ford 和spfa的区别</strong><br>
+1.Bellman-ford算法中，循环n次，每次遍历m条边，每次遍历的时候，把入度的点的距离更新成最小。<br>
+然而，这样就循环遍历了很多用不到的边。比如第一次遍历，只有第一个点的临边是有效的。</p>
+<p>2.因此，spfa算法中，采用邻接表的方式，只用到有效的点（更新了临边的点），<strong>直到每个点都是最短距离为止</strong>。采用队列优化的方式存储每次更新了的点，每条边最多遍历一次。如果存在负权回路，从起点1出发，回到1距离会变小， 会一直在三个点中循环。</p>
+<p>Question:Question: 不用队列，遍历所有的点可以吗？<br>
+Ans:Ans:似乎不行，因为是更新了点之后，这个点的临边才可以用，如果没有更新到循环的点，那么循环的点也是不可用的。</p>
+<p><strong>spfa和dijkstra的区别：</strong><br>
+st用来检验队列中是否有重复的点<br>
+spfa从队列中使用了当前的点，会把该点pop掉，状态数组st[i] = false(说明堆中不存在了) ，更新临边之后，把临边放入队列中， 并且设置状态数组为true，表示放入队列中 。如果当前的点距离变小，可能会再次进入队列，因此可以检验负环：</p>
+<pre><code>每次更新可以记录一次，如果记录的次数 &gt; n,代表存在负环（环一定是负的，因为只有负环才会不断循环下去）。
+</code></pre>
+<p>st是一个集合，不是检验队列中的点。<br>
+dijkstra使用当前点更新临边之后，把该点加入到一个集合中，使用该点更新临边，并把临边节点和距离起点的距离置入堆中（<strong>不设置状态数组</strong>）。下一次从堆中取最小值，并把对应的节点放入集合中，继续更新临边节点，直到所有的点都存入集合中。因此dijkstra不判断负环。</p>
+<p><strong>从上述描述中能看出，dijkstra存放节点的堆，具有单调性，而spfa的队列不需要具有单调性。</strong><br>
+<img src="https://happyeathand.github.io/post-images/1667904442129.png" alt="" loading="lazy"></p>
+<p>作者：AnrolsP<br>
+链接：https://www.acwing.com/solution/content/21057/<br>
+来源：AcWing</p>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int N=100010;
+
+int n,m;
+int h[N],ne[N],e[N],w[N],idx;
+int dis[N];
+bool state[N];
+queue&lt;int&gt;q;
+
+void add(int a,int b,int c)
 {
-    if(b==0)return a;
-    else return gcd(b,a%b);
+    e[idx]=b;
+    w[idx]=c;
+    ne[idx]=h[a];
+    h[a]=idx;
+    idx++;
+}
+
+bool spfa()
+{
+    dis[1]=0;//以下三步先把结点1需要初始化的搞好
+    state[1]=true;
+    q.push(1);
+    while(!q.empty())
+    {
+        int t=q.front();
+        q.pop();
+        state[t]=false;//弹出t后记得改变state状态
+        
+        for(int i=h[t];i!=-1;i=ne[i])
+        {
+            int j=e[i];
+            if(dis[j]&gt;dis[t]+w[i])
+            {
+                dis[j]=dis[t]+w[i];
+                if(!state[j])//看了一下这里，逻辑上来说这个判断加不加是无所谓的，但是运行时如果不加的话直接TLE，测试数据是1-&gt;2这条边输入了10w次，每次边长+1，那不加判断的话每次都会push进去同一个结点，重复执行会超时。值得一提的是13个点只有1个点没过，我猜应该不止是push10w次费时吧，还有10w次的pop，唉很烦这个不知道咋看，只能记规范代码了(ToT)/~~~
+                {
+                    state[j]=true;   
+                    q.push(j);
+                }
+            }
+        }
+    }
+    
+    if(dis[n]==0x3f3f3f3f) return false;
+    else return true;
+}
+
+int main()
+{
+    memset(dis,0x3f,sizeof dis);
+    memset(h,-1,sizeof h);//再用邻接表存储图的时候不要忘了初始化h数组，因为忘了初始这个数组TLE了，好久才反应过来
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=0;i&lt;m;i++)
+    {
+        int a,b,c;
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+        add(a,b,c);
+    }
+    if(spfa()) cout&lt;&lt;dis[n]&lt;&lt;endl;
+    else cout&lt;&lt;&quot;impossible&quot;&lt;&lt;endl;
+    return 0;
 }
 </code></pre>
-<p>最后的返回值就是最大公约数了，叫做欧几里得算法（辗转相除法）<br>
-2.	同余定理<br>
-如果<code>a-b==m则a%m==b%m</code><br>
-3.	素数筛<br>
-判断一个数n是不是素数时，一般是从2判断到n，可以直接从2判断到sqrt（n）,另外，1不是素数<br>
-判断时不能写成<code>i*i&lt;=n</code>,因为当n足够大时<code>i*i</code>可能会爆int<br>
-4.分解质因数<br>
-这个意思是<br>
-<code>根据算术基本定理又称唯一分解定理，对于任何一个合数， 我们都可以用几个质数的幂的乘积来表示。</code><br>
-例如<br>
-<code>12=2*2*3</code><br>
-<code>20=2*2*5</code><br>
-<code>30=2*3*5</code><br>
-接下来我们利用这个公式分解质因数。<br>
-设一个质数为p.如果<code>n%p == 0</code>，那么p就是n的一个质因数，接下来就是求p的指数，我们让<code>n = n/p</code>, 这样就从n中剔除了一个p,接着重复上述两步，直到<code>n%p ！= 0</code>(其实就是不断循环)<br>
-<strong>易错点</strong></p>
-<ol>
-<li>定义变量时的初值</li>
-<li>While里的递增变量记得赋值</li>
-</ol>
 
             </div>
           </article>
@@ -153,9 +215,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing1246-deng-chai-shu-lie/">
+              <a href="https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/">
                 <h3 class="post-title">
-                  ACwing1246. 等差数列
+                  AcWing853. 有边数限制的最短路 (bellman_fold算法)
                 </h3>
               </a>
             </div>
@@ -370,7 +432,7 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
           算法基础课学习记录
         </a>
       
@@ -378,19 +440,19 @@
           算法题
         </a>
       
-        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge secondary">
           暑假每日一题2022
         </a>
       
-        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge success">
           King Of Bot
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge secondary">
           转载
         </a>
       
-        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/4OSn_rvlv/" class="badge warning">
           在农大摸鱼的日子
         </a>
       

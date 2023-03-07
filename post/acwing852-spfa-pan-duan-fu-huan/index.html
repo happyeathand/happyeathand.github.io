@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Coding笔记 | 闲🐟小站</title>
+<title>AcWing852. spfa判断负环 | 闲🐟小站</title>
 <meta name="description" content=" 切忌好高骛远">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,62 +87,119 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>Coding笔记</h1>
+            <h1>AcWing852. spfa判断负环</h1>
             <p class="article-meta">
-              2022-03-30
+              2022-11-08
               
-                <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
-                  算法题
+                <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge ">
+                  算法基础课学习记录
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p><strong>常用问题</strong></p>
-<ol>
-<li>时间的计算，可以转换成int类型，无论是小时分秒还是年月日，同理</li>
-<li>闰年的计算，闰年即可以被4整除的同时不可以被100整除，或者可以被400整除</li>
-<li>连续输入表示方法<code>while(scanf(&quot;%d&quot;,&amp;n)!=EOF)</code></li>
-</ol>
-<p><strong>库函数的问题</strong></p>
-<ol>
-<li>bool类型变量要定义头文件&lt;stdbool.h&gt;,如果自己的话不如定义int型的函数。如果是题目要求就没办法了</li>
-<li>代码结尾一定要记得加return 0。</li>
-<li>Int型最大能存21亿多点，准确来说是-2147483647~+2147483647<br>
-而long long int可以存-9223372036854775808～+9223372036854775807，而且长长整型的输入和输出前面都要加一个ll，譬如scanf(“%lld”,&amp;a),printf(“%lld”,a)。<br>
-4． 输出的补齐，补足两位用0补齐这么写：printf(“%02d”,a)</li>
-<li>double类型的输入scanf(“%lf”),输出可以是%f也可以是%lf，float应该就都是%f了。</li>
-<li>转换绝对值时浮点型和整型的函数不一样，整型是abs（），浮点型是fabs（）。</li>
-<li>在用“%c”格式输入字符时，空格字符和转义字符都作为有效字符输入。<code>scnaf(&quot;%c%c%c&quot;,&amp;c1,&amp;c2,&amp;c3);</code><p><code>若输入a b c，则c1=a,c2=空格，c3=b</code><br>
-<strong>数论</strong></li>
-<li>计算最大公约数的函数</li>
-</ol>
-<pre><code>int gcd(int a,int b)//计算的是两个参数的最大公约数
+              <p>给定一个 n 个点 m 条边的有向图，图中可能存在重边和自环， 边权可能为负数。</p>
+<p>请你判断图中是否存在负权回路。</p>
+<p><strong>输入格式</strong><br>
+第一行包含整数 n 和 m。</p>
+<p>接下来 m 行每行包含三个整数 x,y,z，表示存在一条从点 x 到点 y 的有向边，边长为 z。</p>
+<p><strong>输出格式</strong><br>
+如果图中存在负权回路，则输出 Yes，否则输出 No。</p>
+<p><strong>数据范围</strong><br>
+1≤n≤2000,<br>
+1≤m≤10000,<br>
+图中涉及边长绝对值均不超过 10000。</p>
+<p><strong>输入样例：</strong></p>
+<pre><code>3 3
+1 2 -1
+2 3 4
+3 1 -4
+</code></pre>
+<p><strong>输出样例：</strong><br>
+Yes</p>
+<hr>
+<p>首先spfa算法判断负环可以确定的是思路和spfa算法找最短路是一样的，同样是入队出队改变state值，然后在某点dist值可以变小时进行更新。要考虑到以下问题</p>
+<pre><code>1.与spfa算法找最短路的不同点在于该图中的负权回路可能并不能由结点1到达，那么在spfa算法结束后无
+法遍历到该点。那么如何解决这个问题呢？可以在函数头部就把所有点push进队列，这样就避免了这种情况
+的发生。
+2.判断负环不需要找出最短路，那么每个结点的初始dist就不能是0x3f3f3f3f了，只需将每个结点初始
+dist为0，那么在权值为非负时dis[j]&gt;dis[t]+w[i]就永远无法执行，遍历完每个节点后最终会跳出循
+环的，然而一旦权值出现负数，那么只需进行三个操作
+（1）更新dis的值
+（2）步数cnt+1
+（3）push新的结点
+在重复执行次数&gt;n时，直接return结束函数。
+</code></pre>
+<pre><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int N =2010, M =10010;
+
+int n,m;
+int h[N],ne[M],e[M],w[M],idx;
+int dis[N],cnt[N];//cnt数组记录路过该点的次数
+bool state[N];
+queue&lt;int&gt;q;
+
+void add(int a,int b,int c)
 {
-    if(b==0)return a;
-    else return gcd(b,a%b);
+    e[idx]=b;
+    w[idx]=c;
+    ne[idx]=h[a];
+    h[a]=idx;
+    idx++;
+}
+
+bool spfa()
+{
+    for(int i=1;i&lt;=n;i++)
+    {
+        q.push(i);
+        state[i]=true;
+    }
+
+    while(!q.empty())
+    {
+        int t=q.front();
+        q.pop();
+        state[t]=false;
+
+        for(int i=h[t];i!=-1;i=ne[i])
+        {
+            int j=e[i];
+            if(dis[j]&gt;dis[t]+w[i])
+            {
+                dis[j]=dis[t]+w[i];
+                cnt[j]=cnt[t]+1;
+                if(cnt[j]&gt;=n) return true;
+
+                if(!state[j])
+                {
+                    state[j]=true;
+                    q.push(j);
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+int main()
+{
+    memset(h,-1,sizeof h);
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=0;i&lt;m;i++)
+    {
+        int a,b,c;
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+        add(a,b,c);
+    }
+    if(spfa()) cout&lt;&lt;&quot;Yes&quot;;
+    else cout&lt;&lt;&quot;No&quot;;
+    return 0;
 }
 </code></pre>
-<p>最后的返回值就是最大公约数了，叫做欧几里得算法（辗转相除法）<br>
-2.	同余定理<br>
-如果<code>a-b==m则a%m==b%m</code><br>
-3.	素数筛<br>
-判断一个数n是不是素数时，一般是从2判断到n，可以直接从2判断到sqrt（n）,另外，1不是素数<br>
-判断时不能写成<code>i*i&lt;=n</code>,因为当n足够大时<code>i*i</code>可能会爆int<br>
-4.分解质因数<br>
-这个意思是<br>
-<code>根据算术基本定理又称唯一分解定理，对于任何一个合数， 我们都可以用几个质数的幂的乘积来表示。</code><br>
-例如<br>
-<code>12=2*2*3</code><br>
-<code>20=2*2*5</code><br>
-<code>30=2*3*5</code><br>
-接下来我们利用这个公式分解质因数。<br>
-设一个质数为p.如果<code>n%p == 0</code>，那么p就是n的一个质因数，接下来就是求p的指数，我们让<code>n = n/p</code>, 这样就从n中剔除了一个p,接着重复上述两步，直到<code>n%p ！= 0</code>(其实就是不断循环)<br>
-<strong>易错点</strong></p>
-<ol>
-<li>定义变量时的初值</li>
-<li>While里的递增变量记得赋值</li>
-</ol>
 
             </div>
           </article>
@@ -153,9 +210,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://happyeathand.github.io/post/acwing1246-deng-chai-shu-lie/">
+              <a href="https://happyeathand.github.io/post/acwing851-spfa-qiu-zui-duan-lu/">
                 <h3 class="post-title">
-                  ACwing1246. 等差数列
+                  AcWing851. spfa求最短路 (队列优化版bellman_fold算法)
                 </h3>
               </a>
             </div>
@@ -370,23 +427,23 @@
     </div>
     <div class="row">
       
-        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge secondary">
+        <a href="https://happyeathand.github.io/tag/XrD9QjHPj/" class="badge warning">
           算法基础课学习记录
         </a>
       
-        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge success">
+        <a href="https://happyeathand.github.io/tag/GA5QIns0F/" class="badge secondary">
           算法题
         </a>
       
-        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge ">
+        <a href="https://happyeathand.github.io/tag/AAAGVDsyb/" class="badge warning">
           暑假每日一题2022
         </a>
       
-        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/_lTaJZDMd/" class="badge ">
           King Of Bot
         </a>
       
-        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge warning">
+        <a href="https://happyeathand.github.io/tag/j6rB_A-fm/" class="badge success">
           转载
         </a>
       

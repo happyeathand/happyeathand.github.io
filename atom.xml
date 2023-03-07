@@ -2,14 +2,28 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://happyeathand.github.io</id>
     <title>闲🐟小站</title>
-    <updated>2022-11-08T09:07:05.010Z</updated>
+    <updated>2023-03-07T03:27:05.375Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://happyeathand.github.io"/>
     <link rel="self" href="https://happyeathand.github.io/atom.xml"/>
     <subtitle> 切忌好高骛远</subtitle>
     <logo>https://happyeathand.github.io/images/avatar.png</logo>
     <icon>https://happyeathand.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2022, 闲🐟小站</rights>
+    <rights>All rights reserved 2023, 闲🐟小站</rights>
+    <entry>
+        <title type="html"><![CDATA[AcWing852. spfa判断负环]]></title>
+        <id>https://happyeathand.github.io/post/acwing852-spfa-pan-duan-fu-huan/</id>
+        <link href="https://happyeathand.github.io/post/acwing852-spfa-pan-duan-fu-huan/">
+        </link>
+        <updated>2022-11-08T12:34:51.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AcWing851. spfa求最短路 (队列优化版bellman_fold算法)]]></title>
+        <id>https://happyeathand.github.io/post/acwing851-spfa-qiu-zui-duan-lu/</id>
+        <link href="https://happyeathand.github.io/post/acwing851-spfa-qiu-zui-duan-lu/">
+        </link>
+        <updated>2022-11-08T10:30:04.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[AcWing853. 有边数限制的最短路 (bellman_fold算法)]]></title>
         <id>https://happyeathand.github.io/post/acwing853-you-bian-shu-xian-zhi-de-zui-duan-lu/</id>
@@ -65,19 +79,5 @@
         <link href="https://happyeathand.github.io/post/acwing844-zou-mi-gong/">
         </link>
         <updated>2022-10-27T08:28:54.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AcWing843. n-皇后问题 (dfs)]]></title>
-        <id>https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/</id>
-        <link href="https://happyeathand.github.io/post/843-n-huang-hou-wen-ti/">
-        </link>
-        <updated>2022-10-25T10:02:48.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AcWing875. 快速幂 (数论)]]></title>
-        <id>https://happyeathand.github.io/post/acwing875-kuai-su-mi/</id>
-        <link href="https://happyeathand.github.io/post/acwing875-kuai-su-mi/">
-        </link>
-        <updated>2022-10-05T07:13:18.000Z</updated>
     </entry>
 </feed>
